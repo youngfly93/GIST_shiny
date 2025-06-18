@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5CB85C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#449D44;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0AD4E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EC971F;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B59B6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8E44AD;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 阴影效果 -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="800" fill="#f8f9fa"/>
+  
+  <!-- 标题 -->
+  <text x="600" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    R Shiny 应用程序结构 - dbGIST基因表达分析系统
+  </text>
+  
+  <!-- 中心：Shiny Server -->
+  <circle cx="600" cy="400" r="80" fill="url(#blueGradient)" filter="url(#shadow)"/>
+  <text x="600" y="395" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Shiny</text>
+  <text x="600" y="415" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Server</text>
+  
+  <!-- global.R -->
+  <rect x="80" y="150" width="200" height="120" rx="10" fill="url(#greenGradient)" filter="url(#shadow)"/>
+  <text x="180" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">global.R</text>
+  <text x="180" y="205" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 加载R包</text>
+  <text x="180" y="225" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 加载数据集</text>
+  <text x="180" y="245" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 定义全局函数</text>
+  
+  <!-- ui.R -->
+  <rect x="920" y="150" width="200" height="120" rx="10" fill="url(#orangeGradient)" filter="url(#shadow)"/>
+  <text x="1020" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">ui.R</text>
+  <text x="1020" y="205" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 定义用户界面</text>
+  <text x="1020" y="225" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• bs4Dash布局</text>
+  <text x="1020" y="245" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 输入/输出控件</text>
+  
+  <!-- server.R -->
+  <rect x="500" y="550" width="200" height="120" rx="10" fill="url(#purpleGradient)" filter="url(#shadow)"/>
+  <text x="600" y="580" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">server.R</text>
+  <text x="600" y="605" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 服务器逻辑</text>
+  <text x="600" y="625" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 响应式编程</text>
+  <text x="600" y="645" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">• 数据处理</text>
+  
+  <!-- 数据文件 -->
+  <g transform="translate(80, 400)">
+    <rect x="0" y="0" width="180" height="80" rx="5" fill="#e74c3c" filter="url(#shadow)"/>
+    <text x="90" y="25" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">数据文件</text>
+    <text x="90" y="45" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">dbGIST_matrix.RData</text>
+    <text x="90" y="60" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">GSE15966.CSV</text>
+  </g>
+  
+  <!-- 功能模块 -->
+  <g transform="translate(920, 320)">
+    <rect x="0" y="0" width="200" height="200" rx="5" fill="#34495e" filter="url(#shadow)"/>
+    <text x="100" y="25" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">功能模块</text>
+    <text x="100" y="50" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">1. 基因符号验证</text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">2. 单基因表达分析</text>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">3. 基因相关性分析</text>
+    <text x="100" y="110" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">4. 耐药基因探索</text>
+    <text x="100" y="130" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">5. 治疗前后分析</text>
+    <text x="100" y="170" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">• 箱线图/小提琴图</text>
+    <text x="100" y="190" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">• ROC曲线/相关性图</text>
+  </g>
+  
+  <!-- UI组件 -->
+  <g transform="translate(350, 80)">
+    <rect x="0" y="0" width="500" height="60" rx="5" fill="#16a085" filter="url(#shadow)"/>
+    <text x="250" y="25" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">UI组件库</text>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">bs4Dash</text>
+    <text x="150" y="45" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">shinyWidgets</text>
+    <text x="250" y="45" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">DT</text>
+    <text x="350" y="45" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">slickR</text>
+    <text x="440" y="45" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="white">waiter</text>
+  </g>
+  
+  <!-- 连接线 -->
+  <!-- global.R 到 Server -->
+  <path d="M 280 210 Q 400 300 520 380" stroke="#2ecc71" stroke-width="3" fill="none" marker-end="url(#arrowgreen)"/>
+  
+  <!-- ui.R 到 Server -->
+  <path d="M 920 210 Q 800 300 680 380" stroke="#e67e22" stroke-width="3" fill="none" marker-end="url(#arroworange)"/>
+  
+  <!-- Server 到 server.R -->
+  <path d="M 600 480 L 600 550" stroke="#9b59b6" stroke-width="3" fill="none" marker-end="url(#arrowpurple)"/>
+  
+  <!-- 数据到 Server -->
+  <path d="M 260 440 Q 400 440 520 420" stroke="#e74c3c" stroke-width="3" fill="none" marker-end="url(#arrowred)"/>
+  
+  <!-- Server 到 功能模块 -->
+  <path d="M 680 420 Q 800 420 920 420" stroke="#34495e" stroke-width="3" fill="none" marker-end="url(#arrowdark)"/>
+  
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2ecc71"/>
+    </marker>
+    <marker id="arroworange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e67e22"/>
+    </marker>
+    <marker id="arrowpurple" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#9b59b6"/>
+    </marker>
+    <marker id="arrowred" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowdark" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#34495e"/>
+    </marker>
+  </defs>
+  
+  <!-- 工作流程说明 -->
+  <g transform="translate(50, 700)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">工作流程：</text>
+    <text x="0" y="25" font-family="Arial, sans-serif" font-size="13" fill="#555">
+      1. global.R 首先运行，加载所有包、数据和函数 → 2. ui.R 定义界面布局 → 3. server.R 处理用户交互 → 4. 生成可视化结果
+    </text>
+  </g>
+  
+  <!-- 响应式编程说明 -->
+  <g transform="translate(400, 300)">
+    <rect x="0" y="0" width="400" height="40" rx="20" fill="#f39c12" opacity="0.2"/>
+    <text x="200" y="25" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#d68910">
+      响应式编程：input → reactive → output
+    </text>
+  </g>
+</svg>

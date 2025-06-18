@@ -1,0 +1,26 @@
+# Exclude shiny-learning-website directory
+shiny-learning-website/
+
+# R related
+.Rhistory
+.RData
+.Rproj.user
+*.Rproj
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Temporary files
+*~
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# IDE
+.idea/
+.vscode/

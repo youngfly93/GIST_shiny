@@ -1,0 +1,55 @@
+Sample_title,Sample_geo_accession,Age,Gender,Risk,Mutation,Mutation-type,Mutation-chr,Primary site,Location,Size,Drug,M/P,Metastatic tumor site,mitotic activity,Stage,Tumor grade,Treament(imatinib),Initial tumor increase/(-)decrease ,Imatinib
+GIST Post Treatment Sample 01,GSM400205,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.428571429,NA
+GIST Pre Treatment Biopsy 02,GSM400206,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 02,GSM400207,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.25,NA
+GIST Pre Treatment Biopsy 03,GSM400208,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 03,GSM400209,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.2875,NA
+GIST Pre Treatment Biopsy 04,GSM400210,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Post Treatment Sample 06,GSM400211,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.34,NA
+GIST Pre Treatment Biopsy 08,GSM400212,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 08,GSM400213,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.388888889,NA
+GIST Pre Treatment Biopsy 09,GSM400214,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 09,GSM400215,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.461538462,NA
+GIST Pre Treatment Biopsy 10,GSM400216,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,R
+GIST Post Treatment Sample 10,GSM400217,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,-0.06,NA
+GIST Pre Treatment Biopsy 11,GSM400218,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 11,GSM400219,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.107142857,NA
+GIST Pre Treatment Biopsy 12,GSM400220,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 12,GSM400221,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.333333333,NA
+GIST Pre Treatment Biopsy 13,GSM400222,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,R
+GIST Post Treatment Sample 13,GSM400223,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0,NA
+GIST Pre Treatment Biopsy 15,GSM400224,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,R
+GIST Post Treatment Sample 15,GSM400225,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0,NA
+GIST Pre Treatment Biopsy 16,GSM400226,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 18,GSM400227,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 19,GSM400228,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 19,GSM400229,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.682539683,NA
+GIST Pre Treatment Biopsy 22,GSM400230,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 22,GSM400231,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.291666667,NA
+GIST Pre Treatment Biopsy 23,GSM400232,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 23,GSM400233,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.272727273,NA
+GIST Pre Treatment Biopsy 27,GSM400234,NA,NA,NA,KIT,NA,kit mutation: exon 9,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,R
+GIST Post Treatment Sample 27,GSM400235,NA,NA,NA,KIT,NA,kit mutation: exon 9,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,-0.213114754,NA
+GIST Pre Treatment Biopsy 28,GSM400236,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 28,GSM400237,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.177419355,NA
+GIST Pre Treatment Biopsy 29,GSM400238,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,R
+GIST Post Treatment Sample 29,GSM400239,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,-0.094736842,NA
+GIST Pre Treatment Biopsy 30,GSM400240,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 31,GSM400241,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 32,GSM400242,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 32,GSM400243,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.276315789,NA
+GIST Post Treatment Sample 34,GSM400244,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,-0.075949367,NA
+GIST Pre Treatment Biopsy 36,GSM400245,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 37,GSM400246,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Post Treatment Sample 38,GSM400247,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,-0.153846154,NA
+GIST Pre Treatment Biopsy 39,GSM400248,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Post Treatment Sample 41,GSM400249,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,-0.025641026,NA
+GIST Pre Treatment Biopsy 43,GSM400250,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 45,GSM400251,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
+GIST Pre Treatment Biopsy 47,GSM400252,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 47,GSM400253,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.518518519,NA
+GIST Post Treatment Sample 48,GSM400254,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.017156863,NA
+GIST Pre Treatment Biopsy 50,GSM400255,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,N
+GIST Post Treatment Sample 50,GSM400256,NA,NA,NA,KIT,NA,kit mutation: wildtype,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.0625,NA
+GIST Post Treatment Sample 54,GSM400257,NA,NA,NA,KIT,NA,kit mutation: exon 11,NA,NA,NA,NA,NA,NA,NA,NA,NA,Post Treatment,0.016666667,NA
+GIST Pre Treatment Biopsy 56,GSM400258,NA,NA,NA,KIT,NA,kit mutation: unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,Pre Treatment,NA,NA
