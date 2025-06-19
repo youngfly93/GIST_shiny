@@ -229,4 +229,21 @@ generate_module_data <- function(type, gene1, gene2 = NULL) {
     "prepost" = data_generator$generate_prepost_data(gene1),
     stop("Unknown analysis type:", type)
   )
+}
+
+# 全局函数导出（用于配置文件引用）
+generate_gender_data <- function(gene1, gene2 = NULL) {
+  data_generator$generate_gender_data(gene1)
+}
+
+generate_correlation_data <- function(gene1, gene2) {
+  data_generator$generate_correlation_data(gene1, gene2)
+}
+
+generate_drug_data <- function(gene1, gene2 = NULL) {
+  data_generator$generate_drug_data(gene1)
+}
+
+generate_prepost_data <- function(gene1, gene2 = NULL) {
+  data_generator$generate_prepost_data(gene1)
 } 

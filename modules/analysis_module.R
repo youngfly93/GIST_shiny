@@ -133,15 +133,19 @@ analysisModuleServer <- function(id, analysis_config) {
         req(gene2_input() %in% gene2sym$SYMBOL)
       }
       
+      
+      # 获取函数对象
+      analysis_func <- get(analysis_config$analysis_function)
+      
       # 调用相应的分析函数
       if(analysis_config$type == "gender") {
-        analysis_config$analysis_function(ID = gene1_input(), DB = dbGIST_matrix[Gender_ID])
+        analysis_func(ID = gene1_input(), DB = dbGIST_matrix[Gender_ID])
       } else if(analysis_config$type == "correlation") {
-        analysis_config$analysis_function(ID = gene1_input(), ID2 = gene2_input(), DB = dbGIST_matrix[mRNA_ID])
+        analysis_func(ID = gene1_input(), ID2 = gene2_input(), DB = dbGIST_matrix[mRNA_ID])
       } else if(analysis_config$type == "drug") {
-        analysis_config$analysis_function(ID = gene1_input(), DB = dbGIST_matrix[IM_ID])
+        analysis_func(ID = gene1_input(), DB = dbGIST_matrix[IM_ID])
       } else if(analysis_config$type == "prepost") {
-        analysis_config$analysis_function(ID = gene1_input(), Mutation = "All", DB = dbGIST_matrix[Post_pre_treament_ID])
+        analysis_func(ID = gene1_input(), Mutation = "All", DB = dbGIST_matrix[Post_pre_treament_ID])
       }
     })
     
@@ -153,8 +157,9 @@ analysisModuleServer <- function(id, analysis_config) {
         req(gene2_input() %in% gene2sym$SYMBOL)
       }
       
-      # 调用相应的数据生成函数
-      analysis_config$data_function(gene1_input(), gene2_input())
+      # 获取数据生成函数并调用
+      data_func <- get(analysis_config$data_function)
+      data_func(gene1_input(), gene2_input())
     })
     
     # 显示结果区域

@@ -14,10 +14,8 @@ create_module_config <- function(type) {
   
   switch(type,
     "gender" = {
-      base_config$analysis_function <- dbGIST_boxplot_Gender
-      base_config$data_function <- function(gene1, gene2) {
-        generate_module_data("gender", gene1)
-      }
+      base_config$analysis_function <- "dbGIST_boxplot_Gender"
+      base_config$data_function <- "generate_gender_data"
       base_config$table_caption <- function(gene1, gene2) {
         paste("Gene Expression Data:", gene1, "by Gender")
       }
@@ -29,10 +27,8 @@ create_module_config <- function(type) {
     
     "correlation" = {
       base_config$has_second_gene <- TRUE
-      base_config$analysis_function <- dbGIST_cor_ID
-      base_config$data_function <- function(gene1, gene2) {
-        generate_module_data("correlation", gene1, gene2)
-      }
+      base_config$analysis_function <- "dbGIST_cor_ID"
+      base_config$data_function <- "generate_correlation_data"
       base_config$table_caption <- function(gene1, gene2) {
         paste("Gene Correlation Data:", gene1, "vs", gene2)
       }
@@ -45,10 +41,8 @@ create_module_config <- function(type) {
     },
     
     "drug" = {
-      base_config$analysis_function <- dbGIST_boxplot_Drug
-      base_config$data_function <- function(gene1, gene2) {
-        generate_module_data("drug", gene1)
-      }
+      base_config$analysis_function <- "dbGIST_boxplot_Drug"
+      base_config$data_function <- "generate_drug_data"
       base_config$table_caption <- function(gene1, gene2) {
         paste("Drug Response Data:", gene1, "vs Imatinib")
       }
@@ -59,10 +53,8 @@ create_module_config <- function(type) {
     },
     
     "prepost" = {
-      base_config$analysis_function <- dbGIST_boxplot_PrePost
-      base_config$data_function <- function(gene1, gene2) {
-        generate_module_data("prepost", gene1)
-      }
+      base_config$analysis_function <- "dbGIST_boxplot_PrePost"
+      base_config$data_function <- "generate_prepost_data"
       base_config$table_caption <- function(gene1, gene2) {
         paste("Pre/Post Treatment Data:", gene1, "Expression Changes")
       }
