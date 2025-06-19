@@ -57,7 +57,9 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE) {
         tabsetPanel(
           id = ns("result_tabs"),
           tabPanel("Plot",
-            plotOutput(ns("result_plot"), height = "600px")
+            div(style = "width:100%; height:1200px; overflow:auto; border: 1px solid #ddd;",
+              plotOutput(ns("result_plot"), height = "1200px", width = "1400px")
+            )
           ),
           tabPanel("Data",
             DT::dataTableOutput(ns("result_table"))
@@ -170,7 +172,7 @@ analysisModuleServer <- function(id, analysis_config) {
     # 渲染图表
     output$result_plot <- renderPlot({
       analysis_result()
-    }, res = 96)
+    }, res = 120, height = 1200, width = 1400)
     
     # 渲染数据表
     output$result_table <- DT::renderDataTable({

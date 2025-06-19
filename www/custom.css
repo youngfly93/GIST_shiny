@@ -3,14 +3,212 @@
 body {
     background-color:#d0e4fe;
 }
-h1 {
-    color:orange;
-    text-align:center;
+
+/* 首页标题样式 */
+h1.homeTitle {
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: bold;
 }
+
+/* 页面标题样式 */
+h1.pageTitle {
+    text-align: center !important;
+    color: #2c3e50 !important;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 2.2em !important;
+}
+
+/* 隐藏标题中的放大镜图标 */
+.pageTitle .glyphicon-search,
+.pageTitle i.glyphicon-search,
+h1.pageTitle .glyphicon,
+h1.pageTitle i[class*="glyphicon"] {
+    display: none !important;
+}
+
+/* 确保actionBttn中的标题样式一致 */
+.bttn-minimal h1.pageTitle {
+    color: #2c3e50 !important;
+    text-decoration: none !important;
+    font-size: 2.2em !important;
+}
+
+/* 修复actionBttn按钮样式，使其不影响标题显示 */
+.bttn-minimal {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}
+
+.bttn-minimal:hover,
+.bttn-minimal:focus,
+.bttn-minimal:active {
+    background: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* 介绍文字样式 */
+.intro-text {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 1000px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+}
+
+/* Slick轮播图容器样式 */
+.slick-slider {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+/* 轮播图片样式 */
+.slick-slide img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* 轮播指示点样式 */
+.slick-dots {
+    bottom: 10px;
+}
+
+.slick-dots li button:before {
+    color: #2c3e50;
+    opacity: 0.5;
+    font-size: 12px;
+}
+
+.slick-dots li.slick-active button:before {
+    opacity: 1;
+}
+
+/* 轮播箭头样式 */
+.slick-prev, .slick-next {
+    z-index: 1;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: #2c3e50;
+    font-size: 30px;
+}
+
 p {
-    font-family:"Times New Roman";
+    font-family:"Times New Roman", serif;
     font-size:16px;
 }
+
 div {
-  font-family:"Times New Roman";
+    font-family:"Times New Roman", serif;
+}
+
+/* 侧边栏样式调整 */
+.sidebar {
+    width: 280px !important;
+}
+
+.main-sidebar {
+    width: 280px !important;
+}
+
+.content-wrapper, .main-footer {
+    margin-left: 280px !important;
+}
+
+/* 侧边栏菜单项样式 */
+.sidebar-menu > li > a {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: initial !important;
+    padding: 12px 5px 12px 15px !important;
+}
+
+.sidebar-menu > li > a > span {
+    display: inline-block !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: initial !important;
+    max-width: 220px !important;
+    line-height: 1.4 !important;
+}
+
+/* 侧边栏图标和文字间距 */
+.sidebar-menu > li > a > i {
+    margin-right: 10px !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+/* 激活状态的菜单项 */
+.sidebar-menu > li.active > a {
+    border-left-color: #3c8dbc !important;
+}
+
+/* 响应式调整 */
+@media (max-width: 767px) {
+    .sidebar {
+        width: 250px !important;
+    }
+    
+    .main-sidebar {
+        width: 250px !important;
+    }
+    
+    .content-wrapper, .main-footer {
+        margin-left: 0 !important;
+    }
+}
+
+/* 图表容器样式 */
+.shiny-plot-output {
+    display: block;
+}
+
+/* 图表滚动容器 */
+div[style*="overflow:auto"] {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* 确保图表不被拉伸 */
+.shiny-plot-output img {
+    max-width: none !important;
+    height: auto !important;
+}
+
+/* Tab内容区域 */
+.tab-content {
+    padding-top: 20px;
+}
+
+/* 图表容器响应式调整 */
+@media (max-width: 1200px) {
+    .shiny-plot-output {
+        min-height: 1000px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .shiny-plot-output {
+        min-height: 900px !important;
+    }
 }
