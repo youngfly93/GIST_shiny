@@ -29,25 +29,49 @@ generate_dashboard_body <- function() {
     tabItem(
       tabName = "Introduction",
       # 标题部分
-      column(width = 12, style = "padding-right:25px;padding-left:25px",
-        h1(class = "homeTitle", "Welcome to GIST Analysis Platform")
-      ),
-      
-      # 介绍文字部分
-      column(width = 12, style = "padding-right:25px;padding-left:25px; margin-bottom: 20px;",
-        div(class = "intro-text", 
-          textOutput("home_intro_text")
+      column(width = 12, style = "padding: 0 var(--space-6); text-align: center;",
+        div(style = "background: linear-gradient(135deg, var(--clr-primary-500) 0%, var(--clr-primary-700) 100%);
+                     color: white;
+                     padding: var(--space-8) var(--space-4);
+                     border-radius: var(--radius-lg);
+                     margin-bottom: var(--space-6);
+                     box-shadow: var(--shadow-lg);",
+          h1(class = "homeTitle", style = "color: white !important; margin-bottom: var(--space-2);",
+             "Welcome to GIST Analysis Platform"),
+          p(style = "font-size: var(--text-lg); opacity: 0.9; margin: 0;",
+            "Professional Gene Expression Analysis & Visualization")
         )
       ),
       
+      # 介绍文字部分
+      column(width = 12, style = "padding: 0 var(--space-6); margin-bottom: var(--space-4);",
+        div(class = "intro-text",
+          textOutput("home_intro_text")
+        )
+      ),
+
       # 图片轮播部分
-      column(width = 12, style = "padding-right:25px;padding-left:25px; margin-top: 30px; margin-bottom: 30px;",
-        slickROutput("home_slick_output", width = "100%", height = "500px")
+      column(width = 12, style = "padding: 0 var(--space-6); margin: var(--space-6) 0;",
+        div(style = "background: white;
+                     border-radius: var(--radius-lg);
+                     box-shadow: var(--shadow-lg);
+                     padding: var(--space-4);
+                     overflow: hidden;",
+          slickROutput("home_slick_output", width = "100%", height = "500px")
+        )
       ),
       
       # 页脚部分
       column(width = 12, class = "footer-container",
-        HTML('<div style="text-align: center; margin-top: 40px;"><p>Copyright © 2024. All rights reserved.</p></div>')
+        HTML('<div style="text-align: center; padding: var(--space-4);
+                          background: var(--clr-primary-900);
+                          color: white;
+                          border-radius: var(--radius-lg);
+                          margin-top: var(--space-8);">
+                <p style="margin: 0; font-size: var(--text-sm); opacity: 0.9;">
+                  Copyright © 2024 GIST Analysis Platform. All rights reserved.
+                </p>
+              </div>')
       )
     )
   )
@@ -63,10 +87,15 @@ generate_dashboard_body <- function() {
         tabName = module_id,
         cbioportalModuleUI(id = module_id),
         # 页脚
-        column(12, class = "footer-container",
-          hr(),
-          div(class = "footer-text",
-            "© 2024 GIST Analysis Platform. All rights reserved."
+        column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
+          div(style = "background: var(--clr-primary-900);
+                       color: white;
+                       padding: var(--space-4);
+                       border-radius: var(--radius-lg);
+                       text-align: center;",
+            p(style = "margin: 0; font-size: var(--text-sm); opacity: 0.9;",
+              "© 2024 GIST Analysis Platform. All rights reserved."
+            )
           )
         )
       )
@@ -80,10 +109,15 @@ generate_dashboard_body <- function() {
           has_second_gene = config$has_second_gene
         ),
         # 页脚
-        column(12, class = "footer-container",
-          hr(),
-          div(class = "footer-text",
-            "© 2024 GIST Analysis Platform. All rights reserved."
+        column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
+          div(style = "background: var(--clr-primary-900);
+                       color: white;
+                       padding: var(--space-4);
+                       border-radius: var(--radius-lg);
+                       text-align: center;",
+            p(style = "margin: 0; font-size: var(--text-sm); opacity: 0.9;",
+              "© 2024 GIST Analysis Platform. All rights reserved."
+            )
           )
         )
       )
@@ -113,48 +147,77 @@ ui <- dashboardPage(
     useShinyjs(),
     useShinyFeedback(),
     
-    # 自定义CSS
+    # 自定义CSS - 与GIST_web风格一致
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
       tags$style(HTML("
+        /* 主要布局样式 */
         .content-wrapper, .right-side {
-          background-color: #f4f4f4;
+          background-color: var(--clr-gray-050) !important;
         }
+
+        /* 标题样式 */
         .homeTitle {
-          color: #e67e22;
-          font-weight: bold;
+          color: var(--clr-primary-500) !important;
+          font-weight: 700 !important;
           text-align: center;
-          margin-bottom: 20px;
+          margin-bottom: var(--space-4);
+          font-size: var(--text-3xl) !important;
         }
+
         .pageTitle {
-          color: #2c3e50;
-          font-weight: bold;
+          color: var(--clr-primary-500) !important;
+          font-weight: 600 !important;
+          font-size: var(--text-2xl) !important;
         }
+
+        /* 介绍文字样式 */
         .intro-text {
           background-color: white;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          padding: var(--space-6);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-md);
           text-align: justify;
-          line-height: 1.6;
+          line-height: 1.8;
+          color: var(--clr-gray-700);
+          max-width: 1200px;
+          margin: var(--space-4) auto;
         }
+
+        /* 页脚样式 */
         .footer-container {
-          margin-top: 40px;
-          padding: 20px;
-          background-color: #34495e;
+          margin-top: var(--space-8);
+          padding: var(--space-4);
+          background-color: var(--clr-primary-900);
           color: white;
           text-align: center;
+          border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
-        /* 确保slickR容器不会溢出 */
+
+        /* SlickR轮播样式 */
         .slick-output {
           max-width: 100%;
           overflow: hidden;
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-lg);
         }
-        /* 修复图片轮播的布局 */
+
         .slick-slide img {
           width: 100%;
           height: auto;
           object-fit: contain;
+          border-radius: var(--radius-sm);
+        }
+
+        /* 导航栏样式 */
+        .main-header .navbar {
+          background: white !important;
+          box-shadow: var(--shadow-sm) !important;
+        }
+
+        .main-header .navbar-brand {
+          color: var(--clr-primary-500) !important;
+          font-weight: 700 !important;
         }
       "))
     ),

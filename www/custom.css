@@ -1,27 +1,90 @@
 
-/*这是个注释*/
+/* GIST Shiny - 与主网站风格一致的样式 */
+
+/* CSS 设计变量 - 与 GIST_web 保持一致 */
+:root {
+  /* Brand Primary */
+  --clr-primary-900: #0F2B2E;
+  --clr-primary-700: #163A3D;
+  --clr-primary-500: #1C484C;
+  --clr-primary-300: #3C6B6F;
+  --clr-primary-100: #D7E4E5;
+  --clr-primary-050: #F2F7F7;
+
+  /* Accent */
+  --clr-accent-coral: #E87D4C;
+  --clr-accent-lime: #9CCB3B;
+  --clr-accent-sky: #2F8FBF;
+
+  /* Neutrals */
+  --clr-gray-900: #1A1A1A;
+  --clr-gray-700: #444444;
+  --clr-gray-600: #666666;
+  --clr-gray-500: #8A8A8A;
+  --clr-gray-300: #CCCCCC;
+  --clr-gray-200: #E5E5E5;
+  --clr-gray-050: #FAFAFA;
+
+  /* Spacing System (8pt grid) */
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+
+  /* Typography Scale */
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;    /* 16px */
+  --text-lg: 1.25rem;   /* 20px */
+  --text-xl: 1.5rem;    /* 24px */
+  --text-2xl: 2rem;     /* 32px */
+  --text-3xl: 3rem;     /* 48px */
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 1rem;     /* 16px */
+  --radius-lg: 1.5rem;   /* 24px */
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* 全局样式重置 */
 body {
-    background-color:#d0e4fe;
+    background-color: var(--clr-gray-050) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+    color: var(--clr-gray-900) !important;
+    line-height: 1.5;
 }
 
 /* 首页标题样式 */
 h1.homeTitle {
-    color: #2c3e50;
+    color: var(--clr-primary-500) !important;
     text-align: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    font-size: 2.5em;
-    font-weight: bold;
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-3xl) !important;
+    font-weight: 700 !important;
 }
 
 /* 页面标题样式 */
 h1.pageTitle {
     text-align: center !important;
-    color: #2c3e50 !important;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    font-size: 2.2em !important;
+    color: var(--clr-primary-500) !important;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-3);
+    font-weight: 600 !important;
+    font-size: var(--text-2xl) !important;
 }
 
 /* 隐藏标题中的放大镜图标 */
@@ -57,24 +120,25 @@ h1.pageTitle i[class*="glyphicon"] {
 
 /* 介绍文字样式 */
 .intro-text {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin: 20px auto;
-    max-width: 1000px;
-    font-size: 16px;
+    background-color: white;
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin: var(--space-4) auto;
+    max-width: 1200px;
+    font-size: var(--text-base);
     line-height: 1.8;
-    color: #333;
+    color: var(--clr-gray-700);
+    text-align: justify;
 }
 
 /* Slick轮播图容器样式 */
 .slick-slider {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    padding: 20px;
-    margin: 20px auto;
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    margin: var(--space-4) auto;
     max-width: 1200px;
 }
 
@@ -84,21 +148,23 @@ h1.pageTitle i[class*="glyphicon"] {
     height: auto;
     object-fit: contain;
     margin: 0 auto;
+    border-radius: var(--radius-sm);
 }
 
 /* 轮播指示点样式 */
 .slick-dots {
-    bottom: 10px;
+    bottom: var(--space-2);
 }
 
 .slick-dots li button:before {
-    color: #2c3e50;
+    color: var(--clr-primary-500);
     opacity: 0.5;
-    font-size: 12px;
+    font-size: var(--text-xs);
 }
 
 .slick-dots li.slick-active button:before {
     opacity: 1;
+    color: var(--clr-primary-700);
 }
 
 /* 轮播箭头样式 */
@@ -107,30 +173,54 @@ h1.pageTitle i[class*="glyphicon"] {
 }
 
 .slick-prev:before, .slick-next:before {
-    color: #2c3e50;
-    font-size: 30px;
+    color: var(--clr-primary-500);
+    font-size: var(--text-2xl);
 }
 
+/* 统一字体系统 */
 p {
-    font-family:"Times New Roman", serif;
-    font-size:16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--clr-gray-700);
 }
 
 div {
-    font-family:"Times New Roman", serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* 侧边栏样式调整 */
+/* 侧边栏样式调整 - 与主网站风格一致 */
 .sidebar {
     width: 280px !important;
+    background: var(--clr-primary-900) !important;
 }
 
 .main-sidebar {
     width: 280px !important;
+    background: var(--clr-primary-900) !important;
 }
 
 .content-wrapper, .main-footer {
     margin-left: 280px !important;
+    background: var(--clr-gray-050) !important;
+}
+
+/* 侧边栏菜单项样式 */
+.sidebar-menu > li > a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: all var(--transition-base) !important;
+}
+
+.sidebar-menu > li > a:hover,
+.sidebar-menu > li.active > a {
+    background: var(--clr-primary-700) !important;
+    color: white !important;
+}
+
+/* 主要内容区域 */
+.content-wrapper {
+    max-width: none !important;
+    padding: var(--space-4) !important;
 }
 
 /* 侧边栏菜单项样式 */
@@ -177,16 +267,71 @@ div {
     }
 }
 
+/* 按钮样式 - 与主网站一致 */
+.btn-primary {
+    background: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) var(--space-4) !important;
+    font-weight: 600 !important;
+    transition: all var(--transition-base) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--clr-primary-700) !important;
+    border-color: var(--clr-primary-700) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.btn-outline-primary {
+    background: transparent !important;
+    border-color: var(--clr-primary-500) !important;
+    color: var(--clr-primary-500) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    font-weight: 500 !important;
+    transition: all var(--transition-base) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background: var(--clr-primary-050) !important;
+    border-color: var(--clr-primary-700) !important;
+    color: var(--clr-primary-700) !important;
+}
+
+/* 输入框样式 */
+.form-control {
+    border: 2px solid var(--clr-primary-100) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    font-size: var(--text-base) !important;
+    transition: all var(--transition-base) !important;
+}
+
+.form-control:focus {
+    border-color: var(--clr-primary-500) !important;
+    box-shadow: 0 0 0 0.2rem rgba(28, 72, 76, 0.25) !important;
+}
+
 /* 图表容器样式 */
 .shiny-plot-output {
     display: block;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 /* 图表滚动容器 */
 div[style*="overflow:auto"] {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 4px;
+    background-color: white;
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--clr-gray-200);
 }
 
 /* 确保图表不被拉伸 */
@@ -197,7 +342,70 @@ div[style*="overflow:auto"] {
 
 /* Tab内容区域 */
 .tab-content {
-    padding-top: 20px;
+    padding-top: var(--space-4);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-top: var(--space-4);
+}
+
+/* 数据表样式 */
+.dataTables_wrapper {
+    background: white !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-md) !important;
+    padding: var(--space-4) !important;
+    margin-top: var(--space-4) !important;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--clr-gray-700) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--clr-primary-500) !important;
+    border: 1px solid var(--clr-primary-100) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--clr-primary-050) !important;
+    border-color: var(--clr-primary-300) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 卡片样式 */
+.box {
+    background: white !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: none !important;
+    margin-bottom: var(--space-4) !important;
+}
+
+.box-header {
+    background: var(--clr-primary-050) !important;
+    border-bottom: 1px solid var(--clr-primary-100) !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    padding: var(--space-3) var(--space-4) !important;
+}
+
+.box-header .box-title {
+    color: var(--clr-primary-700) !important;
+    font-weight: 600 !important;
+    font-size: var(--text-lg) !important;
+}
+
+.box-body {
+    padding: var(--space-4) !important;
 }
 
 /* 图表容器响应式调整 */
@@ -205,10 +413,30 @@ div[style*="overflow:auto"] {
     .shiny-plot-output {
         min-height: 1000px !important;
     }
+
+    .content-wrapper {
+        padding: var(--space-3) !important;
+    }
 }
 
 @media (max-width: 768px) {
     .shiny-plot-output {
         min-height: 900px !important;
+    }
+
+    .sidebar {
+        width: 250px !important;
+    }
+
+    .main-sidebar {
+        width: 250px !important;
+    }
+
+    .content-wrapper, .main-footer {
+        margin-left: 0 !important;
+    }
+
+    .intro-text {
+        padding: var(--space-4) var(--space-3) !important;
     }
 }
