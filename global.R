@@ -293,7 +293,7 @@ dbGIST_boxplot_Risk <- function(ID,DB = dbGIST_matrix[RISK_ID]){
                 axis.text.y = element_text(size=10,
                                            #  colour = "black",
                                            face = "bold"),
-                axis.title.x = element_blank()) + stat_compare_means(method = )
+                axis.title.x = element_blank()) + stat_compare_means()
         
         p1 <- p1+p2
       } 
@@ -728,6 +728,21 @@ dbGIST_boxplot_Gender <- function(ID,DB = dbGIST_matrix[Gender_ID]){
       
     }
     
+  }
+  
+  # Arrange plots in a grid layout for better visibility
+  # Count actual number of plots created
+  n_plots <- sum(sapply(1:length(DB), function(i) ID %in% rownames(DB[[i]]$Matrix)))
+  
+  # Use grid layout to arrange plots vertically/grid
+  if(n_plots >= 6) {
+    p1 <- p1 + plot_layout(ncol = 2)  # 2 columns for 6+ plots
+  } else if(n_plots >= 4) {
+    p1 <- p1 + plot_layout(ncol = 2)  # 2 columns for 4-5 plots
+  } else if(n_plots == 3) {
+    p1 <- p1 + plot_layout(ncol = 1)  # 1 column for 3 plots (vertical)
+  } else if(n_plots == 2) {
+    p1 <- p1 + plot_layout(ncol = 1)  # 1 column for 2 plots (vertical)
   }
   
   return(p1)
@@ -1504,7 +1519,8 @@ dbGIST_boxplot_Drug <- function(ID,DB = dbGIST_matrix[IM_ID]){
     
   }
   
-  return(p1+p2+p3+p4)
+  # Arrange 4 plots in 2x2 grid
+  return((p1 + p2) / (p3 + p4))
   
 }
 

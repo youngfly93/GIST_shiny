@@ -64,6 +64,16 @@ create_module_config <- function(type) {
       )
     },
     
+    "cbioportal" = {
+      base_config$analysis_function <- NULL  # 不需要分析函数
+      base_config$data_function <- NULL      # 不需要数据函数
+      base_config$table_caption <- NULL      # 不需要表格标题
+      base_config$input_config <- list(
+        gene1_label = "Gene Symbol",
+        gene1_placeholder = "e.g., KIT, TP53, PDGFRA"
+      )
+    },
+    
     stop("Unknown module type:", type)
   )
   
@@ -75,30 +85,36 @@ MODULE_CONFIGS <- list(
   module2 = create_module_config("gender"),
   module3 = create_module_config("correlation"),
   module4 = create_module_config("drug"),
-  module5 = create_module_config("prepost")
+  module5 = create_module_config("prepost"),
+  module6 = create_module_config("cbioportal")
 )
 
 # 模块元数据
 MODULE_METADATA <- list(
   module2 = list(
-    title = "Single gene expression investigation",
+    title = "Gene Expression Analysis",
     description = "Analyze gene expression differences between male and female GIST patients",
     icon = "atom"
   ),
   module3 = list(
-    title = "Expression correlation between genes",
+    title = "Gene Correlation Analysis",
     description = "Examine correlation relationships between two genes in GIST patients",
     icon = "chart-line"
   ),
   module4 = list(
-    title = "Drug response analysis",
+    title = "Drug Response Analysis",
     description = "Investigate gene expression in relation to Imatinib drug response",
     icon = "pills"
   ),
   module5 = list(
-    title = "Pre/Post treatment analysis",
+    title = "Pre/Post Treatment Analysis",
     description = "Compare gene expression before and after treatment",
     icon = "clock"
+  ),
+  module6 = list(
+    title = "cBioPortal Query",
+    description = "Query gene information on cBioPortal database",
+    icon = "external-link-alt"
   )
 )
 

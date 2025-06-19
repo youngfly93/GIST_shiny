@@ -2,6 +2,7 @@
 
 # 加载模块文件
 source("modules/analysis_module.R")
+source("modules/cbioportal_module.R")
 source("config/module_configs.R")
 
 # 生成侧边栏菜单
@@ -40,8 +41,8 @@ generate_dashboard_body <- function() {
       ),
       
       # 图片轮播部分
-      column(width = 12, style = "padding-right:25px;padding-left:25px",
-        slickROutput("home_slick_output", width = "100%", height = "300px")
+      column(width = 12, style = "padding-right:25px;padding-left:25px; margin-top: 30px; margin-bottom: 30px;",
+        slickROutput("home_slick_output", width = "100%", height = "500px")
       ),
       
       # 页脚部分
@@ -56,22 +57,37 @@ generate_dashboard_body <- function() {
     metadata <- get_module_metadata(module_id)
     config <- get_module_config(module_id)
     
-    tab_content <- tabItem(
-      tabName = module_id,
-      analysisModuleUI(
-        id = module_id,
-        title = metadata$title,
-        input_config = config$input_config,
-        has_second_gene = config$has_second_gene
-      ),
-      # 页脚
-      column(12, class = "footer-container",
-        hr(),
-        div(class = "footer-text",
-          "© 2024 GIST Analysis Platform. All rights reserved."
+    # 特殊处理 cBioPortal 模块
+    if(module_id == "module6") {
+      tab_content <- tabItem(
+        tabName = module_id,
+        cbioportalModuleUI(id = module_id),
+        # 页脚
+        column(12, class = "footer-container",
+          hr(),
+          div(class = "footer-text",
+            "© 2024 GIST Analysis Platform. All rights reserved."
+          )
         )
       )
-    )
+    } else {
+      tab_content <- tabItem(
+        tabName = module_id,
+        analysisModuleUI(
+          id = module_id,
+          title = metadata$title,
+          input_config = config$input_config,
+          has_second_gene = config$has_second_gene
+        ),
+        # 页脚
+        column(12, class = "footer-container",
+          hr(),
+          div(class = "footer-text",
+            "© 2024 GIST Analysis Platform. All rights reserved."
+          )
+        )
+      )
+    }
     
     tab_items <- append(tab_items, list(tab_content))
   }
