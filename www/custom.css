@@ -701,21 +701,22 @@ div[style*="overflow:auto"] {
 .box.box-primary .box-header,
 .box.box-info .box-header,
 .box.box-success .box-header {
-    background-color: var(--clr-primary-500) !important;
-    color: white !important;
-    border-bottom: 1px solid var(--clr-primary-300) !important;
+    background-color: var(--clr-primary-100) !important;
+    color: var(--clr-primary-700) !important;
+    border-bottom: 1px solid var(--clr-primary-200) !important;
 }
 
 .box.box-primary .box-header .box-title,
 .box.box-info .box-header .box-title,
 .box.box-success .box-header .box-title {
-    color: white !important;
+    color: var(--clr-primary-700) !important;
+    font-weight: 600 !important;
 }
 
 .box.box-primary,
 .box.box-info,
 .box.box-success {
-    border-top: 3px solid var(--clr-primary-500) !important;
+    border-top: 3px solid var(--clr-primary-300) !important;
 }
 
 /* 模块标题悬停提示样式 */
