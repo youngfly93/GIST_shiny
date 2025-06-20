@@ -189,7 +189,7 @@ div {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* 侧边栏样式调整 - 与主网站风格一致 */
+/* 侧边栏样式调整 - 改善对比度和可读性 */
 .sidebar {
     width: 280px !important;
     background: var(--clr-primary-900) !important;
@@ -205,16 +205,74 @@ div {
     background: var(--clr-gray-050) !important;
 }
 
-/* 侧边栏菜单项样式 */
-.sidebar-menu > li > a {
-    color: rgba(255, 255, 255, 0.9) !important;
-    transition: all var(--transition-base) !important;
+/* 侧边栏标题 */
+.main-sidebar .sidebar-menu .header {
+    color: rgba(255, 255, 255, 0.7) !important;
+    background: transparent !important;
+    font-size: var(--text-xs) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: var(--space-2) var(--space-3) !important;
 }
 
-.sidebar-menu > li > a:hover,
+/* 侧边栏菜单项样式 - 提高对比度 */
+.sidebar-menu > li > a {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 500 !important;
+    padding: var(--space-2) var(--space-3) !important;
+    transition: all var(--transition-base) !important;
+    border-left: 3px solid transparent !important;
+}
+
+.sidebar-menu > li > a:hover {
+    background: var(--clr-primary-700) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    transform: translateX(2px) !important;
+}
+
 .sidebar-menu > li.active > a {
     background: var(--clr-primary-700) !important;
     color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    font-weight: 600 !important;
+}
+
+/* 侧边栏图标样式 */
+.sidebar-menu > li > a > i {
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-right: var(--space-2) !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+.sidebar-menu > li:hover > a > i,
+.sidebar-menu > li.active > a > i {
+    color: white !important;
+}
+
+/* 侧边栏品牌区域 */
+.main-sidebar .brand-link {
+    background: var(--clr-primary-900) !important;
+    color: white !important;
+    border-bottom: 1px solid var(--clr-primary-700) !important;
+    padding: var(--space-3) !important;
+}
+
+.main-sidebar .brand-text {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: var(--text-lg) !important;
+}
+
+/* 侧边栏用户面板 */
+.main-sidebar .user-panel {
+    background: var(--clr-primary-800) !important;
+    border-bottom: 1px solid var(--clr-primary-700) !important;
+}
+
+.main-sidebar .user-panel .info {
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
 /* 主要内容区域 */
@@ -223,12 +281,48 @@ div {
     padding: var(--space-4) !important;
 }
 
-/* 侧边栏菜单项样式 */
+/* 改善侧边栏滚动条 */
+.main-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-sidebar::-webkit-scrollbar-track {
+    background: var(--clr-primary-900);
+}
+
+.main-sidebar::-webkit-scrollbar-thumb {
+    background: var(--clr-primary-700);
+    border-radius: 3px;
+}
+
+.main-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--clr-primary-500);
+}
+
+/* 侧边栏菜单项布局和文本样式 - 确保高对比度 */
 .sidebar-menu > li > a {
     white-space: normal !important;
     overflow: visible !important;
     text-overflow: initial !important;
-    padding: 12px 5px 12px 15px !important;
+    padding: var(--space-2) var(--space-1) var(--space-2) var(--space-3) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 500 !important;
+    transition: all var(--transition-base) !important;
+    border-left: 3px solid transparent !important;
+}
+
+.sidebar-menu > li > a:hover {
+    background: var(--clr-primary-700) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    transform: translateX(2px) !important;
+}
+
+.sidebar-menu > li.active > a {
+    background: var(--clr-primary-700) !important;
+    color: white !important;
+    border-left-color: var(--clr-accent-coral) !important;
+    font-weight: 600 !important;
 }
 
 .sidebar-menu > li > a > span {
@@ -238,18 +332,64 @@ div {
     text-overflow: initial !important;
     max-width: 220px !important;
     line-height: 1.4 !important;
+    color: inherit !important;
 }
 
-/* 侧边栏图标和文字间距 */
+/* 侧边栏图标样式 - 确保高对比度 */
 .sidebar-menu > li > a > i {
-    margin-right: 10px !important;
+    margin-right: var(--space-2) !important;
     width: 20px !important;
     text-align: center !important;
+    color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* 激活状态的菜单项 */
-.sidebar-menu > li.active > a {
-    border-left-color: #3c8dbc !important;
+.sidebar-menu > li:hover > a > i,
+.sidebar-menu > li.active > a > i {
+    color: white !important;
+}
+
+/* 确保所有侧边栏链接都有正确的颜色 */
+.main-sidebar a,
+.main-sidebar a:link,
+.main-sidebar a:visited {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.main-sidebar a:hover,
+.main-sidebar a:focus,
+.main-sidebar a:active {
+    color: white !important;
+}
+
+/* 特殊处理：确保所有文本元素都有足够对比度 */
+.main-sidebar .sidebar-menu li a span,
+.main-sidebar .sidebar-menu li a .menu-text,
+.main-sidebar .sidebar-menu li a .text {
+    color: inherit !important;
+}
+
+/* 侧边栏标题和品牌区域 */
+.main-sidebar .brand-link .brand-text {
+    color: white !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+
+/* 确保深色背景下的所有文本都可见 */
+.main-sidebar,
+.main-sidebar .sidebar {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 修复可能的Bootstrap或其他框架冲突 */
+.main-sidebar .nav > li > a {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.main-sidebar .nav > li > a:hover,
+.main-sidebar .nav > li > a:focus {
+    background: var(--clr-primary-700) !important;
+    color: white !important;
 }
 
 /* 响应式调整 */

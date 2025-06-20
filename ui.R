@@ -219,6 +219,47 @@ ui <- dashboardPage(
           color: var(--clr-primary-500) !important;
           font-weight: 700 !important;
         }
+
+        /* 侧边栏文本对比度改进 */
+        .main-sidebar {
+          background: var(--clr-primary-900) !important;
+        }
+
+        .sidebar-menu li a {
+          color: rgba(255, 255, 255, 0.95) !important;
+          font-weight: 500 !important;
+        }
+
+        .sidebar-menu li a:hover,
+        .sidebar-menu li.active a {
+          background: var(--clr-primary-700) !important;
+          color: white !important;
+        }
+
+        .sidebar-menu li a i {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .sidebar-menu li:hover a i,
+        .sidebar-menu li.active a i {
+          color: white !important;
+        }
+
+        /* 确保所有侧边栏文本都有足够对比度 */
+        .main-sidebar .sidebar-menu .header {
+          color: rgba(255, 255, 255, 0.7) !important;
+          background: transparent !important;
+        }
+
+        .main-sidebar .brand-link {
+          background: var(--clr-primary-900) !important;
+          color: white !important;
+        }
+
+        .main-sidebar .brand-text {
+          color: white !important;
+          font-weight: 700 !important;
+        }
       "))
     ),
     
