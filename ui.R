@@ -81,48 +81,29 @@ generate_dashboard_body <- function() {
     metadata <- get_module_metadata(module_id)
     config <- get_module_config(module_id)
     
-    # 特殊处理 cBioPortal 模块
-    if(module_id == "module6") {
-      tab_content <- tabItem(
-        tabName = module_id,
-        cbioportalModuleUI(id = module_id, detailed_description = metadata$detailed_description),
-        # 页脚
-        column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
-          div(style = "background: var(--clr-primary-500);
-                       color: white !important;
-                       padding: var(--space-4);
-                       border-radius: var(--radius-lg);
-                       text-align: center;",
-            p(style = "margin: 0; font-size: var(--text-sm); color: white !important; opacity: 0.9;",
-              "© 2024 GIST Analysis Platform. All rights reserved."
-            )
+
+    tab_content <- tabItem(
+      tabName = module_id,
+      analysisModuleUI(
+        id = module_id,
+        title = metadata$title,
+        input_config = config$input_config,
+        has_second_gene = config$has_second_gene,
+        detailed_description = metadata$detailed_description
+      ),
+      # 页脚
+      column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
+        div(style = "background: var(--clr-primary-500);
+                     color: white !important;
+                     padding: var(--space-4);
+                     border-radius: var(--radius-lg);
+                     text-align: center;",
+          p(style = "margin: 0; font-size: var(--text-sm); color: white !important; opacity: 0.9;",
+            "© 2024 GIST Analysis Platform. All rights reserved."
           )
         )
       )
-    } else {
-      tab_content <- tabItem(
-        tabName = module_id,
-        analysisModuleUI(
-          id = module_id,
-          title = metadata$title,
-          input_config = config$input_config,
-          has_second_gene = config$has_second_gene,
-          detailed_description = metadata$detailed_description
-        ),
-        # 页脚
-        column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
-          div(style = "background: var(--clr-primary-500);
-                       color: white !important;
-                       padding: var(--space-4);
-                       border-radius: var(--radius-lg);
-                       text-align: center;",
-            p(style = "margin: 0; font-size: var(--text-sm); color: white !important; opacity: 0.9;",
-              "© 2024 GIST Analysis Platform. All rights reserved."
-            )
-          )
-        )
-      )
-    }
+    )
     
     tab_items <- append(tab_items, list(tab_content))
   }

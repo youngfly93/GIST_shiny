@@ -3,7 +3,6 @@
 # 加载模块文件
 source("modules/analysis_module.R")
 source("modules/data_utils.R")
-source("modules/cbioportal_module.R")
 source("config/module_configs.R")
 
 # 主Server函数
@@ -31,18 +30,13 @@ server <- function(input, output, session) {
   # 使用lapply避免闭包问题
   module_ids <- get_available_modules()
   module_servers <- lapply(module_ids, function(module_id) {
-    # 特殊处理 cBioPortal 模块
-    if(module_id == "module6") {
-      cbioportalModuleServer(id = module_id)
-    } else {
-      config <- get_module_config(module_id)
-      
-      # 调用模块服务器
-      analysisModuleServer(
-        id = module_id,
-        analysis_config = config
-      )
-    }
+    config <- get_module_config(module_id)
+
+    # 调用模块服务器
+    analysisModuleServer(
+      id = module_id,
+      analysis_config = config
+    )
   })
   names(module_servers) <- module_ids
   

@@ -64,15 +64,7 @@ create_module_config <- function(type) {
       )
     },
     
-    "cbioportal" = {
-      base_config$analysis_function <- NULL  # 不需要分析函数
-      base_config$data_function <- NULL      # 不需要数据函数
-      base_config$table_caption <- NULL      # 不需要表格标题
-      base_config$input_config <- list(
-        gene1_label = "Gene Symbol",
-        gene1_placeholder = "e.g., KIT, TP53, PDGFRA"
-      )
-    },
+
     
     stop("Unknown module type:", type)
   )
@@ -85,8 +77,7 @@ MODULE_CONFIGS <- list(
   module2 = create_module_config("gender"),
   module3 = create_module_config("correlation"),
   module4 = create_module_config("drug"),
-  module5 = create_module_config("prepost"),
-  module6 = create_module_config("cbioportal")
+  module5 = create_module_config("prepost")
 )
 
 # 模块元数据
@@ -114,12 +105,6 @@ MODULE_METADATA <- list(
     description = "Compare gene expression before and after treatment",
     detailed_description = "Compare gene expression levels before and after treatment in GIST patients. Identify genes significantly altered by therapy through paired sample analysis with statistical testing.",
     icon = "clock"
-  ),
-  module6 = list(
-    title = "cBioPortal Query",
-    description = "Query gene information on cBioPortal database",
-    detailed_description = "Direct integration with cBioPortal cancer genomics platform for comprehensive gene analysis in GIST studies. Query multiple GIST datasets including mutation data, copy number alterations, and expression profiles.",
-    icon = "external-link-alt"
   )
 )
 
