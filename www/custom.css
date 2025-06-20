@@ -779,6 +779,20 @@ div[style*="overflow:auto"] {
     visibility: visible;
 }
 
+/* 模块描述文字样式 */
+.module-description {
+    background-color: rgba(28, 72, 76, 0.05) !important;
+    border-left: 3px solid var(--clr-primary-500) !important;
+    padding: var(--space-3) var(--space-4) !important;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+    margin: var(--space-3) auto var(--space-4) auto !important;
+    font-style: italic !important;
+    color: var(--clr-gray-700) !important;
+    font-size: var(--text-sm) !important;
+    line-height: 1.6 !important;
+    max-width: 700px !important;
+}
+
 /* 图表容器响应式调整 */
 @media (max-width: 1200px) {
     .shiny-plot-output {

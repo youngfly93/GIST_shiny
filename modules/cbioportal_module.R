@@ -4,17 +4,6 @@
 cbioportalModuleUI <- function(id, detailed_description = NULL) {
   ns <- NS(id)
 
-  # 创建带有悬停提示的标题
-  title_with_tooltip <- if(!is.null(detailed_description)) {
-    h1(class = "pageTitle module-title-with-tooltip",
-       "cBioPortal Gene Query",
-       `data-tooltip` = detailed_description,
-       style = "cursor: help;"
-    )
-  } else {
-    h1(class = "pageTitle", "cBioPortal Gene Query")
-  }
-
   tagList(
     fluidRow(
       column(width = 12, style = "padding: 20px; background-color: #f8f9fa; border-radius: 10px; margin: 10px;",
@@ -22,18 +11,21 @@ cbioportalModuleUI <- function(id, detailed_description = NULL) {
         column(width = 12, align = "center", style = "padding-top: 10px",
           actionBttn(
             inputId = ns("title_btn"),
-            label = title_with_tooltip,
+            label = h1(class = "pageTitle", "cBioPortal Gene Query"),
             style = "minimal",
             color = "primary",
             size = "lg"
           )
         ),
-        
-        # 描述文字
-        column(width = 12, style = "text-align: center; padding: 10px;",
-          p("Query gene information on cBioPortal database for GIST studies",
-            style = "color: #666; margin-bottom: 20px;")
-        )
+
+        # 模块描述部分
+        if(!is.null(detailed_description)) {
+          column(width = 12, style = "text-align: center; padding: 10px 20px;",
+            p(detailed_description,
+              class = "module-description",
+              style = "color: #666; margin-bottom: 20px; font-size: 14px; line-height: 1.5; max-width: 800px; margin-left: auto; margin-right: auto;")
+          )
+        }
       )
     ),
     

@@ -94,31 +94,31 @@ MODULE_METADATA <- list(
   module2 = list(
     title = "Gene Expression Analysis",
     description = "Analyze gene expression differences between male and female GIST patients",
-    detailed_description = "This module allows you to explore gender-specific gene expression patterns in GIST patients. Input a gene symbol to generate box plots comparing expression levels between male and female patients. The analysis includes statistical significance testing and provides downloadable results in multiple formats (SVG, PDF, PNG, and data tables). This is particularly useful for identifying genes that may have sex-specific expression patterns in GIST tumors.",
+    detailed_description = "Explore gender-specific gene expression patterns in GIST patients. Input a gene symbol to generate box plots comparing expression levels between male and female patients with statistical significance testing.",
     icon = "atom"
   ),
   module3 = list(
     title = "Gene Correlation Analysis",
     description = "Examine correlation relationships between two genes in GIST patients",
-    detailed_description = "Investigate the correlation relationship between two genes of interest in GIST patient samples. This module generates scatter plots with correlation coefficients and statistical significance testing. You can input two gene symbols to explore potential co-expression patterns, regulatory relationships, or pathway interactions. The results help identify genes that may be functionally related or co-regulated in GIST biology.",
+    detailed_description = "Investigate correlation relationships between two genes in GIST patient samples. Generate scatter plots with correlation coefficients and statistical significance testing to explore co-expression patterns.",
     icon = "chart-line"
   ),
   module4 = list(
     title = "Drug Response Analysis",
     description = "Investigate gene expression in relation to Imatinib drug response",
-    detailed_description = "Analyze gene expression differences between drug-sensitive and drug-resistant GIST patients treated with Imatinib. This module is crucial for understanding mechanisms of drug resistance and identifying potential biomarkers for treatment response. Input a gene symbol to compare expression levels between responsive and non-responsive patient groups, with statistical analysis and visualization of treatment efficacy correlations.",
+    detailed_description = "Analyze gene expression differences between drug-sensitive and drug-resistant GIST patients treated with Imatinib. Compare expression levels to identify potential biomarkers for treatment response.",
     icon = "pills"
   ),
   module5 = list(
     title = "Pre/Post Treatment Analysis",
     description = "Compare gene expression before and after treatment",
-    detailed_description = "Compare gene expression levels before and after treatment in GIST patients to understand treatment-induced changes. This longitudinal analysis helps identify genes that are significantly altered by therapy, potential treatment response markers, and molecular changes associated with therapeutic intervention. The module provides paired sample analysis with statistical testing for treatment effect significance.",
+    detailed_description = "Compare gene expression levels before and after treatment in GIST patients. Identify genes significantly altered by therapy through paired sample analysis with statistical testing.",
     icon = "clock"
   ),
   module6 = list(
     title = "cBioPortal Query",
     description = "Query gene information on cBioPortal database",
-    detailed_description = "Direct integration with the cBioPortal cancer genomics platform for comprehensive gene analysis in GIST studies. Input a gene symbol to automatically query multiple GIST datasets available on cBioPortal, including mutation data, copy number alterations, and expression profiles. This module provides seamless access to external genomic databases and facilitates cross-platform data exploration for your genes of interest.",
+    detailed_description = "Direct integration with cBioPortal cancer genomics platform for comprehensive gene analysis in GIST studies. Query multiple GIST datasets including mutation data, copy number alterations, and expression profiles.",
     icon = "external-link-alt"
   )
 )
