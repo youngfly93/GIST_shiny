@@ -697,13 +697,13 @@ div[style*="overflow:auto"] {
     padding: var(--space-4) !important;
 }
 
-/* 覆盖AdminLTE的box状态颜色 - 统一使用绿色主题 */
+/* 覆盖AdminLTE的box状态颜色 - 使用非常浅的绿色主题 */
 .box.box-primary .box-header,
 .box.box-info .box-header,
 .box.box-success .box-header {
-    background-color: var(--clr-primary-100) !important;
+    background-color: var(--clr-primary-050) !important;
     color: var(--clr-primary-700) !important;
-    border-bottom: 1px solid var(--clr-primary-200) !important;
+    border-bottom: 1px solid var(--clr-gray-200) !important;
 }
 
 .box.box-primary .box-header .box-title,
@@ -716,7 +716,31 @@ div[style*="overflow:auto"] {
 .box.box-primary,
 .box.box-info,
 .box.box-success {
-    border-top: 3px solid var(--clr-primary-300) !important;
+    border-top: 2px solid var(--clr-primary-300) !important;
+}
+
+/* 更强的选择器来覆盖AdminLTE默认样式 */
+.content-wrapper .box.box-success .box-header,
+.content-wrapper .box.box-primary .box-header,
+.content-wrapper .box.box-info .box-header,
+div.box.box-success .box-header,
+div.box.box-primary .box-header,
+div.box.box-info .box-header {
+    background-color: var(--clr-gray-050) !important;
+    background: var(--clr-gray-050) !important;
+    color: var(--clr-primary-700) !important;
+    border-bottom: 1px solid var(--clr-gray-200) !important;
+}
+
+/* 确保标题文字颜色 */
+.content-wrapper .box.box-success .box-header .box-title,
+.content-wrapper .box.box-primary .box-header .box-title,
+.content-wrapper .box.box-info .box-header .box-title,
+div.box.box-success .box-header .box-title,
+div.box.box-primary .box-header .box-title,
+div.box.box-info .box-header .box-title {
+    color: var(--clr-primary-700) !important;
+    font-weight: 600 !important;
 }
 
 /* 模块标题悬停提示样式 */
