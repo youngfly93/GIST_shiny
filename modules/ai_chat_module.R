@@ -307,11 +307,17 @@ aiChatServer <- function(id) {
     # 监听来自分析模块的图片分析请求
     observeEvent(input$analyze_plot, {
       plot_data <- input$analyze_plot
+      cat("AI Chat: Received analyze_plot event\n")
+      cat("Plot data:", str(plot_data), "\n")
+
       if (!is.null(plot_data) && !is.null(plot_data$plotPath)) {
+        cat("AI Chat: Starting analysis for:", plot_data$plotPath, "\n")
+
         # 显示聊天窗口
         if (!values$chat_visible) {
           values$chat_visible <- TRUE
           shinyjs::show("chat_container")
+          cat("AI Chat: Showing chat container\n")
         }
 
         # 开始分析
@@ -327,22 +333,37 @@ aiChatServer <- function(id) {
           "。请从统计学意义、生物学意义和临床相关性等方面进行专业分析。"
         )
 
+        cat("AI Chat: Analysis prompt:", analysis_prompt, "\n")
+
         # 添加用户消息
         add_message(analysis_prompt, TRUE, plot_data$plotPath)
 
-        # 分析图片
-        image_base64 <- image_to_base64(plot_data$plotPath)
-        if (!is.null(image_base64)) {
-          result <- analyze_image_with_ai(image_base64, analysis_prompt)
+        # 检查文件是否存在
+        if (file.exists(plot_data$plotPath)) {
+          cat("AI Chat: File exists, converting to base64\n")
+          # 分析图片
+          image_base64 <- image_to_base64(plot_data$plotPath)
+          if (!is.null(image_base64)) {
+            cat("AI Chat: Base64 conversion successful, calling AI\n")
+            result <- analyze_image_with_ai(image_base64, analysis_prompt)
+          } else {
+            result <- "无法转换图片为base64格式。"
+            cat("AI Chat: Base64 conversion failed\n")
+          }
         } else {
-          result <- "无法读取图片文件，请检查文件格式。"
+          result <- paste("图片文件不存在:", plot_data$plotPath)
+          cat("AI Chat: File does not exist:", plot_data$plotPath, "\n")
         }
 
         values$analyzing <- FALSE
         shinyjs::hide("chat_loading")
         add_message(result, FALSE)
+
+        cat("AI Chat: Analysis completed\n")
+      } else {
+        cat("AI Chat: Invalid plot data received\n")
       }
-    })
+    }, ignoreInit = TRUE)
 
     # 发送消息按钮事件
     observeEvent(input$send_message, {

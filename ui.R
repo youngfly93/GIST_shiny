@@ -283,17 +283,16 @@ ui <- dashboardPage(
         });
 
         // AI聊天机器人功能
-        Shiny.addCustomMessageHandler('triggerAIAnalysis', function(data) {
-          console.log('AI Analysis triggered:', data);
-          // 这里可以添加更多的AI分析逻辑
+        $(document).ready(function() {
+          console.log('AI Chat system initialized');
+        });
+
+        // 处理AI分析请求
+        Shiny.addCustomMessageHandler('updateAIInput', function(data) {
+          console.log('Updating AI input with data:', data);
           if (window.Shiny) {
-            Shiny.setInputValue('ai_chat-analyze_plot', {
-              plotPath: data.plotPath,
-              gene1: data.gene1,
-              gene2: data.gene2,
-              analysisType: data.analysisType,
-              timestamp: new Date().getTime()
-            });
+            Shiny.setInputValue('ai_chat-analyze_plot', data, {priority: 'event'});
+            console.log('AI input updated successfully');
           }
         });
       "))

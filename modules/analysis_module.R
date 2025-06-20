@@ -189,12 +189,22 @@ analysisModuleServer <- function(id, analysis_config) {
     output$result_plot <- renderPlot({
       plot_result <- analysis_result()
 
-      # 保存图片到临时文件供AI分析使用
-      temp_file <- tempfile(fileext = ".png")
-      png(temp_file, width = 1400, height = 1200, res = 120)
+      # 保存图片到www目录供AI分析使用
+      plot_filename <- paste0("plot_", Sys.time() %>% as.numeric() %>% round(), ".png")
+      plot_path <- file.path("www", plot_filename)
+
+      # 确保www目录存在
+      if (!dir.exists("www")) {
+        dir.create("www", recursive = TRUE)
+      }
+
+      # 保存图片
+      png(plot_path, width = 1400, height = 1200, res = 120)
       print(plot_result)
       dev.off()
-      current_plot_path(temp_file)
+
+      # 存储完整路径
+      current_plot_path(normalizePath(plot_path))
 
       return(plot_result)
     }, res = 120, height = 1200, width = 1400)
@@ -282,16 +292,25 @@ analysisModuleServer <- function(id, analysis_config) {
     
     # AI分析按钮事件
     observeEvent(input$ai_analyze, {
+      cat("AI Analyze button clicked\n")
+      cat("Current plot path:", current_plot_path(), "\n")
+
       if (!is.null(current_plot_path()) && file.exists(current_plot_path())) {
-        # 触发AI分析事件，传递图片路径
-        session$sendCustomMessage("triggerAIAnalysis", list(
+        cat("File exists, sending to AI chat\n")
+
+        # 使用session$sendCustomMessage发送到前端，然后由前端更新输入
+        session$sendCustomMessage("updateAIInput", list(
           plotPath = current_plot_path(),
           gene1 = gene1_input(),
           gene2 = if(analysis_config$has_second_gene) gene2_input() else NULL,
-          analysisType = analysis_config$type
+          analysisType = analysis_config$type,
+          timestamp = as.numeric(Sys.time())
         ))
+
+        showNotification("正在启动AI分析...", type = "message", duration = 2)
       } else {
         showNotification("请先生成图片再进行AI分析", type = "warning")
+        cat("File does not exist or plot path is null\n")
       }
     })
 
