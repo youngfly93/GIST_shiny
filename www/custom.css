@@ -85,6 +85,9 @@ h1.pageTitle {
     margin-bottom: var(--space-3);
     font-weight: 600 !important;
     font-size: var(--text-2xl) !important;
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
 }
 
 /* 隐藏标题中的放大镜图标 */
@@ -100,6 +103,9 @@ h1.pageTitle i[class*="glyphicon"] {
     color: #2c3e50 !important;
     text-decoration: none !important;
     font-size: 2.2em !important;
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
 }
 
 /* 修复actionBttn按钮样式，使其不影响标题显示 */
@@ -116,6 +122,25 @@ h1.pageTitle i[class*="glyphicon"] {
     background: none !important;
     box-shadow: none !important;
     transform: none !important;
+}
+
+/* 移除所有标题可能的边框和分隔线 */
+h1, h2, h3, h4, h5, h6 {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+/* 特别针对页面标题容器 */
+.bttn-minimal h1,
+.bttn-minimal h2,
+.bttn-minimal h3,
+.bttn-minimal h4,
+.bttn-minimal h5,
+.bttn-minimal h6 {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
 }
 
 /* 介绍文字样式 */
