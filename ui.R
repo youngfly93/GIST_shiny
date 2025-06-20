@@ -38,7 +38,7 @@ generate_dashboard_body <- function() {
                      box-shadow: var(--shadow-lg);",
           h1(class = "homeTitle", style = "color: white !important; margin-bottom: var(--space-2);",
              "Welcome to GIST Analysis Platform"),
-          p(style = "font-size: var(--text-lg); opacity: 0.9; margin: 0;",
+          p(style = "font-size: var(--text-lg); color: white !important; opacity: 0.9; margin: 0;",
             "Professional Gene Expression Analysis & Visualization")
         )
       ),
@@ -64,11 +64,11 @@ generate_dashboard_body <- function() {
       # 页脚部分
       column(width = 12, class = "footer-container",
         HTML('<div style="text-align: center; padding: var(--space-4);
-                          background: var(--clr-primary-900);
-                          color: white;
+                          background: var(--clr-primary-500);
+                          color: white !important;
                           border-radius: var(--radius-lg);
                           margin-top: var(--space-8);">
-                <p style="margin: 0; font-size: var(--text-sm); opacity: 0.9;">
+                <p style="margin: 0; font-size: var(--text-sm); color: white !important; opacity: 0.9;">
                   Copyright © 2024 GIST Analysis Platform. All rights reserved.
                 </p>
               </div>')
@@ -188,10 +188,14 @@ ui <- dashboardPage(
         .footer-container {
           margin-top: var(--space-8);
           padding: var(--space-4);
-          background-color: var(--clr-primary-900);
-          color: white;
+          background-color: var(--clr-primary-500);
+          color: white !important;
           text-align: center;
           border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .footer-container p {
+          color: white !important;
         }
 
         /* SlickR轮播样式 */
