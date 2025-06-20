@@ -220,28 +220,48 @@ ui <- dashboardPage(
           font-weight: 700 !important;
         }
 
-        /* 侧边栏文本对比度改进 - 浅绿色背景配白色文字 */
+        /* 侧边栏文本对比度改进 - 强制白色文字 */
         .main-sidebar {
           background: var(--clr-primary-500) !important;
         }
 
-        .sidebar-menu li a {
+        /* 强制所有侧边栏文本为白色 */
+        .sidebar-menu li a,
+        .main-sidebar .sidebar-menu li a,
+        .main-sidebar .sidebar-menu > li > a,
+        .sidebar-menu > li > a {
           color: white !important;
           font-weight: 500 !important;
         }
 
         .sidebar-menu li a:hover,
-        .sidebar-menu li.active a {
+        .sidebar-menu li.active a,
+        .main-sidebar .sidebar-menu li a:hover,
+        .main-sidebar .sidebar-menu li.active a {
           background: var(--clr-primary-300) !important;
           color: white !important;
         }
 
-        .sidebar-menu li a i {
+        .sidebar-menu li a i,
+        .main-sidebar .sidebar-menu li a i,
+        .sidebar-menu > li > a > i,
+        .main-sidebar .sidebar-menu > li > a > i {
           color: white !important;
         }
 
         .sidebar-menu li:hover a i,
-        .sidebar-menu li.active a i {
+        .sidebar-menu li.active a i,
+        .main-sidebar .sidebar-menu li:hover a i,
+        .main-sidebar .sidebar-menu li.active a i {
+          color: white !important;
+        }
+
+        /* 强制所有侧边栏元素为白色 */
+        .main-sidebar *,
+        .main-sidebar .sidebar *,
+        .main-sidebar .sidebar-menu *,
+        .sidebar *,
+        .sidebar-menu * {
           color: white !important;
         }
 

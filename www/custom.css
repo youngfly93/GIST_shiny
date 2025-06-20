@@ -299,52 +299,73 @@ div {
     background: var(--clr-primary-700);
 }
 
-/* 侧边栏菜单项布局和文本样式 - 确保高对比度 */
-.sidebar-menu > li > a {
+/* 侧边栏菜单项布局和文本样式 - 强制白色文本 */
+.sidebar-menu > li > a,
+.sidebar-menu li a,
+.main-sidebar .sidebar-menu > li > a,
+.main-sidebar .sidebar-menu li a {
     white-space: normal !important;
     overflow: visible !important;
     text-overflow: initial !important;
     padding: var(--space-2) var(--space-1) var(--space-2) var(--space-3) !important;
-    color: rgba(255, 255, 255, 0.95) !important;
+    color: white !important;
     font-weight: 500 !important;
     transition: all var(--transition-base) !important;
     border-left: 3px solid transparent !important;
 }
 
-.sidebar-menu > li > a:hover {
-    background: var(--clr-primary-700) !important;
+.sidebar-menu > li > a:hover,
+.sidebar-menu li a:hover,
+.main-sidebar .sidebar-menu > li > a:hover,
+.main-sidebar .sidebar-menu li a:hover {
+    background: var(--clr-primary-300) !important;
     color: white !important;
     border-left-color: var(--clr-accent-coral) !important;
     transform: translateX(2px) !important;
 }
 
-.sidebar-menu > li.active > a {
-    background: var(--clr-primary-700) !important;
+.sidebar-menu > li.active > a,
+.sidebar-menu li.active a,
+.main-sidebar .sidebar-menu > li.active > a,
+.main-sidebar .sidebar-menu li.active a {
+    background: var(--clr-primary-300) !important;
     color: white !important;
     border-left-color: var(--clr-accent-coral) !important;
     font-weight: 600 !important;
 }
 
-.sidebar-menu > li > a > span {
+.sidebar-menu > li > a > span,
+.sidebar-menu li a span,
+.main-sidebar .sidebar-menu > li > a > span,
+.main-sidebar .sidebar-menu li a span {
     display: inline-block !important;
     white-space: normal !important;
     overflow: visible !important;
     text-overflow: initial !important;
     max-width: 220px !important;
     line-height: 1.4 !important;
-    color: inherit !important;
+    color: white !important;
 }
 
-/* 侧边栏图标样式 - 确保高对比度 */
-.sidebar-menu > li > a > i {
+/* 侧边栏图标样式 - 强制白色 */
+.sidebar-menu > li > a > i,
+.sidebar-menu li a i,
+.main-sidebar .sidebar-menu > li > a > i,
+.main-sidebar .sidebar-menu li a i {
     margin-right: var(--space-2) !important;
     width: 20px !important;
     text-align: center !important;
-    color: rgba(255, 255, 255, 0.8) !important;
+    color: white !important;
 }
 
 .sidebar-menu > li:hover > a > i,
-.sidebar-menu > li.active > a > i {
+.sidebar-menu > li.active > a > i,
+.sidebar-menu li:hover a i,
+.sidebar-menu li.active a i,
+.main-sidebar .sidebar-menu > li:hover > a > i,
+.main-sidebar .sidebar-menu > li.active > a > i,
+.main-sidebar .sidebar-menu li:hover a i,
+.main-sidebar .sidebar-menu li.active a i {
     color: white !important;
 }
 
@@ -381,15 +402,48 @@ div {
     color: white !important;
 }
 
-/* 修复可能的Bootstrap或其他框架冲突 */
-.main-sidebar .nav > li > a {
+/* 修复可能的Bootstrap或其他框架冲突 - 强制覆盖所有可能的选择器 */
+.main-sidebar .nav > li > a,
+.main-sidebar .nav li a,
+.main-sidebar .sidebar-menu .treeview-menu > li > a,
+.main-sidebar .sidebar-menu .treeview-menu li a {
     color: white !important;
 }
 
 .main-sidebar .nav > li > a:hover,
-.main-sidebar .nav > li > a:focus {
+.main-sidebar .nav > li > a:focus,
+.main-sidebar .nav li a:hover,
+.main-sidebar .nav li a:focus,
+.main-sidebar .sidebar-menu .treeview-menu > li > a:hover,
+.main-sidebar .sidebar-menu .treeview-menu li a:hover {
     background: var(--clr-primary-300) !important;
     color: white !important;
+}
+
+/* 强制覆盖所有可能的文本颜色 */
+.main-sidebar *,
+.main-sidebar .sidebar *,
+.main-sidebar .sidebar-menu *,
+.main-sidebar .sidebar-menu li *,
+.main-sidebar .sidebar-menu li a *,
+.sidebar *,
+.sidebar-menu *,
+.sidebar-menu li *,
+.sidebar-menu li a * {
+    color: white !important;
+}
+
+/* 确保链接状态的颜色 */
+.main-sidebar a:link,
+.main-sidebar a:visited,
+.main-sidebar a:hover,
+.main-sidebar a:active,
+.sidebar a:link,
+.sidebar a:visited,
+.sidebar a:hover,
+.sidebar a:active {
+    color: white !important;
+    text-decoration: none !important;
 }
 
 /* 响应式调整 */
