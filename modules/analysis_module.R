@@ -73,22 +73,28 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
           )
         ),
         
-        # 下载按钮
+        # 下载按钮和AI分析
         fluidRow(
           column(width = 12, align = "center", style = "padding: 20px;",
-            h4("Download Results"),
+            h4("Download Results & AI Analysis"),
             fluidRow(
-              column(width = 3,
+              column(width = 2,
                 downloadButton(ns("download_svg"), "SVG", class = "btn-outline-primary")
               ),
-              column(width = 3,
+              column(width = 2,
                 downloadButton(ns("download_pdf"), "PDF", class = "btn-outline-primary")
               ),
-              column(width = 3,
+              column(width = 2,
                 downloadButton(ns("download_png"), "PNG", class = "btn-outline-primary")
               ),
-              column(width = 3,
+              column(width = 2,
                 downloadButton(ns("download_data"), "Data", class = "btn-outline-primary")
+              ),
+              column(width = 4,
+                actionButton(ns("ai_analyze"), "AI Analysis",
+                           icon = icon("robot"),
+                           class = "btn-success btn-lg",
+                           style = "width: 100%;")
               )
             )
           )
@@ -102,9 +108,12 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
 analysisModuleServer <- function(id, analysis_config) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     # 隐藏结果区域
     shinyjs::hide("result_container")
+
+    # 存储当前图片路径
+    current_plot_path <- reactiveVal(NULL)
     
     # 响应式变量
     gene1_input <- eventReactive(input$analyze_btn, {
@@ -178,7 +187,16 @@ analysisModuleServer <- function(id, analysis_config) {
     
     # 渲染图表
     output$result_plot <- renderPlot({
-      analysis_result()
+      plot_result <- analysis_result()
+
+      # 保存图片到临时文件供AI分析使用
+      temp_file <- tempfile(fileext = ".png")
+      png(temp_file, width = 1400, height = 1200, res = 120)
+      print(plot_result)
+      dev.off()
+      current_plot_path(temp_file)
+
+      return(plot_result)
     }, res = 120, height = 1200, width = 1400)
     
     # 渲染数据表
@@ -262,12 +280,28 @@ analysisModuleServer <- function(id, analysis_config) {
       }
     )
     
+    # AI分析按钮事件
+    observeEvent(input$ai_analyze, {
+      if (!is.null(current_plot_path()) && file.exists(current_plot_path())) {
+        # 触发AI分析事件，传递图片路径
+        session$sendCustomMessage("triggerAIAnalysis", list(
+          plotPath = current_plot_path(),
+          gene1 = gene1_input(),
+          gene2 = if(analysis_config$has_second_gene) gene2_input() else NULL,
+          analysisType = analysis_config$type
+        ))
+      } else {
+        showNotification("请先生成图片再进行AI分析", type = "warning")
+      }
+    })
+
     # 返回响应式值供外部使用
     return(list(
       gene1 = gene1_input,
       gene2 = gene2_input,
       plot = analysis_result,
-      data = data_result
+      data = data_result,
+      plot_path = current_plot_path
     ))
   })
 } 

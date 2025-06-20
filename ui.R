@@ -2,6 +2,7 @@
 
 # 加载模块文件
 source("modules/analysis_module.R")
+source("modules/ai_chat_module.R")
 source("config/module_configs.R")
 
 # 生成侧边栏菜单
@@ -267,7 +268,7 @@ ui <- dashboardPage(
         }
       ")),
 
-      # JavaScript for tooltip functionality
+      # JavaScript for tooltip functionality and AI chat
       tags$script(HTML("
         $(document).ready(function() {
           console.log('Tooltip script loaded');
@@ -280,10 +281,29 @@ ui <- dashboardPage(
             });
           }, 1000);
         });
+
+        // AI聊天机器人功能
+        Shiny.addCustomMessageHandler('triggerAIAnalysis', function(data) {
+          console.log('AI Analysis triggered:', data);
+          // 这里可以添加更多的AI分析逻辑
+          if (window.Shiny) {
+            Shiny.setInputValue('ai_chat-analyze_plot', {
+              plotPath: data.plotPath,
+              gene1: data.gene1,
+              gene2: data.gene2,
+              analysisType: data.analysisType,
+              timestamp: new Date().getTime()
+            });
+          }
+        });
       "))
     ),
-    
-    generate_dashboard_body()
+
+    generate_dashboard_body(),
+
+    # AI聊天机器人组件
+    aiChatFloatingButtonUI("ai_chat"),
+    aiChatUI("ai_chat")
   )
 )
 

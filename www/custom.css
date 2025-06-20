@@ -497,6 +497,350 @@ div {
     color: white !important;
 }
 
+/* ==== AI聊天机器人样式 ==== */
+
+/* 浮动按钮 */
+.ai-chat-floating-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+}
+
+.ai-chat-floating-btn {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--clr-primary-500), var(--clr-primary-700)) !important;
+    border: none !important;
+    box-shadow: var(--shadow-lg) !important;
+    color: white !important;
+    font-size: 24px !important;
+    transition: all var(--transition-base) !important;
+    cursor: pointer !important;
+}
+
+.ai-chat-floating-btn:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 8px 32px rgba(28, 72, 76, 0.3) !important;
+    background: linear-gradient(135deg, var(--clr-primary-700), var(--clr-primary-900)) !important;
+}
+
+.ai-chat-notification {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--clr-accent-coral) !important;
+    color: white !important;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* 聊天窗口容器 */
+.ai-chat-container {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 400px;
+    height: 600px;
+    z-index: 9998;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.ai-chat-container.minimized .ai-chat-content,
+.ai-chat-container.minimized .ai-chat-input-area {
+    display: none;
+}
+
+.ai-chat-container.minimized {
+    height: auto;
+}
+
+/* 聊天窗口 */
+.ai-chat-window {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--clr-gray-200);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 聊天头部 */
+.ai-chat-header {
+    background: linear-gradient(135deg, var(--clr-primary-500), var(--clr-primary-700));
+    color: white;
+    padding: var(--space-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.ai-chat-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.ai-chat-icon {
+    font-size: var(--text-lg);
+}
+
+.ai-chat-title-text {
+    font-weight: 600;
+    font-size: var(--text-base);
+}
+
+.ai-chat-controls {
+    display: flex;
+    gap: var(--space-1);
+}
+
+.ai-chat-btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
+    color: white !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all var(--transition-fast) !important;
+}
+
+.ai-chat-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1) !important;
+}
+
+/* 聊天内容区域 */
+.ai-chat-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* 消息样式 */
+.ai-message {
+    display: flex;
+    gap: var(--space-2);
+    max-width: 85%;
+}
+
+.ai-message-user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.ai-message-bot {
+    align-self: flex-start;
+}
+
+.ai-message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.ai-message-user .ai-message-avatar {
+    background: var(--clr-primary-500);
+    color: white;
+}
+
+.ai-message-bot .ai-message-avatar {
+    background: var(--clr-gray-200);
+    color: var(--clr-gray-700);
+}
+
+.ai-message-content {
+    background: var(--clr-gray-050);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    line-height: 1.5;
+}
+
+.ai-message-user .ai-message-content {
+    background: var(--clr-primary-500);
+    color: white;
+}
+
+.ai-message-content p {
+    margin: 0;
+    font-size: var(--text-sm);
+}
+
+.ai-message-content p + p {
+    margin-top: var(--space-2);
+}
+
+.ai-message-image {
+    margin-bottom: var(--space-2);
+}
+
+.ai-message-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--clr-gray-200);
+}
+
+/* 聊天输入区域 */
+.ai-chat-input-area {
+    border-top: 1px solid var(--clr-gray-200);
+    padding: var(--space-3);
+    background: var(--clr-gray-050);
+}
+
+.ai-chat-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ai-chat-input-container .form-group {
+    margin: 0;
+}
+
+.ai-chat-input-container textarea {
+    border: 1px solid var(--clr-gray-300) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: var(--space-2) !important;
+    font-size: var(--text-sm) !important;
+    resize: none !important;
+    transition: border-color var(--transition-fast) !important;
+}
+
+.ai-chat-input-container textarea:focus {
+    border-color: var(--clr-primary-500) !important;
+    box-shadow: 0 0 0 2px rgba(28, 72, 76, 0.1) !important;
+    outline: none !important;
+}
+
+.ai-chat-send-btn {
+    background: var(--clr-primary-500) !important;
+    border: none !important;
+    color: white !important;
+    padding: var(--space-2) var(--space-3) !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: var(--text-sm) !important;
+    transition: all var(--transition-fast) !important;
+    align-self: flex-end !important;
+}
+
+.ai-chat-send-btn:hover {
+    background: var(--clr-primary-700) !important;
+    transform: translateY(-1px) !important;
+}
+
+.ai-chat-send-btn:disabled {
+    background: var(--clr-gray-300) !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* 加载指示器 */
+.ai-chat-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    z-index: 10;
+}
+
+.ai-loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid var(--clr-gray-200);
+    border-top: 3px solid var(--clr-primary-500);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 文件上传样式 */
+.ai-chat-input-container .form-group input[type="file"] {
+    display: none;
+}
+
+.ai-chat-input-container .form-group label {
+    background: var(--clr-gray-200) !important;
+    border: 1px solid var(--clr-gray-300) !important;
+    color: var(--clr-gray-700) !important;
+    padding: var(--space-2) !important;
+    border-radius: var(--radius-sm) !important;
+    cursor: pointer !important;
+    transition: all var(--transition-fast) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: var(--space-1) !important;
+    font-size: var(--text-sm) !important;
+    margin: 0 !important;
+}
+
+.ai-chat-input-container .form-group label:hover {
+    background: var(--clr-gray-300) !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .ai-chat-container {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+        height: 500px;
+    }
+
+    .ai-chat-floating-container {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
 /* 修复可能的Bootstrap或其他框架冲突 - 强制覆盖所有可能的选择器 */
 .main-sidebar .nav > li > a,
 .main-sidebar .nav li a,

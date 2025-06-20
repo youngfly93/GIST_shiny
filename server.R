@@ -3,6 +3,7 @@
 # 加载模块文件
 source("modules/analysis_module.R")
 source("modules/data_utils.R")
+source("modules/ai_chat_module.R")
 source("config/module_configs.R")
 
 # 主Server函数
@@ -39,6 +40,9 @@ server <- function(input, output, session) {
     )
   })
   names(module_servers) <- module_ids
+
+  # 初始化AI聊天机器人
+  ai_chat_server <- aiChatServer("ai_chat")
   
   # ==== 可选：添加全局状态管理 ====
   # 跨模块共享状态
