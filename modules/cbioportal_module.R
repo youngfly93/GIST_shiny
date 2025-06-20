@@ -1,9 +1,24 @@
 # ==== cBioPortal 查询模块 ====
 
 # cBioPortal 模块 UI
-cbioportalModuleUI <- function(id) {
+cbioportalModuleUI <- function(id, detailed_description = NULL) {
   ns <- NS(id)
-  
+
+  # 创建带有悬停提示的标题
+  title_with_tooltip <- if(!is.null(detailed_description)) {
+    div(
+      h1(class = "pageTitle module-title-with-tooltip",
+         "cBioPortal Gene Query",
+         `data-toggle` = "tooltip",
+         `data-placement` = "bottom",
+         `data-title` = detailed_description,
+         style = "cursor: help;"
+      )
+    )
+  } else {
+    h1(class = "pageTitle", "cBioPortal Gene Query")
+  }
+
   tagList(
     fluidRow(
       column(width = 12, style = "padding: 20px; background-color: #f8f9fa; border-radius: 10px; margin: 10px;",
@@ -11,7 +26,7 @@ cbioportalModuleUI <- function(id) {
         column(width = 12, align = "center", style = "padding-top: 10px",
           actionBttn(
             inputId = ns("title_btn"),
-            label = h1(class = "pageTitle", "cBioPortal Gene Query"),
+            label = title_with_tooltip,
             style = "minimal",
             color = "primary",
             size = "lg"

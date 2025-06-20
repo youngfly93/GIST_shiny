@@ -1,16 +1,31 @@
 # ==== 通用分析模块 ====
 
 # 模块UI函数
-analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE) {
+analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, detailed_description = NULL) {
   ns <- NS(id)
-  
+
+  # 创建带有悬停提示的标题
+  title_with_tooltip <- if(!is.null(detailed_description)) {
+    div(
+      h1(class = "pageTitle module-title-with-tooltip",
+         title,
+         `data-toggle` = "tooltip",
+         `data-placement` = "bottom",
+         `data-title` = detailed_description,
+         style = "cursor: help;"
+      )
+    )
+  } else {
+    h1(class = "pageTitle", title)
+  }
+
   fluidRow(
     column(width = 12, style = "padding: 20px; background-color: #f8f9fa; border-radius: 10px; margin: 10px;",
       # 标题部分
       column(width = 12, align = "center", style = "padding-top: 10px",
         actionBttn(
           inputId = ns("title_btn"),
-          label = h1(class = "pageTitle", title, icon(name = "search", lib = "glyphicon")),
+          label = title_with_tooltip,
           style = "minimal",
           color = "primary",
           size = "lg"

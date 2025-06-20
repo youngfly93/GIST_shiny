@@ -85,7 +85,7 @@ generate_dashboard_body <- function() {
     if(module_id == "module6") {
       tab_content <- tabItem(
         tabName = module_id,
-        cbioportalModuleUI(id = module_id),
+        cbioportalModuleUI(id = module_id, detailed_description = metadata$detailed_description),
         # 页脚
         column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
           div(style = "background: var(--clr-primary-500);
@@ -106,7 +106,8 @@ generate_dashboard_body <- function() {
           id = module_id,
           title = metadata$title,
           input_config = config$input_config,
-          has_second_gene = config$has_second_gene
+          has_second_gene = config$has_second_gene,
+          detailed_description = metadata$detailed_description
         ),
         # 页脚
         column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
@@ -284,6 +285,27 @@ ui <- dashboardPage(
           color: white !important;
           font-weight: 700 !important;
         }
+      ")),
+
+      # JavaScript for tooltip initialization
+      tags$script(HTML("
+        $(document).ready(function() {
+          // Initialize Bootstrap tooltips
+          $('[data-toggle=\"tooltip\"]').tooltip({
+            html: true,
+            delay: { show: 300, hide: 100 },
+            container: 'body'
+          });
+
+          // Re-initialize tooltips when content changes
+          $(document).on('shiny:value', function() {
+            $('[data-toggle=\"tooltip\"]').tooltip({
+              html: true,
+              delay: { show: 300, hide: 100 },
+              container: 'body'
+            });
+          });
+        });
       "))
     ),
     
