@@ -30,7 +30,7 @@ cbioportalModuleUI <- function(id) {
     column(width = 12, style = "padding:25px;",
       box(
         title = "Gene Input",
-        status = "primary",
+        status = "success",
         solidHeader = TRUE,
         width = 12,
         
@@ -63,7 +63,7 @@ cbioportalModuleUI <- function(id) {
     column(width = 12, style = "padding:25px;",
       box(
         title = "About cBioPortal",
-        status = "info",
+        status = "success",
         solidHeader = FALSE,
         width = 12,
         collapsible = TRUE,

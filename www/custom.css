@@ -697,6 +697,27 @@ div[style*="overflow:auto"] {
     padding: var(--space-4) !important;
 }
 
+/* 覆盖AdminLTE的box状态颜色 - 统一使用绿色主题 */
+.box.box-primary .box-header,
+.box.box-info .box-header,
+.box.box-success .box-header {
+    background-color: var(--clr-primary-500) !important;
+    color: white !important;
+    border-bottom: 1px solid var(--clr-primary-300) !important;
+}
+
+.box.box-primary .box-header .box-title,
+.box.box-info .box-header .box-title,
+.box.box-success .box-header .box-title {
+    color: white !important;
+}
+
+.box.box-primary,
+.box.box-info,
+.box.box-success {
+    border-top: 3px solid var(--clr-primary-500) !important;
+}
+
 /* 图表容器响应式调整 */
 @media (max-width: 1200px) {
     .shiny-plot-output {
