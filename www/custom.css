@@ -131,6 +131,19 @@ h1, h2, h3, h4, h5, h6 {
     border-top: none !important;
 }
 
+/* 移除伪元素可能的装饰线 */
+h1::before, h1::after,
+h2::before, h2::after,
+h3::before, h3::after,
+h4::before, h4::after,
+h5::before, h5::after,
+h6::before, h6::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
 /* 特别针对页面标题容器 */
 .bttn-minimal h1,
 .bttn-minimal h2,
@@ -141,6 +154,63 @@ h1, h2, h3, h4, h5, h6 {
     border: none !important;
     border-bottom: none !important;
     border-top: none !important;
+}
+
+/* 移除页面标题的伪元素 */
+.pageTitle::before,
+.pageTitle::after,
+h1.pageTitle::before,
+h1.pageTitle::after,
+.bttn-minimal h1.pageTitle::before,
+.bttn-minimal h1.pageTitle::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+/* 移除actionBttn可能的装饰线 */
+.bttn-minimal::before,
+.bttn-minimal::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+/* 强制移除所有可能的蓝色分隔线 */
+* {
+    border-bottom-color: transparent !important;
+}
+
+/* 特别针对可能的框架样式 */
+.content-header,
+.content-header h1,
+.content-header .h1,
+.page-header,
+.page-header h1,
+.page-header .h1 {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+.content-header::before,
+.content-header::after,
+.page-header::before,
+.page-header::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* 移除可能的hr元素样式 */
+hr {
+    display: none !important;
+    border: none !important;
+    background: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* 介绍文字样式 */
