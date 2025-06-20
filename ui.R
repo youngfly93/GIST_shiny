@@ -153,7 +153,7 @@ ui <- dashboardPage(
       tags$style(HTML("
         /* 主要布局样式 */
         .content-wrapper, .right-side {
-          background-color: var(--clr-gray-050) !important;
+          background-color: var(--clr-primary-050) !important;
         }
 
         /* 标题样式 */
@@ -220,24 +220,24 @@ ui <- dashboardPage(
           font-weight: 700 !important;
         }
 
-        /* 侧边栏文本对比度改进 */
+        /* 侧边栏文本对比度改进 - 浅绿色背景配白色文字 */
         .main-sidebar {
-          background: var(--clr-primary-900) !important;
+          background: var(--clr-primary-500) !important;
         }
 
         .sidebar-menu li a {
-          color: rgba(255, 255, 255, 0.95) !important;
+          color: white !important;
           font-weight: 500 !important;
         }
 
         .sidebar-menu li a:hover,
         .sidebar-menu li.active a {
-          background: var(--clr-primary-700) !important;
+          background: var(--clr-primary-300) !important;
           color: white !important;
         }
 
         .sidebar-menu li a i {
-          color: rgba(255, 255, 255, 0.8) !important;
+          color: white !important;
         }
 
         .sidebar-menu li:hover a i,
@@ -247,12 +247,12 @@ ui <- dashboardPage(
 
         /* 确保所有侧边栏文本都有足够对比度 */
         .main-sidebar .sidebar-menu .header {
-          color: rgba(255, 255, 255, 0.7) !important;
+          color: white !important;
           background: transparent !important;
         }
 
         .main-sidebar .brand-link {
-          background: var(--clr-primary-900) !important;
+          background: var(--clr-primary-500) !important;
           color: white !important;
         }
 
