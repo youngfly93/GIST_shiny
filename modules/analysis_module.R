@@ -18,13 +18,11 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
       ),
 
       # 模块描述部分
-      if(!is.null(detailed_description)) {
-        column(width = 12, style = "text-align: center; padding: 10px 20px;",
-          p(detailed_description,
-            class = "module-description",
-            style = "color: #666; margin-bottom: 20px; font-size: 14px; line-height: 1.5; max-width: 800px; margin-left: auto; margin-right: auto;")
-        )
-      },
+      column(width = 12, style = "text-align: center; padding: 10px 20px;",
+        p(paste("Description:", if(!is.null(detailed_description)) detailed_description else "No description provided"),
+          class = "module-description",
+          style = "color: #666; margin-bottom: 20px; font-size: 14px; line-height: 1.5; max-width: 800px; margin-left: auto; margin-right: auto; background-color: rgba(28, 72, 76, 0.05); border-left: 3px solid #1C484C; padding: 15px; border-radius: 0 5px 5px 0;")
+      ),
       
       # 输入控件部分
       column(width = 12, style = "padding: 20px;",
