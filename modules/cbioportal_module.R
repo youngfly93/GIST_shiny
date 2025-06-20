@@ -6,14 +6,10 @@ cbioportalModuleUI <- function(id, detailed_description = NULL) {
 
   # 创建带有悬停提示的标题
   title_with_tooltip <- if(!is.null(detailed_description)) {
-    div(
-      h1(class = "pageTitle module-title-with-tooltip",
-         "cBioPortal Gene Query",
-         `data-toggle` = "tooltip",
-         `data-placement` = "bottom",
-         `data-title` = detailed_description,
-         style = "cursor: help;"
-      )
+    h1(class = "pageTitle module-title-with-tooltip",
+       "cBioPortal Gene Query",
+       `data-tooltip` = detailed_description,
+       style = "cursor: help;"
     )
   } else {
     h1(class = "pageTitle", "cBioPortal Gene Query")

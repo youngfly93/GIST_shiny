@@ -287,24 +287,18 @@ ui <- dashboardPage(
         }
       ")),
 
-      # JavaScript for tooltip initialization
+      # JavaScript for tooltip functionality
       tags$script(HTML("
         $(document).ready(function() {
-          // Initialize Bootstrap tooltips
-          $('[data-toggle=\"tooltip\"]').tooltip({
-            html: true,
-            delay: { show: 300, hide: 100 },
-            container: 'body'
-          });
-
-          // Re-initialize tooltips when content changes
-          $(document).on('shiny:value', function() {
-            $('[data-toggle=\"tooltip\"]').tooltip({
-              html: true,
-              delay: { show: 300, hide: 100 },
-              container: 'body'
+          console.log('Tooltip script loaded');
+          // 检查tooltip元素是否存在
+          setTimeout(function() {
+            var tooltipElements = $('.module-title-with-tooltip');
+            console.log('Found tooltip elements:', tooltipElements.length);
+            tooltipElements.each(function() {
+              console.log('Tooltip data:', $(this).attr('data-tooltip'));
             });
-          });
+          }, 1000);
         });
       "))
     ),

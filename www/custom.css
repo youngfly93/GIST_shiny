@@ -722,6 +722,7 @@ div[style*="overflow:auto"] {
 .module-title-with-tooltip {
     position: relative;
     transition: all var(--transition-base) !important;
+    cursor: help !important;
 }
 
 .module-title-with-tooltip:hover {
@@ -729,37 +730,53 @@ div[style*="overflow:auto"] {
     transform: translateY(-1px) !important;
 }
 
-/* 自定义tooltip样式 */
-.tooltip {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+/* 纯CSS tooltip实现 */
+.module-title-with-tooltip::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--clr-primary-700);
+    color: white;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    white-space: normal;
+    max-width: 400px;
+    width: max-content;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+    font-weight: 400;
+    text-align: left;
+    word-wrap: break-word;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
 }
 
-.tooltip-inner {
-    background-color: var(--clr-primary-700) !important;
-    color: white !important;
-    border-radius: var(--radius-md) !important;
-    padding: var(--space-3) var(--space-4) !important;
-    max-width: 400px !important;
-    font-size: var(--text-sm) !important;
-    line-height: 1.5 !important;
-    text-align: left !important;
-    box-shadow: var(--shadow-lg) !important;
+/* 添加小箭头 */
+.module-title-with-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--clr-primary-700);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
-.tooltip.bs-tooltip-bottom .arrow::before {
-    border-bottom-color: var(--clr-primary-700) !important;
-}
-
-.tooltip.bs-tooltip-top .arrow::before {
-    border-top-color: var(--clr-primary-700) !important;
-}
-
-.tooltip.bs-tooltip-left .arrow::before {
-    border-left-color: var(--clr-primary-700) !important;
-}
-
-.tooltip.bs-tooltip-right .arrow::before {
-    border-right-color: var(--clr-primary-700) !important;
+/* 悬停时显示tooltip */
+.module-title-with-tooltip:hover::before,
+.module-title-with-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* 图表容器响应式调整 */

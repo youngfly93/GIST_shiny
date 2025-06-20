@@ -6,14 +6,10 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
 
   # 创建带有悬停提示的标题
   title_with_tooltip <- if(!is.null(detailed_description)) {
-    div(
-      h1(class = "pageTitle module-title-with-tooltip",
-         title,
-         `data-toggle` = "tooltip",
-         `data-placement` = "bottom",
-         `data-title` = detailed_description,
-         style = "cursor: help;"
-      )
+    h1(class = "pageTitle module-title-with-tooltip",
+       title,
+       `data-tooltip` = detailed_description,
+       style = "cursor: help;"
     )
   } else {
     h1(class = "pageTitle", title)
