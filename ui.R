@@ -2,7 +2,6 @@
 
 # 加载模块文件
 source("modules/analysis_module.R")
-source("modules/cbioportal_module.R")
 source("config/module_configs.R")
 
 # 生成侧边栏菜单

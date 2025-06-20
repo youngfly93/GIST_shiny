@@ -380,10 +380,10 @@ dbGIST_boxplot_Mutation_ID <- function(ID,DB = dbGIST_matrix[Mutation_ID]){
         #  my_comparisons <- list(c("Hypo-ICD","Hyper-ICD"))
         
         p2 <- ggplot(p1_table,aes(Clinical,ID,fill=Clinical))+
-          geom_boxplot(outlier.colour = NA,alpha = 0.4,notch = F,size = 0.5)+
-          geom_jitter(shape = 21,size=2,width = 0.2) + 
-          geom_violin(position = position_dodge(width = .75), 
-                      size = NA,alpha = 0.4,trim = T) + 
+          geom_boxplot(outlier.colour = NA,alpha = 0.4,notch = F,linewidth = 0.5)+
+          geom_jitter(shape = 21,size=2,width = 0.2) +
+          geom_violin(position = position_dodge(width = .75),
+                      linewidth = NA,alpha = 0.4,trim = T) +
           scale_fill_lancet() + 
           theme_bw() + 
           xlab("Risk") +
@@ -577,10 +577,10 @@ dbGIST_boxplot_Site <- function(ID,DB = dbGIST_matrix[Location_ID]){
         #  my_comparisons <- list(c("Hypo-ICD","Hyper-ICD"))
         
         p2 <- ggplot(p1_table,aes(Clinical,ID,fill=Clinical))+
-          geom_boxplot(outlier.colour = NA,alpha = 0.4,notch = F,size = 0.5)+
-          geom_jitter(shape = 21,size=2,width = 0.2) + 
-          geom_violin(position = position_dodge(width = .75), 
-                      size = NA,alpha = 0.4,trim = T) + 
+          geom_boxplot(outlier.colour = NA,alpha = 0.4,notch = F,linewidth = 0.5)+
+          geom_jitter(shape = 21,size=2,width = 0.2) +
+          geom_violin(position = position_dodge(width = .75),
+                      linewidth = NA,alpha = 0.4,trim = T) +
           scale_fill_lancet() + 
           theme_bw() + 
           xlab("Risk") +
@@ -1425,7 +1425,7 @@ dbGIST_boxplot_Drug <- function(ID,DB = dbGIST_matrix[IM_ID]){
       ggsub <- str_c("AUC: ",round(p1_roc$auc,2))
       
       p2 <- ggplot(dd,aes(fp,tp))+
-        geom_line(size=1)+
+        geom_line(linewidth=1)+
         labs(x='1-Specificity',y='Sensitivity',color=NULL) +
         theme_bw(base_rect_size = 1.5)+
         geom_abline(slope = 1,color='grey70')+
@@ -1440,7 +1440,7 @@ dbGIST_boxplot_Drug <- function(ID,DB = dbGIST_matrix[IM_ID]){
               axis.text = element_text(size=11),
               axis.title = element_text(size=13),
               legend.text = element_text(size=12),
-              legend.position = c(0.995,0.012),
+              legend.position.inside = c(0.995,0.012),
               legend.justification = c(1,0))+
         scale_color_nejm()+
         scale_x_continuous(expand = c(0.01,0.01))+
@@ -1491,7 +1491,7 @@ dbGIST_boxplot_Drug <- function(ID,DB = dbGIST_matrix[IM_ID]){
         ggsub <- str_c("AUC: ",round(p1_roc$auc,2))
         
         p4 <- ggplot(dd,aes(fp,tp))+
-          geom_line(size=1)+
+          geom_line(linewidth=1)+
           labs(x='1-Specificity',y='Sensitivity',color=NULL) +
           theme_bw(base_rect_size = 1.5)+
           geom_abline(slope = 1,color='grey70')+
@@ -1506,7 +1506,7 @@ dbGIST_boxplot_Drug <- function(ID,DB = dbGIST_matrix[IM_ID]){
                 axis.text = element_text(size=11),
                 axis.title = element_text(size=13),
                 legend.text = element_text(size=12),
-                legend.position = c(0.995,0.012),
+                legend.position.inside = c(0.995,0.012),
                 legend.justification = c(1,0))+
           scale_color_nejm()+
           scale_x_continuous(expand = c(0.01,0.01))+
