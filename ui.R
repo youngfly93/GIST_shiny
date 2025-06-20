@@ -88,12 +88,12 @@ generate_dashboard_body <- function() {
         cbioportalModuleUI(id = module_id),
         # 页脚
         column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
-          div(style = "background: var(--clr-primary-900);
-                       color: white;
+          div(style = "background: var(--clr-primary-500);
+                       color: white !important;
                        padding: var(--space-4);
                        border-radius: var(--radius-lg);
                        text-align: center;",
-            p(style = "margin: 0; font-size: var(--text-sm); opacity: 0.9;",
+            p(style = "margin: 0; font-size: var(--text-sm); color: white !important; opacity: 0.9;",
               "© 2024 GIST Analysis Platform. All rights reserved."
             )
           )
@@ -110,12 +110,12 @@ generate_dashboard_body <- function() {
         ),
         # 页脚
         column(12, style = "margin-top: var(--space-8); padding: 0 var(--space-4);",
-          div(style = "background: var(--clr-primary-900);
-                       color: white;
+          div(style = "background: var(--clr-primary-500);
+                       color: white !important;
                        padding: var(--space-4);
                        border-radius: var(--radius-lg);
                        text-align: center;",
-            p(style = "margin: 0; font-size: var(--text-sm); opacity: 0.9;",
+            p(style = "margin: 0; font-size: var(--text-sm); color: white !important; opacity: 0.9;",
               "© 2024 GIST Analysis Platform. All rights reserved."
             )
           )
