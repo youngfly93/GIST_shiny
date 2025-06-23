@@ -637,6 +637,7 @@ div {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: calc(100% - 60px); /* 减去header高度 */
 }
 
 .ai-chat-messages {
@@ -646,6 +647,7 @@ div {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    padding-bottom: var(--space-4); /* 添加底部padding */
 }
 
 /* 消息样式 */

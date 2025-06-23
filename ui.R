@@ -132,6 +132,7 @@ ui <- dashboardPage(
     # 自定义CSS - 与GIST_web风格一致
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
+      tags$link(rel = "stylesheet", type = "text/css", href = "ai_chat_buttons.css"),
       tags$style(HTML("
         /* 主要布局样式 */
         .content-wrapper, .right-side {

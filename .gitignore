@@ -24,3 +24,27 @@ Thumbs.db
 # IDE
 .idea/
 .vscode/
+
+# API Keys and Sensitive Data
+.env
+*.env
+*api_key*
+*secret*
+
+# AI Analysis Files (may contain sensitive data)
+ai_analysis_history.md
+ai_summary_report_*.md
+
+# Test Files (may contain API keys)
+test_*.R
+debug_*.R
+
+# Generated Plot Files
+www/plot_*.png
+*.png
+
+# Mac Resource Forks
+._*
+
+# Temporary Analysis Files
+Gene_*.png

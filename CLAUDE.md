@@ -10,19 +10,24 @@ dbGIST is a Shiny web application for analyzing gastrointestinal stromal tumor (
 
 ### Running the Application
 ```bash
-# Main Shiny app (run in R/RStudio)
-shiny::runApp()
-
-# Learning website (from shiny-learning-website/ directory)
-npm install
-npm start      # Production server
-npm run dev    # Development server with auto-reload
+# Main Shiny app (multiple options)
+shiny::runApp(port = 4964)          # Direct R command
+./start_shiny.sh                    # Linux/Mac shell script
+start_shiny.bat                     # Windows batch file
+Rscript run_app.R                   # R script
 ```
 
 ### Testing
 ```r
-# Run module tests
+# Run all tests
 source("tests/test_modules.R")
+run_all_tests()
+
+# Run individual test categories
+test_data_generator()
+test_module_integration()
+test_performance()
+test_configuration()
 ```
 
 ## Architecture
@@ -33,9 +38,10 @@ The core data object is `dbGIST_matrix` containing multiple datasets with:
 - Clinical metadata (patient info, mutations, treatment response)
 
 ### Module System
-The app is transitioning to a modular architecture:
+The app uses a modular architecture:
 - **modules/analysis_module.R**: Reusable UI/Server components for analysis
 - **modules/data_utils.R**: R6 class-based data generation and processing
+- **modules/ai_chat_module.R**: AI-powered image analysis assistant
 - **config/module_configs.R**: Centralized configuration management
 
 ### Analysis Modules
@@ -54,21 +60,27 @@ The app is transitioning to a modular architecture:
 ## Dependencies
 
 ### R Packages
-- **UI**: shiny, bs4Dash, shinyjs, shinyBS, shinyWidgets
+- **UI**: shiny, bs4Dash, shinyjs, shinyBS, shinyWidgets, waiter, shinyFeedback
 - **Visualization**: ggplot2, ggsci, ggpubr, patchwork
-- **Data**: tidyverse, data.table, stringr
+- **Data**: tidyverse, data.table, stringr, R6
 - **Bioinformatics**: clusterProfiler, org.Hs.eg.db, EnsDb.Hsapiens.v75, AnnotationDbi
 - **Statistics**: pROC, yaGST
-- **UI Enhancement**: waiter, shinyFeedback, slickR
+- **Other**: slickR, shinycssloaders, DT, htmlwidgets
 
-### Development Patterns
+### Required Data Files (in original/ directory)
+- `dbGIST_matrix(2).Rdata`: Main expression data
+- `GSE15966_20230217.CSV`: Clinical information
+- Various pathway and immune cell RData files
 
-#### Adding New Analysis Types
+## Development Patterns
+
+### Adding New Analysis Types
 1. Define configuration in `config/module_configs.R`
 2. Implement analysis function following `dbGIST_*` pattern
 3. Add data generation method to `data_utils.R`
+4. Update UI navigation in `ui.R`
 
-#### Module Usage
+### Module Usage
 ```r
 # UI
 analysisModuleUI(id = "module_id", title = "Analysis Title", 
@@ -78,19 +90,24 @@ analysisModuleUI(id = "module_id", title = "Analysis Title",
 analysisModuleServer(id = "module_id", analysis_config = config)
 ```
 
-#### Data Generation
+### Data Generation
 ```r
 # Single gene
 data <- generate_module_data("gender", "TP53")
 
 # Gene correlation
 data <- generate_module_data("correlation", "MCM7", "MKI67")
+
+# Drug resistance
+data <- generate_module_data("drug", "TOP2A", drug_name = "Imatinib")
 ```
 
 ## Important Notes
 
 - The app uses Chinese UI with some English elements
+- Default port is 4964 (configurable)
 - Download functionality supports SVG, PDF, PNG for plots and CSV, TXT for data
 - Input validation provides real-time user feedback
 - Statistical analyses include p-values, correlations, and ROC curves
-- The refactoring aims for 90% code reduction between modules
+- The refactoring achieved 90% code reduction between modules
+- AI chat module provides automatic analysis of generated plots
