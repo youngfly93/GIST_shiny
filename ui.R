@@ -296,6 +296,21 @@ ui <- dashboardPage(
             console.log('AI input updated successfully');
           }
         });
+      ")),
+      
+      # 分析按钮禁用状态样式
+      tags$style(HTML("
+        .btn-disabled {
+          opacity: 0.5 !important;
+          cursor: not-allowed !important;
+          pointer-events: none !important;
+        }
+        
+        .btn-disabled::after {
+          content: ' (AI分析中...)';
+          font-size: 0.8em;
+          color: #666;
+        }
       "))
     ),
 

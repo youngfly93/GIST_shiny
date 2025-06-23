@@ -105,7 +105,7 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
 }
 
 # 模块Server函数
-analysisModuleServer <- function(id, analysis_config) {
+analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -182,8 +182,31 @@ analysisModuleServer <- function(id, analysis_config) {
     
     # 显示结果区域
     observeEvent(input$analyze_btn, {
+      # 检查是否有AI分析正在进行
+      if (!is.null(global_state) && global_state$ai_analyzing) {
+        showNotification(
+          paste0("⏳ AI正在分析", global_state$analyzing_gene, "，请稍候..."),
+          type = "warning",
+          duration = 3
+        )
+        return()
+      }
+      
       shinyjs::show("result_container")
     })
+    
+    # 监控全局AI状态，控制按钮可用性
+    if (!is.null(global_state)) {
+      observe({
+        if (global_state$ai_analyzing) {
+          shinyjs::disable("analyze_btn")
+          shinyjs::addClass("analyze_btn", "btn-disabled")
+        } else {
+          shinyjs::enable("analyze_btn") 
+          shinyjs::removeClass("analyze_btn", "btn-disabled")
+        }
+      })
+    }
     
     # 渲染图表
     output$result_plot <- renderPlot({

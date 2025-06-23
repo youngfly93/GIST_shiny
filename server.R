@@ -25,6 +25,17 @@ server <- function(input, output, session) {
     home_whole_intro_text
   })
   
+  # ==== 全局状态管理 ====
+  # 先创建全局状态，以便模块使用
+  global_state <- reactiveValues(
+    current_module = NULL,
+    analysis_history = list(),
+    user_preferences = list(),
+    # AI分析状态
+    ai_analyzing = FALSE,
+    analyzing_gene = NULL
+  )
+  
   # ==== 动态加载模块 ====
   module_servers <- list()
   
@@ -36,21 +47,14 @@ server <- function(input, output, session) {
     # 调用模块服务器
     analysisModuleServer(
       id = module_id,
-      analysis_config = config
+      analysis_config = config,
+      global_state = global_state
     )
   })
   names(module_servers) <- module_ids
 
   # 初始化AI聊天机器人
-  ai_chat_server <- aiChatServer("ai_chat")
-  
-  # ==== 可选：添加全局状态管理 ====
-  # 跨模块共享状态
-  global_state <- reactiveValues(
-    current_module = NULL,
-    analysis_history = list(),
-    user_preferences = list()
-  )
+  ai_chat_server <- aiChatServer("ai_chat", global_state)
   
   # 监听侧边栏切换
   observe({

@@ -97,7 +97,7 @@ aiChatFloatingButtonUI <- function(id) {
 }
 
 # AI聊天机器人服务器逻辑
-aiChatServer <- function(id) {
+aiChatServer <- function(id, global_state = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -750,6 +750,13 @@ aiChatServer <- function(id) {
           # 开始分析
           values$analyzing <- TRUE
           shinyjs::show("chat_loading")
+          
+          # 设置全局AI分析状态
+          if (!is.null(global_state)) {
+            global_state$ai_analyzing <- TRUE
+            global_state$analyzing_gene <- plot_data$gene1
+          }
+          
           cat("AI Chat: Starting analysis process\n")
 
           # 构建分析提示
@@ -875,6 +882,13 @@ aiChatServer <- function(id) {
             cat("AI Chat: Finalizing analysis, result length:", nchar(result), "\n")
             values$analyzing <- FALSE
             shinyjs::hide("chat_loading")
+            
+            # 重置全局AI分析状态
+            if (!is.null(global_state)) {
+              global_state$ai_analyzing <- FALSE
+              global_state$analyzing_gene <- NULL
+            }
+            
             add_message(result, FALSE)
             
             # 保存分析结果到历史文件
@@ -902,6 +916,12 @@ aiChatServer <- function(id) {
           # 确保重置状态
           values$analyzing <- FALSE
           shinyjs::hide("chat_loading")
+          
+          # 重置全局AI分析状态
+          if (!is.null(global_state)) {
+            global_state$ai_analyzing <- FALSE
+            global_state$analyzing_gene <- NULL
+          }
         }
       })
     }, ignoreInit = TRUE)
