@@ -208,8 +208,14 @@ analysisModuleServer <- function(id, analysis_config) {
 
       # 图片生成完成后，自动触发AI分析
       cat("Plot generated, auto-triggering AI analysis\n")
+      cat("Plot path:", plot_path, "\n")
+
+      # 使用相对于www的路径，而不是绝对路径
+      relative_plot_path <- plot_filename  # 只使用文件名，因为图片在www目录下
+
       session$sendCustomMessage("updateAIInput", list(
-        plotPath = normalizePath(plot_path),
+        plotPath = normalizePath(plot_path),  # 服务器端使用完整路径
+        relativePath = relative_plot_path,    # 前端使用相对路径
         gene1 = gene1_input(),
         gene2 = if(analysis_config$has_second_gene) gene2_input() else NULL,
         analysisType = analysis_config$type,
