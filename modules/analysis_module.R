@@ -91,10 +91,10 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
                 downloadButton(ns("download_data"), "Data", class = "btn-outline-primary")
               ),
               column(width = 4,
-                actionButton(ns("ai_analyze"), "AI Analysis",
-                           icon = icon("robot"),
-                           class = "btn-success btn-lg",
-                           style = "width: 100%;")
+                div(
+                  style = "text-align: center; padding: 10px; color: #7fb069; font-weight: bold;",
+                  icon("robot"), " AI自动分析已启用"
+                )
               )
             )
           )
@@ -206,6 +206,17 @@ analysisModuleServer <- function(id, analysis_config) {
       # 存储完整路径
       current_plot_path(normalizePath(plot_path))
 
+      # 图片生成完成后，自动触发AI分析
+      cat("Plot generated, auto-triggering AI analysis\n")
+      session$sendCustomMessage("updateAIInput", list(
+        plotPath = normalizePath(plot_path),
+        gene1 = gene1_input(),
+        gene2 = if(analysis_config$has_second_gene) gene2_input() else NULL,
+        analysisType = analysis_config$type,
+        timestamp = as.numeric(Sys.time()),
+        autoTriggered = TRUE
+      ))
+
       return(plot_result)
     }, res = 120, height = 1200, width = 1400)
     
@@ -290,29 +301,7 @@ analysisModuleServer <- function(id, analysis_config) {
       }
     )
     
-    # AI分析按钮事件
-    observeEvent(input$ai_analyze, {
-      cat("AI Analyze button clicked\n")
-      cat("Current plot path:", current_plot_path(), "\n")
-
-      if (!is.null(current_plot_path()) && file.exists(current_plot_path())) {
-        cat("File exists, sending to AI chat\n")
-
-        # 使用session$sendCustomMessage发送到前端，然后由前端更新输入
-        session$sendCustomMessage("updateAIInput", list(
-          plotPath = current_plot_path(),
-          gene1 = gene1_input(),
-          gene2 = if(analysis_config$has_second_gene) gene2_input() else NULL,
-          analysisType = analysis_config$type,
-          timestamp = as.numeric(Sys.time())
-        ))
-
-        showNotification("正在启动AI分析...", type = "message", duration = 2)
-      } else {
-        showNotification("请先生成图片再进行AI分析", type = "warning")
-        cat("File does not exist or plot path is null\n")
-      }
-    })
+    # AI分析现在是自动触发的，不需要手动按钮事件
 
     # 返回响应式值供外部使用
     return(list(

@@ -325,13 +325,22 @@ aiChatServer <- function(id) {
         shinyjs::show("chat_loading")
 
         # 构建分析提示
-        analysis_prompt <- paste0(
-          "请分析这张GIST（胃肠道间质瘤）研究的生物信息学图片。",
-          "基因: ", plot_data$gene1,
-          if(!is.null(plot_data$gene2)) paste0(", ", plot_data$gene2) else "",
-          "。分析类型: ", plot_data$analysisType,
-          "。请从统计学意义、生物学意义和临床相关性等方面进行专业分析。"
-        )
+        if (!is.null(plot_data$autoTriggered) && plot_data$autoTriggered) {
+          analysis_prompt <- paste0(
+            "您好！我是GIST AI图片分析助手。我看到您刚刚生成了一张关于基因 ",
+            plot_data$gene1,
+            if(!is.null(plot_data$gene2)) paste0(" 和 ", plot_data$gene2) else "",
+            " 的", plot_data$analysisType, "分析图。让我为您详细分析这张图片的生物学意义和临床相关性。"
+          )
+        } else {
+          analysis_prompt <- paste0(
+            "请分析这张GIST（胃肠道间质瘤）研究的生物信息学图片。",
+            "基因: ", plot_data$gene1,
+            if(!is.null(plot_data$gene2)) paste0(", ", plot_data$gene2) else "",
+            "。分析类型: ", plot_data$analysisType,
+            "。请从统计学意义、生物学意义和临床相关性等方面进行专业分析。"
+          )
+        }
 
         cat("AI Chat: Analysis prompt:", analysis_prompt, "\n")
 
