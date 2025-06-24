@@ -11,6 +11,31 @@ library(shinyWidgets)
 library(DT)
 library(htmlwidgets)
 
+# ==== Load Environment Variables ====
+# 加载.env文件中的环境变量
+if (file.exists(".env")) {
+  env_vars <- readLines(".env")
+  env_vars <- env_vars[!grepl("^#", env_vars) & nchar(env_vars) > 0]  # 移除注释和空行
+
+  for (line in env_vars) {
+    if (grepl("=", line)) {
+      parts <- strsplit(line, "=", fixed = TRUE)[[1]]
+      if (length(parts) >= 2) {
+        var_name <- trimws(parts[1])
+        var_value <- trimws(paste(parts[-1], collapse = "="))
+        # 修复Sys.setenv调用
+        env_list <- list()
+        env_list[[var_name]] <- var_value
+        do.call(Sys.setenv, env_list)
+        cat("Loaded env var:", var_name, "=", substr(var_value, 1, 8), "...\n")
+      }
+    }
+  }
+  cat("Environment variables loaded from .env file\n")
+} else {
+  cat("No .env file found, using default environment variables\n")
+}
+
 library(tidyverse)
 library(data.table)
 library(stringr)
@@ -655,18 +680,18 @@ dbGIST_boxplot_Gender <- function(ID,DB = dbGIST_matrix[Gender_ID]){
                                               linewidth = 1.0,
                                               linetype = "dashed"),
               plot.title = element_text(hjust = 0.5,
-                                        size = 14,
+                                        size = 10,
                                         colour = "darkred",
                                         face = "bold"),
-              axis.title.y = element_text(size=12,
+              axis.title.y = element_text(size=9,
                                           colour = "darkred",
                                           face = "bold"),
-              axis.text.x =element_text(size=12,
+              axis.text.x =element_text(size=8,
                                         angle = 45,
                                         hjust = 1,
                                         #  colour = "black",
                                         face = "bold"),
-              axis.text.y = element_text(size=10,
+              axis.text.y = element_text(size=8,
                                          #  colour = "black",
                                          face = "bold"),
               axis.title.x = element_blank()) + stat_compare_means()
@@ -707,18 +732,18 @@ dbGIST_boxplot_Gender <- function(ID,DB = dbGIST_matrix[Gender_ID]){
                                                 linewidth = 1.0,
                                                 linetype = "dashed"),
                 plot.title = element_text(hjust = 0.5,
-                                          size = 14,
+                                          size = 10,
                                           colour = "darkred",
                                           face = "bold"),
-                axis.title.y = element_text(size=12,
+                axis.title.y = element_text(size=9,
                                             colour = "darkred",
                                             face = "bold"),
-                axis.text.x =element_text(size=12,
+                axis.text.x =element_text(size=8,
                                           angle = 45,
                                           hjust = 1,
                                           #  colour = "black",
                                           face = "bold"),
-                axis.text.y = element_text(size=10,
+                axis.text.y = element_text(size=8,
                                            #  colour = "black",
                                            face = "bold"),
                 axis.title.x = element_blank()) + stat_compare_means()
@@ -734,15 +759,17 @@ dbGIST_boxplot_Gender <- function(ID,DB = dbGIST_matrix[Gender_ID]){
   # Count actual number of plots created
   n_plots <- sum(sapply(1:length(DB), function(i) ID %in% rownames(DB[[i]]$Matrix)))
   
-  # Use grid layout to arrange plots vertically/grid
-  if(n_plots >= 6) {
-    p1 <- p1 + plot_layout(ncol = 2)  # 2 columns for 6+ plots
+  # Use grid layout to arrange plots in 3-4 columns for better space utilization
+  if(n_plots >= 8) {
+    p1 <- p1 + plot_layout(ncol = 4)  # 4 columns for 8+ plots
+  } else if(n_plots >= 6) {
+    p1 <- p1 + plot_layout(ncol = 3)  # 3 columns for 6-7 plots
   } else if(n_plots >= 4) {
-    p1 <- p1 + plot_layout(ncol = 2)  # 2 columns for 4-5 plots
+    p1 <- p1 + plot_layout(ncol = 3)  # 3 columns for 4-5 plots
   } else if(n_plots == 3) {
-    p1 <- p1 + plot_layout(ncol = 1)  # 1 column for 3 plots (vertical)
+    p1 <- p1 + plot_layout(ncol = 3)  # 3 columns for 3 plots (horizontal)
   } else if(n_plots == 2) {
-    p1 <- p1 + plot_layout(ncol = 1)  # 1 column for 2 plots (vertical)
+    p1 <- p1 + plot_layout(ncol = 2)  # 2 columns for 2 plots (horizontal)
   }
   
   return(p1)

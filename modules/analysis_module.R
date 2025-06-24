@@ -61,19 +61,26 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
       
       # 结果展示区域（初始隐藏）
       column(width = 12, id = ns("result_container"),
-        tabsetPanel(
-          id = ns("result_tabs"),
-          tabPanel("Plot",
-            div(style = "width:100%; height:1200px; overflow:auto; border: 1px solid #ddd;",
-              plotOutput(ns("result_plot"), height = "1200px", width = "1400px")
-            )
-          ),
+        # 添加居中容器，限制图表区域宽度
+        div(style = "display: flex; justify-content: center; padding: 20px;",
+          div(style = "width: 85%; max-width: 1100px;",
+            tabsetPanel(
+              id = ns("result_tabs"),
+              tabPanel("Plot",
+                div(style = "width:100%; min-height:400px; overflow:visible; border: 1px solid #ddd; border-radius: 8px; background-color: #fafafa; display: flex; justify-content: center; align-items: center; padding: 20px;",
+                  div(style = "transform: scale(0.8); transform-origin: center center;",
+                    plotOutput(ns("result_plot"), height = "auto", width = "auto")
+                  )
+                )
+              ),
           tabPanel("Data",
             DT::dataTableOutput(ns("result_table"))
           )
+        )
+          )
         ),
-        
-        # 下载按钮和AI分析
+
+        # 下载按钮和AI分析 - 移到外层，保持全宽
         fluidRow(
           column(width = 12, align = "center", style = "padding: 20px;",
             h4("Download Results & AI Analysis"),
@@ -221,8 +228,54 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
         dir.create("www", recursive = TRUE)
       }
 
-      # 保存图片
-      png(plot_path, width = 1400, height = 1200, res = 120)
+      # 动态计算图片尺寸 - 基于分析类型和数据集数量
+      plot_dimensions <- if(analysis_config$type %in% c("gender", "risk", "stage", "age")) {
+        # 基因表达分析：根据数据集数量调整尺寸
+        id_var_name <- switch(analysis_config$type,
+          "gender" = "Gender_ID",
+          "risk" = "RISK_ID",
+          "stage" = "Stage_ID",
+          "age" = "Age_ID"
+        )
+        num_datasets <- length(get(id_var_name, envir = .GlobalEnv))
+
+        # 计算网格布局
+        if(num_datasets >= 8) {
+          ncols <- 4
+        } else if(num_datasets >= 6) {
+          ncols <- 3
+        } else if(num_datasets >= 4) {
+          ncols <- 3
+        } else if(num_datasets == 3) {
+          ncols <- 3
+        } else if(num_datasets == 2) {
+          ncols <- 2
+        } else {
+          ncols <- 1
+        }
+
+        nrows <- ceiling(num_datasets / ncols)
+
+        # 每个子图的理想尺寸：方正比例，宽350px，高350px
+        single_plot_width <- 350
+        single_plot_height <- 350
+
+        # 计算总尺寸，加上边距
+        total_width <- ncols * single_plot_width + (ncols - 1) * 50  # 50px间距
+        total_height <- nrows * single_plot_height + (nrows - 1) * 40  # 40px间距
+
+        # 设置最小和最大尺寸
+        width <- max(1200, min(2400, total_width))
+        height <- max(600, min(1800, total_height))
+
+        list(width = width, height = height)
+      } else {
+        # 其他分析类型使用默认尺寸
+        list(width = 1200, height = 900)
+      }
+
+      # 保存图片 - 使用动态尺寸
+      png(plot_path, width = plot_dimensions$width, height = plot_dimensions$height, res = 120)
       print(plot_result)
       dev.off()
 
@@ -232,6 +285,7 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
       # 图片生成完成后，自动触发AI分析
       cat("Plot generated, auto-triggering AI analysis\n")
       cat("Plot path:", plot_path, "\n")
+      cat("Plot dimensions:", plot_dimensions$width, "x", plot_dimensions$height, "\n")
 
       # 使用相对于www的路径，而不是绝对路径
       relative_plot_path <- plot_filename  # 只使用文件名，因为图片在www目录下
@@ -247,7 +301,83 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
       ))
 
       return(plot_result)
-    }, res = 120, height = 1200, width = 1400)
+    }, res = 120, height = function() {
+      # 动态高度函数 - 与保存图片时的逻辑保持一致
+      if(analysis_config$type %in% c("gender", "risk", "stage", "age")) {
+        id_var_name <- switch(analysis_config$type,
+          "gender" = "Gender_ID",
+          "risk" = "RISK_ID",
+          "stage" = "Stage_ID",
+          "age" = "Age_ID"
+        )
+        num_datasets <- length(get(id_var_name, envir = .GlobalEnv))
+
+        # 计算网格布局
+        if(num_datasets >= 8) {
+          ncols <- 4
+        } else if(num_datasets >= 6) {
+          ncols <- 3
+        } else if(num_datasets >= 4) {
+          ncols <- 3
+        } else if(num_datasets == 3) {
+          ncols <- 3
+        } else if(num_datasets == 2) {
+          ncols <- 2
+        } else {
+          ncols <- 1
+        }
+
+        nrows <- ceiling(num_datasets / ncols)
+
+        # 每个子图的理想高度：350px（方正比例）
+        single_plot_height <- 350
+
+        # 计算总高度，加上边距
+        total_height <- nrows * single_plot_height + (nrows - 1) * 40  # 40px间距
+
+        # 设置最小和最大高度
+        max(600, min(1800, total_height))
+      } else {
+        900
+      }
+    }, width = function() {
+      # 动态宽度函数
+      if(analysis_config$type %in% c("gender", "risk", "stage", "age")) {
+        id_var_name <- switch(analysis_config$type,
+          "gender" = "Gender_ID",
+          "risk" = "RISK_ID",
+          "stage" = "Stage_ID",
+          "age" = "Age_ID"
+        )
+        num_datasets <- length(get(id_var_name, envir = .GlobalEnv))
+
+        # 计算网格布局
+        if(num_datasets >= 8) {
+          ncols <- 4
+        } else if(num_datasets >= 6) {
+          ncols <- 3
+        } else if(num_datasets >= 4) {
+          ncols <- 3
+        } else if(num_datasets == 3) {
+          ncols <- 3
+        } else if(num_datasets == 2) {
+          ncols <- 2
+        } else {
+          ncols <- 1
+        }
+
+        # 每个子图的理想宽度：350px（方正比例）
+        single_plot_width <- 350
+
+        # 计算总宽度，加上边距
+        total_width <- ncols * single_plot_width + (ncols - 1) * 50  # 50px间距
+
+        # 设置最小和最大宽度
+        max(1200, min(2400, total_width))
+      } else {
+        1200
+      }
+    })
     
     # 渲染数据表
     output$result_table <- DT::renderDataTable({

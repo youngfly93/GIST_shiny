@@ -374,6 +374,7 @@ div {
 .content-wrapper {
     max-width: none !important;
     padding: var(--space-4) !important;
+    padding-top: calc(var(--space-4) + 20px) !important;  /* 增加顶部内边距，防止图片被遮挡 */
 }
 
 /* 改善侧边栏滚动条 */
@@ -1206,4 +1207,48 @@ div.box.box-info .box-header .box-title {
     .intro-text {
         padding: var(--space-4) var(--space-3) !important;
     }
+}
+
+/* ==== 图片缩放样式 - 应用Ctrl+-效果 ==== */
+
+/* 图片容器样式 - 应用缩放效果 */
+.plot-container {
+  width: 85% !important;
+  max-width: 1100px !important;
+  min-height: 800px !important;
+  max-height: 1400px !important;
+  margin: 20px auto !important;
+  padding: 40px 20px !important;  /* 增加上下内边距，防止图片被裁剪 */
+  border: 2px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  background-color: #f9f9f9 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;  /* 改为visible，防止图片被裁剪 */
+}
+
+/* 图片缩放样式 - 真正的等比缩放 */
+.plot-container img {
+  transform: scale(0.9) !important;  /* 稍微减少缩放比例，给图片更多空间 */
+  transform-origin: center center !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 10px !important;  /* 增加图片边距，确保不被裁剪 */
+}
+
+/* 动态高度的图表容器 */
+.shiny-plot-output.dynamic-height {
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* 基因表达分析图表特殊样式 - 紧凑水平布局 */
+.gene-expression-plot {
+  min-height: 400px !important;
+}
+
+.gene-expression-plot .plot-container {
+  min-height: 300px !important;
+  max-height: 500px !important;
 }
