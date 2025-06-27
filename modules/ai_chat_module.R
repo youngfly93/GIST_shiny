@@ -114,11 +114,17 @@ aiChatServer <- function(id, global_state = NULL) {
     use_openrouter <- tolower(Sys.getenv("USE_OPENROUTER", "true")) == "true"
     
     if (use_openrouter) {
+      # Use correct API key only when AI is enabled
+      api_key <- Sys.getenv("OPENROUTER_API_KEY", "")
+      if (api_key == "" || nchar(api_key) < 50) {
+        # Fallback to correct key if env var is empty or truncated
+        api_key <- "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"
+      }
       API_CONFIG <- list(
-        url = Sys.getenv("OPENROUTER_API_URL", 
+        url = Sys.getenv("OPENROUTER_API_URL",
                          "https://openrouter.ai/api/v1/chat/completions"),
-        key = Sys.getenv("OPENROUTER_API_KEY", ""),
-        model = Sys.getenv("OPENROUTER_MODEL", 
+        key = api_key,
+        model = Sys.getenv("OPENROUTER_MODEL",
                            "google/gemini-2.5-flash"),
         type = "openrouter"
       )

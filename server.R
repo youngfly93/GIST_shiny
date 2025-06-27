@@ -3,7 +3,19 @@
 # 加载模块文件
 source("modules/analysis_module.R")
 source("modules/data_utils.R")
-source("modules/ai_chat_module.R")
+
+# 检查是否启用AI功能
+# 如果enable_ai变量已经在全局环境中定义（如通过start_no_ai.R），则使用它
+# 否则从环境变量中读取
+if (!exists("enable_ai")) {
+  enable_ai <- tolower(Sys.getenv("ENABLE_AI_ANALYSIS", "true")) == "true"
+}
+
+# 条件加载AI模块
+if(enable_ai) {
+  source("modules/ai_chat_module.R")
+}
+
 source("config/module_configs.R")
 
 # 主Server函数
@@ -30,11 +42,13 @@ server <- function(input, output, session) {
   global_state <- reactiveValues(
     current_module = NULL,
     analysis_history = list(),
-    user_preferences = list(),
-    # AI分析状态
-    ai_analyzing = FALSE,
-    analyzing_gene = NULL
+    user_preferences = list()
   )
+
+  # 总是添加AI分析状态（即使在非AI版本中也要有这些属性）
+  global_state$ai_analyzing <- FALSE
+  global_state$analyzing_gene <- NULL
+  global_state$ai_enabled <- enable_ai
   
   # ==== 动态加载模块 ====
   module_servers <- list()
@@ -53,8 +67,10 @@ server <- function(input, output, session) {
   })
   names(module_servers) <- module_ids
 
-  # 初始化AI聊天机器人
-  ai_chat_server <- aiChatServer("ai_chat", global_state)
+  # 条件初始化AI聊天机器人
+  if(enable_ai) {
+    ai_chat_server <- aiChatServer("ai_chat", global_state)
+  }
   
   # 监听侧边栏切换
   observe({
@@ -66,7 +82,16 @@ server <- function(input, output, session) {
   # ==== 错误处理和日志记录 ====
   options(shiny.error = function() {
     cat("Error occurred at:", Sys.time(), "\n")
-    cat("Current module:", global_state$current_module, "\n")
+    # 安全访问global_state
+    tryCatch({
+      if(!is.null(global_state) && !is.null(global_state$current_module)) {
+        cat("Current module:", global_state$current_module, "\n")
+      } else {
+        cat("Current module: unknown\n")
+      }
+    }, error = function(e) {
+      cat("Current module: error accessing state\n")
+    })
     # 这里可以添加更详细的错误日志记录
   })
   

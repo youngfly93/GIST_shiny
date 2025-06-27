@@ -12,7 +12,7 @@ library(DT)
 library(htmlwidgets)
 
 # ==== Load Environment Variables ====
-# 加载.env文件中的环境变量
+# 加载.env文件中的环境变量，但不覆盖已设置的环境变量
 if (file.exists(".env")) {
   env_vars <- readLines(".env")
   env_vars <- env_vars[!grepl("^#", env_vars) & nchar(env_vars) > 0]  # 移除注释和空行
@@ -23,11 +23,18 @@ if (file.exists(".env")) {
       if (length(parts) >= 2) {
         var_name <- trimws(parts[1])
         var_value <- trimws(paste(parts[-1], collapse = "="))
-        # 修复Sys.setenv调用
-        env_list <- list()
-        env_list[[var_name]] <- var_value
-        do.call(Sys.setenv, env_list)
-        cat("Loaded env var:", var_name, "=", substr(var_value, 1, 8), "...\n")
+
+        # 只有当环境变量未设置时才从.env文件加载
+        current_value <- Sys.getenv(var_name, unset = "")
+        if (current_value == "") {
+          # 修复Sys.setenv调用
+          env_list <- list()
+          env_list[[var_name]] <- var_value
+          do.call(Sys.setenv, env_list)
+          cat("Loaded env var:", var_name, "=", substr(var_value, 1, 8), "...\n")
+        } else {
+          cat("Env var already set:", var_name, "=", substr(current_value, 1, 8), "...\n")
+        }
       }
     }
   }
@@ -55,6 +62,38 @@ library(patchwork)
 # install_github("miccec/yaGST")  # 安装包yaGST
 library(yaGST)
 library(R6)  # 用于面向对象编程
+
+# ==== Theme Configuration ====
+# Theme variables - consistent with main website
+theme_colors <- list(
+  primary_900 = "#0F2B2E",
+  primary_700 = "#163A3D",
+  primary_500 = "#1C484C",
+  primary_300 = "#3C6B6F",
+  primary_100 = "#D7E4E5",
+  primary_050 = "#F2F7F7",
+  accent_coral = "#E87D4C",
+  accent_lime = "#9CCB3B",
+  accent_sky = "#2F8FBF"
+)
+
+# Custom ggplot theme
+theme_gist <- function() {
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = theme_colors$primary_050, color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    text = element_text(color = theme_colors$primary_700, family = "Arial"),
+    axis.text = element_text(color = theme_colors$primary_700),
+    axis.title = element_text(color = theme_colors$primary_700, face = "bold"),
+    legend.text = element_text(color = theme_colors$primary_700),
+    legend.title = element_text(color = theme_colors$primary_700, face = "bold"),
+    strip.text = element_text(color = theme_colors$primary_700, face = "bold"),
+    plot.title = element_text(color = theme_colors$primary_700, face = "bold", size = 14),
+    plot.subtitle = element_text(color = theme_colors$primary_700, size = 12),
+    plot.caption = element_text(color = theme_colors$primary_700, size = 10)
+  )
+}
 
 # ==== Variable Text ====
 home_whole_intro_text <- "欢迎使用GIST基因表达分析平台！本平台专为胃肠道间质瘤(GIST)研究而设计，提供了全面的基因表达分析工具。您可以通过本平台探索单个基因在不同临床条件下的表达模式，分析基因间的表达相关性，研究药物耐药性相关基因，以及比较治疗前后的基因表达变化。平台整合了多个GIST相关数据集，为科研工作者提供便捷、专业的生物信息学分析服务。"

@@ -97,12 +97,15 @@ analysisModuleUI <- function(id, title, input_config, has_second_gene = FALSE, d
               column(width = 2,
                 downloadButton(ns("download_data"), "Data", class = "btn-outline-primary")
               ),
-              column(width = 4,
-                div(
-                  style = "text-align: center; padding: 10px; color: #7fb069; font-weight: bold;",
-                  icon("robot"), " AI自动分析已启用"
+              # 条件显示AI状态提示
+              if(tolower(Sys.getenv("ENABLE_AI_ANALYSIS", "true")) == "true") {
+                column(width = 4,
+                  div(
+                    style = "text-align: center; padding: 10px; color: #7fb069; font-weight: bold;",
+                    icon("robot"), " AI自动分析已启用"
+                  )
                 )
-              )
+              }
             )
           )
         )
@@ -133,21 +136,33 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
     
     # 输入验证
     observe({
-      # 验证第一个基因
-      shinyFeedback::feedbackWarning(
-        inputId = "gene1",
-        show = !is.null(gene1_input()) && !(gene1_input() %in% gene2sym$SYMBOL),
-        text = "Please input the correct gene symbol!"
-      )
-      
-      # 验证第二个基因（如果需要）
-      if(analysis_config$has_second_gene) {
-        shinyFeedback::feedbackWarning(
-          inputId = "gene2",
-          show = !is.null(gene2_input()) && !(gene2_input() %in% gene2sym$SYMBOL),
-          text = "Please input the correct gene symbol!"
-        )
-      }
+      # 安全获取基因输入值
+      tryCatch({
+        gene1_val <- gene1_input()
+        if(length(gene1_val) > 0 && !is.null(gene1_val)) {
+          # 验证第一个基因
+          shinyFeedback::feedbackWarning(
+            inputId = "gene1",
+            show = !(gene1_val %in% gene2sym$SYMBOL),
+            text = "Please input the correct gene symbol!"
+          )
+        }
+
+        # 验证第二个基因（如果需要）
+        if(analysis_config$has_second_gene) {
+          gene2_val <- gene2_input()
+          if(length(gene2_val) > 0 && !is.null(gene2_val)) {
+            shinyFeedback::feedbackWarning(
+              inputId = "gene2",
+              show = !(gene2_val %in% gene2sym$SYMBOL),
+              text = "Please input the correct gene symbol!"
+            )
+          }
+        }
+      }, error = function(e) {
+        # 忽略错误，避免应用崩溃
+        cat("Input validation error (ignored):", e$message, "\n")
+      })
     })
     
     # 生成分析结果
@@ -189,29 +204,45 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
     
     # 显示结果区域
     observeEvent(input$analyze_btn, {
-      # 检查是否有AI分析正在进行
-      if (!is.null(global_state) && global_state$ai_analyzing) {
-        showNotification(
-          paste0("⏳ AI正在分析", global_state$analyzing_gene, "，请稍候..."),
-          type = "warning",
-          duration = 3
-        )
-        return()
+      # 检查是否有AI分析正在进行（仅在AI启用时）
+      if (!is.null(global_state) && tolower(Sys.getenv("ENABLE_AI_ANALYSIS", "true")) == "true") {
+        tryCatch({
+          if (!is.null(global_state$ai_analyzing) && global_state$ai_analyzing) {
+            showNotification(
+              paste0("⏳ AI正在分析", global_state$analyzing_gene, "，请稍候..."),
+              type = "warning",
+              duration = 3
+            )
+            return()
+          }
+        }, error = function(e) {
+          cat("AI state check error (ignored):", e$message, "\n")
+        })
       }
-      
+
       shinyjs::show("result_container")
     })
-    
-    # 监控全局AI状态，控制按钮可用性
-    if (!is.null(global_state)) {
+
+    # 监控全局AI状态，控制按钮可用性（仅在AI启用时）
+    if (!is.null(global_state) && tolower(Sys.getenv("ENABLE_AI_ANALYSIS", "true")) == "true") {
+      # 安全的AI状态监控
       observe({
-        if (global_state$ai_analyzing) {
-          shinyjs::disable("analyze_btn")
-          shinyjs::addClass("analyze_btn", "btn-disabled")
-        } else {
-          shinyjs::enable("analyze_btn") 
+        tryCatch({
+          if (!is.null(global_state$ai_analyzing)) {
+            if (global_state$ai_analyzing) {
+              shinyjs::disable("analyze_btn")
+              shinyjs::addClass("analyze_btn", "btn-disabled")
+            } else {
+              shinyjs::enable("analyze_btn")
+              shinyjs::removeClass("analyze_btn", "btn-disabled")
+            }
+          }
+        }, error = function(e) {
+          # 如果访问AI状态失败，确保按钮可用
+          shinyjs::enable("analyze_btn")
           shinyjs::removeClass("analyze_btn", "btn-disabled")
-        }
+          cat("AI state monitoring error (ignored):", e$message, "\n")
+        })
       })
     }
     

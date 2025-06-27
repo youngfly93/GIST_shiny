@@ -2,7 +2,19 @@
 
 # 加载模块文件
 source("modules/analysis_module.R")
-source("modules/ai_chat_module.R")
+
+# 检查是否启用AI功能
+# 如果enable_ai变量已经在全局环境中定义（如通过start_no_ai.R），则使用它
+# 否则从环境变量中读取
+if (!exists("enable_ai")) {
+  enable_ai <- tolower(Sys.getenv("ENABLE_AI_ANALYSIS", "true")) == "true"
+}
+
+# 条件加载AI模块
+if(enable_ai) {
+  source("modules/ai_chat_module.R")
+}
+
 source("config/module_configs.R")
 
 # 生成侧边栏菜单
@@ -118,8 +130,20 @@ ui <- dashboardPage(
   fullscreen = TRUE,
   scrollToTop = TRUE,
   title = "GIST",
-  
-  dashboardHeader(title = "GIST Analysis Platform"),
+
+  dashboardHeader(
+    title = dashboardBrand(
+      title = "GIST Analysis Platform",
+      color = "primary",
+      href = "#",
+      image = NULL
+    ),
+    status = "white",
+    border = TRUE,
+    sidebarIcon = icon("bars"),
+    controlbarIcon = icon("th"),
+    fixed = FALSE
+  ),
   
   dashboardSidebar(
     generate_sidebar_menu()
@@ -132,27 +156,23 @@ ui <- dashboardPage(
     # 自定义CSS - 与GIST_web风格一致
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
-      tags$link(rel = "stylesheet", type = "text/css", href = "ai_chat_buttons.css"),
-      tags$style(HTML("
-        /* 主要布局样式 */
-        .content-wrapper, .right-side {
-          background-color: var(--clr-primary-050) !important;
+      # 条件加载AI聊天按钮样式
+      if(enable_ai) tags$link(rel = "stylesheet", type = "text/css", href = "ai_chat_buttons.css"),
+
+      # 条件加载分析按钮禁用状态样式
+      if(enable_ai) tags$style(HTML("
+        .btn-disabled {
+          opacity: 0.5 !important;
+          cursor: not-allowed !important;
+          pointer-events: none !important;
         }
 
-        /* 标题样式 */
-        .homeTitle {
-          color: var(--clr-primary-500) !important;
-          font-weight: 700 !important;
-          text-align: center;
-          margin-bottom: var(--space-4);
-          font-size: var(--text-3xl) !important;
+        .btn-disabled::after {
+          content: ' (AI Analyzing...)';
+          font-size: 0.8em;
+          color: #666;
         }
-
-        .pageTitle {
-          color: var(--clr-primary-500) !important;
-          font-weight: 600 !important;
-          font-size: var(--text-2xl) !important;
-        }
+      "))
 
         /* 介绍文字样式 */
         .intro-text {
@@ -269,8 +289,8 @@ ui <- dashboardPage(
         }
       ")),
 
-      # JavaScript for tooltip functionality and AI chat
-      tags$script(HTML("
+      # JavaScript for tooltip functionality and conditional AI chat
+      tags$script(HTML(paste0("
         $(document).ready(function() {
           console.log('Tooltip script loaded');
           // 检查tooltip元素是否存在
@@ -283,29 +303,39 @@ ui <- dashboardPage(
           }, 1000);
         });
 
-        // AI聊天机器人功能
-        $(document).ready(function() {
-          console.log('AI Chat system initialized');
-        });
+        ",
+        if(enable_ai) {
+          "
+          // AI聊天机器人功能
+          $(document).ready(function() {
+            console.log('AI Chat system initialized');
+          });
 
-        // 处理AI分析请求
-        Shiny.addCustomMessageHandler('updateAIInput', function(data) {
-          console.log('Updating AI input with data:', data);
-          if (window.Shiny) {
-            Shiny.setInputValue('ai_chat-analyze_plot', data, {priority: 'event'});
-            console.log('AI input updated successfully');
-          }
-        });
-      ")),
+          // 处理AI分析请求
+          Shiny.addCustomMessageHandler('updateAIInput', function(data) {
+            console.log('Updating AI input with data:', data);
+            if (window.Shiny) {
+              Shiny.setInputValue('ai_chat-analyze_plot', data, {priority: 'event'});
+              console.log('AI input updated successfully');
+            }
+          });
+          "
+        } else {
+          "
+          // AI功能已禁用
+          console.log('AI functionality disabled');
+          "
+        }, "
+      "))),
       
-      # 分析按钮禁用状态样式
-      tags$style(HTML("
+      # 条件加载分析按钮禁用状态样式
+      if(enable_ai) tags$style(HTML("
         .btn-disabled {
           opacity: 0.5 !important;
           cursor: not-allowed !important;
           pointer-events: none !important;
         }
-        
+
         .btn-disabled::after {
           content: ' (AI分析中...)';
           font-size: 0.8em;
@@ -316,9 +346,24 @@ ui <- dashboardPage(
 
     generate_dashboard_body(),
 
-    # AI聊天机器人组件
-    aiChatFloatingButtonUI("ai_chat"),
-    aiChatUI("ai_chat")
+    # 版本指示器
+    tags$div(
+      style = "position: fixed; top: 10px; right: 10px; z-index: 9999;
+               background: rgba(255,255,255,0.9); padding: 5px 10px;
+               border-radius: 15px; font-size: 12px; font-weight: bold;
+               box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
+      if(enable_ai) {
+        tags$span(style = "color: #28a745;", "AI Version (4964)")
+      } else {
+        tags$span(style = "color: #6c757d;", "Basic Version (4966)")
+      }
+    ),
+
+    # 条件加载AI聊天机器人组件
+    if(enable_ai) list(
+      aiChatFloatingButtonUI("ai_chat"),
+      aiChatUI("ai_chat")
+    )
   )
 )
 

@@ -67,6 +67,48 @@ body {
     line-height: 1.5;
 }
 
+/* 主要布局样式 - 深色主题 */
+.content-wrapper, .right-side {
+  background-color: var(--clr-primary-050) !important;
+}
+
+.main-header .navbar {
+  background-color: var(--clr-primary-500) !important;
+}
+
+.main-sidebar, .left-side {
+  background-color: var(--clr-primary-700) !important;
+}
+
+.sidebar-menu > li.active > a {
+  background-color: var(--clr-primary-500) !important;
+  border-left: 3px solid var(--clr-accent-coral) !important;
+}
+
+.box {
+  border-top: 3px solid var(--clr-primary-500) !important;
+  box-shadow: 0 2px 4px rgba(15, 43, 46, 0.1) !important;
+}
+
+.btn-primary {
+  background-color: var(--clr-primary-500) !important;
+  border-color: var(--clr-primary-700) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--clr-primary-700) !important;
+  border-color: var(--clr-primary-900) !important;
+}
+
+.info-box {
+  background: linear-gradient(135deg, var(--clr-primary-050) 0%, var(--clr-primary-100) 100%) !important;
+  border-left: 4px solid var(--clr-primary-500) !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: var(--clr-primary-500) !important;
+}
+
 /* 首页标题样式 */
 h1.homeTitle {
     color: var(--clr-primary-500) !important;
