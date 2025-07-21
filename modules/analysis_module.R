@@ -168,38 +168,67 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
     # 生成分析结果
     analysis_result <- reactive({
       # 验证输入
-      req(gene1_input() %in% gene2sym$SYMBOL)
+      gene1_val <- gene1_input()
+      req(length(gene1_val) > 0 && !is.null(gene1_val))
+      req(gene1_val %in% gene2sym$SYMBOL)
+      
       if(analysis_config$has_second_gene) {
-        req(gene2_input() %in% gene2sym$SYMBOL)
+        gene2_val <- gene2_input()
+        req(length(gene2_val) > 0 && !is.null(gene2_val))
+        req(gene2_val %in% gene2sym$SYMBOL)
       }
       
+      # 验证分析函数存在
+      req(!is.null(analysis_config$analysis_function))
       
-      # 获取函数对象
-      analysis_func <- get(analysis_config$analysis_function)
-      
-      # 调用相应的分析函数
-      if(analysis_config$type == "gender") {
-        analysis_func(ID = gene1_input(), DB = dbGIST_matrix[Gender_ID])
-      } else if(analysis_config$type == "correlation") {
-        analysis_func(ID = gene1_input(), ID2 = gene2_input(), DB = dbGIST_matrix[mRNA_ID])
-      } else if(analysis_config$type == "drug") {
-        analysis_func(ID = gene1_input(), DB = dbGIST_matrix[IM_ID])
-      } else if(analysis_config$type == "prepost") {
-        analysis_func(ID = gene1_input(), Mutation = "All", DB = dbGIST_matrix[Post_pre_treament_ID])
-      }
+      # 调用分析函数
+      tryCatch({
+        if(analysis_config$has_second_gene) {
+          analysis_config$analysis_function(ID = gene1_val, ID2 = gene2_val)
+        } else {
+          analysis_config$analysis_function(ID = gene1_val)
+        }
+      }, error = function(e) {
+        showNotification(
+          paste("Analysis error:", e$message),
+          type = "error",
+          duration = 5
+        )
+        return(NULL)
+      })
     })
     
     # 生成数据表
     data_result <- reactive({
       # 验证输入
-      req(gene1_input() %in% gene2sym$SYMBOL)
+      gene1_val <- gene1_input()
+      req(length(gene1_val) > 0 && !is.null(gene1_val))
+      req(gene1_val %in% gene2sym$SYMBOL)
+      
       if(analysis_config$has_second_gene) {
-        req(gene2_input() %in% gene2sym$SYMBOL)
+        gene2_val <- gene2_input()
+        req(length(gene2_val) > 0 && !is.null(gene2_val))
+        req(gene2_val %in% gene2sym$SYMBOL)
       }
       
-      # 获取数据生成函数并调用
-      data_func <- get(analysis_config$data_function)
-      data_func(gene1_input(), gene2_input())
+      # 验证数据函数存在
+      req(!is.null(analysis_config$data_function))
+      
+      # 调用数据函数
+      tryCatch({
+        if(analysis_config$has_second_gene) {
+          analysis_config$data_function(gene1_val, gene2_val)
+        } else {
+          analysis_config$data_function(gene1_val)
+        }
+      }, error = function(e) {
+        showNotification(
+          paste("Data extraction error:", e$message),
+          type = "error",
+          duration = 5
+        )
+        return(data.frame())
+      })
     })
     
     # 显示结果区域
@@ -250,6 +279,12 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
     output$result_plot <- renderPlot({
       plot_result <- analysis_result()
 
+      # 安全检查：确保plot_result不为NULL
+      req(plot_result)
+      if (is.null(plot_result)) {
+        return(NULL)
+      }
+
       # 保存图片到www目录供AI分析使用
       plot_filename <- paste0("plot_", Sys.time() %>% as.numeric() %>% round(), ".png")
       plot_path <- file.path("www", plot_filename)
@@ -260,7 +295,8 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
       }
 
       # 动态计算图片尺寸 - 基于分析类型和数据集数量
-      plot_dimensions <- if(analysis_config$type %in% c("gender", "risk", "stage", "age")) {
+      plot_dimensions <- if(!is.null(analysis_config$type) && length(analysis_config$type) > 0 &&
+                            analysis_config$type %in% c("gender", "risk", "stage", "age")) {
         # 基因表达分析：根据数据集数量调整尺寸
         id_var_name <- switch(analysis_config$type,
           "gender" = "Gender_ID",
@@ -268,7 +304,18 @@ analysisModuleServer <- function(id, analysis_config, global_state = NULL) {
           "stage" = "Stage_ID",
           "age" = "Age_ID"
         )
-        num_datasets <- length(get(id_var_name, envir = .GlobalEnv))
+
+        # 安全获取数据集数量
+        num_datasets <- tryCatch({
+          id_var <- get(id_var_name, envir = .GlobalEnv)
+          if (is.null(id_var) || length(id_var) == 0) {
+            1  # 默认值
+          } else {
+            length(id_var)
+          }
+        }, error = function(e) {
+          1  # 出错时使用默认值
+        })
 
         # 计算网格布局
         if(num_datasets >= 8) {

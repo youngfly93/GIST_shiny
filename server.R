@@ -18,6 +18,17 @@ if(enable_ai) {
 
 source("config/module_configs.R")
 
+# 初始化模块配置（如果需要）
+if(exists("initialize_module_configs") && is.function(initialize_module_configs)) {
+  initialize_module_configs()
+}
+
+# 确保module_configs已初始化
+if (exists("initialize_module_configs") && (!exists("module_configs") || length(module_configs) == 0)) {
+  cat("Initializing module configurations...\n")
+  module_configs <- initialize_module_configs()
+}
+
 # 主Server函数
 server <- function(input, output, session) {
   

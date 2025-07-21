@@ -1656,25 +1656,25 @@ dbGIST_boxplot_PrePost <- function(ID,Mutation = "All",DB = dbGIST_matrix[Post_p
 
 # ==== Usage 1:  Check the Gene symbol ====   
 
-Input_Single_gene <- c("KIT","M7")
-
-ID <- Judge_GENESYMBOL(ID = Input_Single_gene,gene2sym)
-
-ID <- "MCM"
-
-ID <- Judge_GENESYMBOL(ID = ID,gene2sym)
+# Input_Single_gene <- c("KIT","M7")
+# 
+# ID <- Judge_GENESYMBOL(ID = Input_Single_gene,gene2sym)
+# 
+# ID <- "MCM"
+# 
+# ID <- Judge_GENESYMBOL(ID = ID,gene2sym)
 
 # ==== Usage 2:  Single gene expression investigation ==== 
 
-ID = "MCM7"
-
-dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID])
+# ID = "MCM7"
+# 
+# dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID])
 
 # ==== Usage 3:  Expression corralation between genes ==== 
 
-ID = "MCM7"; ID2 = "MKI67"
-
-dbGIST_cor_ID(ID = ID,ID2 = ID2,DB = dbGIST_matrix[mRNA_ID])
+# ID = "MCM7"; ID2 = "MKI67"
+# 
+# dbGIST_cor_ID(ID = ID,ID2 = ID2,DB = dbGIST_matrix[mRNA_ID])
 
 # ==== Usage 4:  Exploration of the drug-resistent gene ====
 

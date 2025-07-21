@@ -72,12 +72,96 @@ body {
   background-color: var(--clr-primary-050) !important;
 }
 
-.main-header .navbar {
+/* 顶部导航栏 - 强制绿色背景和白色文字 */
+.main-header, .main-header .navbar,
+.navbar, .navbar-expand, .navbar-expand-lg,
+.navbar-light, .navbar-dark,
+body .main-header, body .main-header .navbar,
+.skin-blue .main-header, .skin-blue .main-header .navbar,
+.wrapper .main-header, .wrapper .main-header .navbar,
+.main-header.navbar, .main-header.navbar-expand,
+.main-header.navbar-light, .main-header.navbar-dark {
   background-color: var(--clr-primary-500) !important;
+  background: var(--clr-primary-500) !important;
+  border-bottom: 1px solid var(--clr-primary-700) !important;
+  color: white !important;
+}
+
+/* 顶部导航栏标题和品牌文字 - 强制白色 */
+.main-header .navbar-brand,
+.main-header .navbar-brand .brand-text,
+.main-header .brand-link,
+.main-header .brand-link .brand-text,
+.navbar-brand,
+.navbar-brand .brand-text,
+.brand-link,
+.brand-link .brand-text,
+.main-header h1,
+.main-header h2,
+.main-header h3,
+.main-header h4,
+.main-header h5,
+.main-header h6,
+.navbar h1,
+.navbar h2,
+.navbar h3,
+.navbar h4,
+.navbar h5,
+.navbar h6 {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 模块标题 - 强制白色文字 */
+.box-header h2,
+.box-header h3,
+div[style*="background-color: #1C484C"] h1,
+div[style*="background-color: #1C484C"] h2,
+div[style*="background-color: #1C484C"] h3,
+div[style*="background-color: #1C484C"] h4,
+div[style*="background-color: #1C484C"] h5,
+div[style*="background-color: #1C484C"] h6,
+div[style*="background-color: var(--clr-primary-500)"] h1,
+div[style*="background-color: var(--clr-primary-500)"] h2,
+div[style*="background-color: var(--clr-primary-500)"] h3,
+div[style*="background-color: var(--clr-primary-500)"] h4,
+div[style*="background-color: var(--clr-primary-500)"] h5,
+div[style*="background-color: var(--clr-primary-500)"] h6 {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 顶部导航栏所有文字元素 - 强制白色 */
+.main-header *,
+.main-header .navbar *,
+.navbar *,
+.navbar-brand *,
+.brand-link * {
+  color: white !important;
+}
+
+/* 顶部导航栏链接 - 强制白色 */
+.main-header a,
+.main-header a:link,
+.main-header a:visited,
+.main-header a:hover,
+.main-header a:focus,
+.main-header a:active,
+.navbar a,
+.navbar a:link,
+.navbar a:visited,
+.navbar a:hover,
+.navbar a:focus,
+.navbar a:active {
+  color: white !important;
+  text-decoration: none !important;
 }
 
 .main-sidebar, .left-side {
   background-color: var(--clr-primary-700) !important;
+  width: 320px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
 }
 
 .sidebar-menu > li.active > a {
@@ -119,10 +203,33 @@ h1.homeTitle {
     font-weight: 700 !important;
 }
 
+/* 强制覆盖所有模块页面标题颜色 - 在绿色背景上显示白色 */
+h1[style*="color: #1C484C"],
+h2[style*="color: #1C484C"],
+h3[style*="color: #1C484C"],
+h4[style*="color: #1C484C"],
+h5[style*="color: #1C484C"],
+h6[style*="color: #1C484C"] {
+    color: white !important;
+}
+
+/* 特别针对模块标题容器 */
+div[style*="background-color: #1C484C"] *,
+div[style*="background-color: var(--clr-primary-500)"] * {
+    color: white !important;
+}
+
+/* 覆盖所有可能的绿色背景容器中的文字 */
+.box-header[style*="background"],
+.content-header[style*="background"],
+div[style*="background"][style*="#1C484C"] *,
+div[style*="background"][style*="var(--clr-primary-500)"] * {
+    color: white !important;
+}
+
 /* 页面标题样式 */
 h1.pageTitle {
     text-align: center !important;
-    color: var(--clr-primary-500) !important;
     margin-top: var(--space-4);
     margin-bottom: var(--space-3);
     font-weight: 600 !important;
@@ -130,6 +237,17 @@ h1.pageTitle {
     border: none !important;
     border-bottom: none !important;
     border-top: none !important;
+}
+
+/* 在绿色背景容器中的页面标题应该是白色 */
+.module-header-container h1.pageTitle,
+div[style*="background-color: var(--clr-primary-500)"] h1.pageTitle {
+    color: white !important;
+}
+
+/* 在普通背景中的页面标题使用深灰色 */
+h1.pageTitle:not(.module-header-container h1.pageTitle) {
+    color: var(--clr-gray-900) !important;
 }
 
 /* 隐藏标题中的放大镜图标 */
@@ -142,12 +260,22 @@ h1.pageTitle i[class*="glyphicon"] {
 
 /* 确保actionBttn中的标题样式一致 */
 .bttn-minimal h1.pageTitle {
-    color: #2c3e50 !important;
     text-decoration: none !important;
     font-size: 2.2em !important;
     border: none !important;
     border-bottom: none !important;
     border-top: none !important;
+}
+
+/* 在绿色背景容器中的actionBttn标题应该是白色 */
+.module-header-container .bttn-minimal h1.pageTitle,
+div[style*="background-color: var(--clr-primary-500)"] .bttn-minimal h1.pageTitle {
+    color: white !important;
+}
+
+/* 在普通背景中的actionBttn标题使用深灰色 */
+.bttn-minimal h1.pageTitle:not(.module-header-container .bttn-minimal h1.pageTitle) {
+    color: var(--clr-gray-900) !important;
 }
 
 /* 修复actionBttn按钮样式，使其不影响标题显示 */
@@ -223,6 +351,110 @@ h1.pageTitle::after,
 /* 强制移除所有可能的蓝色分隔线 */
 * {
     border-bottom-color: transparent !important;
+}
+
+/* 覆盖默认的蓝色主题 */
+.btn-primary, .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+    background-color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 覆盖Bootstrap默认蓝色 */
+.text-primary, .text-primary:hover, .text-primary:focus {
+    color: var(--clr-primary-500) !important;
+}
+
+/* 覆盖链接颜色 */
+a, a:link, a:visited {
+    color: var(--clr-primary-500) !important;
+}
+
+a:hover, a:focus, a:active {
+    color: var(--clr-primary-700) !important;
+}
+
+/* 覆盖表单控件焦点颜色 */
+.form-control:focus {
+    border-color: var(--clr-primary-500) !important;
+    box-shadow: 0 0 0 0.2rem rgba(28, 72, 76, 0.25) !important;
+}
+
+/* 覆盖选择器按钮 */
+.btn-outline-primary {
+    color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+    background-color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 覆盖选项卡活动状态 */
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: var(--clr-primary-700) !important;
+    border-bottom-color: var(--clr-primary-500) !important;
+}
+
+/* 覆盖单选按钮组 */
+.btn-group-toggle .btn.active {
+    background-color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 覆盖进度条 */
+.progress-bar {
+    background-color: var(--clr-primary-500) !important;
+}
+
+/* 覆盖徽章 */
+.badge-primary {
+    background-color: var(--clr-primary-500) !important;
+}
+
+/* 覆盖警告框 */
+.alert-primary {
+    background-color: var(--clr-primary-050) !important;
+    border-color: var(--clr-primary-300) !important;
+    color: var(--clr-primary-700) !important;
+}
+
+/* 覆盖shinyWidgets的蓝色主题 */
+.bttn-primary, .bttn-primary:active, .bttn-primary:focus, .bttn-primary:hover {
+    background-color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 覆盖radioGroupButtons的蓝色 */
+.radioGroupButtons .btn-primary {
+    background-color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+.radioGroupButtons .btn-primary:hover, 
+.radioGroupButtons .btn-primary:focus, 
+.radioGroupButtons .btn-primary:active {
+    background-color: var(--clr-primary-700) !important;
+    border-color: var(--clr-primary-700) !important;
+    color: white !important;
+}
+
+/* 覆盖选择器active状态 */
+.btn-group .btn.active {
+    background-color: var(--clr-primary-500) !important;
+    border-color: var(--clr-primary-500) !important;
+    color: white !important;
+}
+
+/* 覆盖下拉菜单active状态 */
+.dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
+    background-color: var(--clr-primary-500) !important;
+    color: white !important;
 }
 
 /* 特别针对可能的框架样式 */
@@ -328,17 +560,17 @@ div {
 
 /* 侧边栏样式调整 - 使用较浅的绿色背景 */
 .sidebar {
-    width: 280px !important;
+    width: 320px !important;
     background: var(--clr-primary-500) !important;
 }
 
 .main-sidebar {
-    width: 280px !important;
+    width: 320px !important;
     background: var(--clr-primary-500) !important;
 }
 
 .content-wrapper, .main-footer {
-    margin-left: 280px !important;
+    margin-left: 320px !important;
     background: var(--clr-primary-050) !important;
 }
 
@@ -917,6 +1149,153 @@ div {
     color: white !important;
 }
 
+/* 子菜单项对齐样式 - 强制文字左对齐 */
+.sidebar-menu .treeview-menu > li > a,
+.main-sidebar .sidebar-menu .treeview-menu > li > a,
+.nav-treeview .nav-item .nav-link,
+.sidebar-menu .treeview-menu > li > a span,
+.main-sidebar .sidebar-menu .treeview-menu > li > a span,
+.nav-treeview .nav-item .nav-link span {
+    text-align: left !important;
+    padding-left: 15px !important;
+    padding-right: 8px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    white-space: nowrap !important;
+    word-wrap: normal !important;
+    display: block !important;
+    margin: 0 !important;
+    text-indent: 0 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+/* 确保子菜单文本span元素没有额外的缩进 */
+.sidebar-menu .treeview-menu > li > a span,
+.main-sidebar .sidebar-menu .treeview-menu > li > a span,
+.nav-treeview .nav-item .nav-link span {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    text-indent: 0 !important;
+    display: inline !important;
+}
+
+.sidebar-menu .treeview-menu > li > a:hover,
+.main-sidebar .sidebar-menu .treeview-menu > li > a:hover,
+.nav-treeview .nav-item .nav-link:hover {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    padding-left: 15px !important;
+    border-left: 3px solid var(--clr-accent-coral) !important;
+    text-align: left !important;
+}
+
+.sidebar-menu .treeview-menu > li.active > a,
+.main-sidebar .sidebar-menu .treeview-menu > li.active > a,
+.nav-treeview .nav-item.active .nav-link {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border-left: 3px solid var(--clr-accent-coral) !important;
+}
+
+/* bs4Dash特定的子菜单样式 */
+.nav-treeview {
+    background: var(--clr-primary-700) !important;
+}
+
+.nav-treeview .nav-item {
+    margin: 0 !important;
+}
+
+.nav-treeview .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding: 8px 15px 8px 45px !important;
+    text-align: left !important;
+    font-size: 14px !important;
+    border-radius: 0 !important;
+}
+
+.nav-treeview .nav-link:hover {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+}
+
+.nav-treeview .nav-link.active {
+    background: var(--clr-primary-300) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+/* 强制所有子菜单项的文本左对齐 - 覆盖所有可能的情况 */
+.sidebar-menu .treeview-menu li,
+.main-sidebar .sidebar-menu .treeview-menu li,
+.nav-treeview .nav-item,
+.sidebar-menu .treeview-menu li a,
+.main-sidebar .sidebar-menu .treeview-menu li a,
+.nav-treeview .nav-item .nav-link,
+.sidebar-menu .treeview-menu li a *,
+.main-sidebar .sidebar-menu .treeview-menu li a *,
+.nav-treeview .nav-item .nav-link * {
+    text-align: left !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    padding-left: 15px !important;
+    margin-left: 0 !important;
+    text-indent: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 特别处理子菜单中的任何图标或文本元素 */
+.sidebar-menu .treeview-menu li a i,
+.main-sidebar .sidebar-menu .treeview-menu li a i,
+.nav-treeview .nav-item .nav-link i {
+    margin-right: 8px !important;
+    margin-left: 0 !important;
+    text-align: center !important;
+    width: 16px !important;
+    display: inline-block !important;
+}
+
+/* 完全重置子菜单项的文本定位 - 最终方案 */
+.sidebar-menu .treeview-menu > li > a,
+.main-sidebar .sidebar-menu .treeview-menu > li > a,
+.nav-treeview .nav-item > .nav-link {
+    position: relative !important;
+    padding: 8px 8px 8px 8px !important;
+    margin: 0 !important;
+    text-align: left !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* 子菜单文本内容强制左对齐 */
+.sidebar-menu .treeview-menu > li > a::before,
+.main-sidebar .sidebar-menu .treeview-menu > li > a::before,
+.nav-treeview .nav-item > .nav-link::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 8px !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.sidebar-menu .treeview-menu > li > a > span,
+.main-sidebar .sidebar-menu .treeview-menu > li > a > span,
+.nav-treeview .nav-item > .nav-link > span {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    display: inline-block !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+
 /* 确保链接状态的颜色 */
 .main-sidebar a:link,
 .main-sidebar a:visited,
@@ -1227,6 +1606,329 @@ div.box.box-info .box-header .box-title {
     .content-wrapper {
         padding: var(--space-3) !important;
     }
+}
+
+/* ==== 模块标题样式修复 ==== */
+
+/* 针对模块标题的绿色背景容器 */
+.module-header-container {
+  background-color: var(--clr-primary-500) !important;
+  color: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  margin-bottom: 20px !important;
+  text-align: center !important;
+}
+
+/* 强制模块标题为白色 */
+.module-header-container h1,
+.module-header-container h2,
+.module-header-container h3,
+.module-header-container h4,
+.module-header-container h5,
+.module-header-container h6,
+.module-header-container p {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 特别针对Age Analysis和其他模块标题 */
+h2[style*="color: #1C484C"],
+h2[style*="color:#1C484C"],
+h2[style*="color: var(--clr-primary-500)"],
+h2[style*="color:var(--clr-primary-500)"] {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 强制覆盖所有模块标题 - 最高优先级 */
+div[style*="text-align: center"] h1[style*="color: #1C484C"],
+div[style*="text-align: center"] h2[style*="color: #1C484C"],
+div[style*="text-align: center"] h3[style*="color: #1C484C"],
+div[style*="text-align: center"] h4[style*="color: #1C484C"],
+div[style*="text-align: center"] h5[style*="color: #1C484C"],
+div[style*="text-align: center"] h6[style*="color: #1C484C"],
+div[style*="text-align:center"] h1[style*="color: #1C484C"],
+div[style*="text-align:center"] h2[style*="color: #1C484C"],
+div[style*="text-align:center"] h3[style*="color: #1C484C"],
+div[style*="text-align:center"] h4[style*="color: #1C484C"],
+div[style*="text-align:center"] h5[style*="color: #1C484C"],
+div[style*="text-align:center"] h6[style*="color: #1C484C"] {
+  background-color: var(--clr-primary-500) !important;
+  color: white !important;
+  text-shadow: none !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  margin: 10px auto !important;
+  display: block !important;
+  width: fit-content !important;
+  min-width: 300px !important;
+}
+
+/* 为模块标题的父容器添加绿色背景 */
+div[style*="text-align: center"][style*="margin-bottom: 30px"] {
+  background-color: var(--clr-primary-500) !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  margin-bottom: 30px !important;
+}
+
+/* 确保模块标题容器内的所有文字都是白色 */
+div[style*="text-align: center"][style*="margin-bottom: 30px"] * {
+  color: white !important;
+}
+
+/* 特别处理描述文字 */
+div[style*="text-align: center"][style*="margin-bottom: 30px"] p {
+  color: white !important;
+  opacity: 0.9 !important;
+}
+
+/* 最高优先级：强制所有模块标题为白色 */
+.module-header-container h1,
+.module-header-container h1.pageTitle,
+div[style*="background-color: var(--clr-primary-500)"] h1,
+div[style*="background-color: var(--clr-primary-500)"] h1.pageTitle,
+div[class*="module-header-container"] h1,
+div[class*="module-header-container"] h1.pageTitle {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 覆盖任何可能的内联样式 */
+h1[style*="color: white"],
+h1.pageTitle[style*="color: white"] {
+  color: white !important;
+}
+
+/* ==== 最终修复：强制所有模块标题为白色 ==== */
+/* 这个规则应该覆盖所有其他规则 */
+div.module-header-container h1,
+div.module-header-container h1.pageTitle,
+div[class*="module-header-container"] h1,
+div[class*="module-header-container"] h1.pageTitle,
+.module-header-container h1,
+.module-header-container h1.pageTitle {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 特别针对Gender-based Analysis等使用createAnalysisUI的模块 */
+div[style*="background-color: var(--clr-primary-500)"] h1,
+div[style*="background-color: var(--clr-primary-500)"] h1.pageTitle {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 最终兜底规则 - 任何在绿色背景上的标题都应该是白色 */
+*[style*="background-color: var(--clr-primary-500)"] h1,
+*[style*="background-color: var(--clr-primary-500)"] h1.pageTitle,
+*[style*="background-color: #1C484C"] h1,
+*[style*="background-color: #1C484C"] h1.pageTitle {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 超级强力规则 - 强制所有页面标题为白色，覆盖任何其他样式 */
+h1.pageTitle,
+h1[class="pageTitle"],
+h1[class*="pageTitle"],
+.pageTitle,
+[class*="pageTitle"] {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 特别针对analysis模块的标题 */
+.content-wrapper h1,
+.content-wrapper h1.pageTitle,
+.tab-pane h1,
+.tab-pane h1.pageTitle {
+  color: white !important;
+  text-shadow: none !important;
+}
+
+/* 覆盖任何可能的内联颜色样式 */
+h1[style*="color"],
+h1.pageTitle[style*="color"] {
+  color: white !important;
+}
+
+/* 特别强力规则 - 针对所有可能的pageTitle组合 */
+h1.pageTitle[style*="color: #1C484C"],
+h1[style*="color: #1C484C"],
+*[style*="color: #1C484C"] {
+  color: white !important;
+}
+
+/* 最终解决方案 - 使用CSS选择器优先级 */
+body h1.pageTitle,
+body .pageTitle,
+html body h1.pageTitle,
+html body .pageTitle {
+  color: white !important;
+}
+
+/* 终极解决方案 - 使用最高优先级选择器 */
+html body div h1.pageTitle,
+html body div .pageTitle,
+html body * h1.pageTitle,
+html body * .pageTitle,
+div * h1.pageTitle,
+div * .pageTitle {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* 专门针对分析模块的标题 - 超高优先级 */
+.tab-pane .active h1,
+.tab-content h1,
+.content-wrapper .tab-pane h1,
+.content-wrapper .tab-content h1,
+#shiny-tab-module1_gender h1,
+#shiny-tab-module1_risk h1,
+#shiny-tab-module1_age h1,
+.shiny-tab-content h1 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* JavaScript备用方案的样式类 */
+.force-white-title {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* 使用通配符选择器 - 最高优先级 */
+* h1,
+* .pageTitle,
+* h1.pageTitle {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* 强制所有主标题为白色 - 覆盖原始UI中的所有可能情况 */
+h1, h1.pageTitle, .pageTitle,
+/* 原始UI中的模块标题 */
+.content-wrapper h1, .content-wrapper h2[style*="text-align: center"],
+.tab-content h1, .tab-content h2[style*="text-align: center"], 
+.tab-pane h1, .tab-pane h2[style*="text-align: center"],
+/* Shiny模块特定选择器 */
+#shiny-tab-module1_age h1, #shiny-tab-module1_age h2,
+#shiny-tab-module1_cd34 h1, #shiny-tab-module1_cd34 h2,
+#shiny-tab-module1_clinical h1, #shiny-tab-module1_clinical h2,
+#shiny-tab-module1_gender h1, #shiny-tab-module1_gender h2,
+#shiny-tab-module1_ki67 h1, #shiny-tab-module1_ki67 h2,
+#shiny-tab-module1_location h1, #shiny-tab-module1_location h2,
+#shiny-tab-module1_mitotic h1, #shiny-tab-module1_mitotic h2,
+#shiny-tab-module1_mutation h1, #shiny-tab-module1_mutation h2,
+#shiny-tab-module1_risk h1, #shiny-tab-module1_risk h2,
+#shiny-tab-module1_tumor_size h1, #shiny-tab-module1_tumor_size h2,
+#shiny-tab-module1_tvn h1, #shiny-tab-module1_tvn h2,
+#shiny-tab-module1_who h1, #shiny-tab-module1_who h2,
+#shiny-tab-module2 h1, #shiny-tab-module2 h2,
+#shiny-tab-module3 h1, #shiny-tab-module3 h2,
+#shiny-tab-module4 h1, #shiny-tab-module4 h2,
+/* 任何带有居中样式的标题 */
+h1[style*="text-align: center"], h2[style*="text-align: center"],
+h3[style*="text-align: center"], h4[style*="text-align: center"],
+/* 任何带有绿色文字的标题 */
+h1[style*="color: #1C484C"], h2[style*="color: #1C484C"],
+h3[style*="color: #1C484C"], h4[style*="color: #1C484C"],
+/* 任何在分析模块内的标题 */
+[id*="module"] h1, [id*="module"] h2, [id*="module"] h3 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+  background-color: var(--clr-primary-500) !important;
+  padding: 15px 30px !important;
+  border-radius: 8px !important;
+  margin: 10px auto !important;
+  display: inline-block !important;
+}
+
+/* 副标题在白色/浅色背景下保持深色 - 但排除已转换的主标题 */
+h2:not([style*="color: white"]):not([id*="module"] h2):not(.content-wrapper h2[style*="text-align: center"]), 
+h3:not([style*="color: white"]):not([id*="module"] h3), 
+h4:not([style*="color: white"]):not([id*="module"] h4), 
+h5:not([style*="color: white"]):not([id*="module"] h5), 
+h6:not([style*="color: white"]):not([id*="module"] h6) {
+  color: var(--clr-primary-700) !important;
+  text-shadow: none !important;
+  background: none !important;
+  padding: initial !important;
+}
+
+/* 在绿色背景下的副标题使用白色 */
+div[style*="background-color: var(--clr-primary-500)"] h2,
+div[style*="background-color: var(--clr-primary-500)"] h3,
+div[style*="background-color: var(--clr-primary-500)"] h4,
+div[style*="background-color: #1C484C"] h2,
+div[style*="background-color: #1C484C"] h3,
+div[style*="background-color: #1C484C"] h4 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.force-white-title,
+.white-text {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* 覆盖所有可能的标题样式 - 使用属性选择器 */
+[class*="Title"],
+[class*="title"],
+[class*="pageTitle"] {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* 针对具体页面的标题 */
+.content-wrapper h1,
+.content-wrapper h2,
+.content-wrapper h3,
+.tab-content h1,
+.tab-content h2,
+.tab-content h3,
+.tab-pane h1,
+.tab-pane h2,
+.tab-pane h3 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* 特别针对actionBttn中的标题 - 原始版本修复 */
+.bttn-minimal h1,
+.bttn-minimal h1.pageTitle,
+.bttn-minimal .pageTitle,
+.bttn h1,
+.bttn h1.pageTitle,
+.bttn .pageTitle,
+.btn h1,
+.btn h1.pageTitle,
+.btn .pageTitle {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* 覆盖actionBttn的默认样式 */
+.bttn-minimal:hover h1,
+.bttn-minimal:focus h1,
+.bttn-minimal:active h1,
+.bttn-minimal h1:hover,
+.bttn-minimal h1:focus,
+.bttn-minimal h1:active {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* 兜底规则 - 覆盖任何button内的标题 */
+button h1,
+button .pageTitle,
+.shiny-bound-input h1,
+.shiny-bound-input .pageTitle {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
 }
 
 @media (max-width: 768px) {

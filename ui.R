@@ -23,12 +23,89 @@ generate_sidebar_menu <- function() {
     menuItem("Introduction", tabName = "Introduction", icon = icon("home"))
   )
   
-  # 动态生成模块菜单项
-  for(module_id in get_available_modules()) {
+  # 添加Module 1 - 临床特征分析（带子菜单）
+  module1_submodules <- get_module1_submodules()
+  if(length(module1_submodules) > 0) {
+    # 创建子菜单项列表
+    submenu_items <- list()
+    for(submodule_id in module1_submodules) {
+      metadata <- get_module_metadata(submodule_id)
+      if(!is.null(metadata) && !is.null(metadata$title)) {
+        submenu_items <- append(submenu_items, list(
+          menuSubItem(
+            text = metadata$title,
+            tabName = submodule_id,
+            icon = icon("circle")
+          )
+        ))
+      }
+    }
+    
+    # 创建Module 1主菜单项（带子菜单）
+    if(length(submenu_items) > 0) {
+      # 尝试使用.list参数创建子菜单
+      menu_item_with_submenu <- tryCatch({
+        menuItem(
+          text = "Clinical Feature Analysis",
+          icon = icon("chart-bar"),
+          startExpanded = FALSE,
+          .list = submenu_items
+        )
+      }, error = function(e) {
+        # 如果失败，使用do.call的方式
+        warning("Failed to create menuItem with .list parameter, using do.call approach: ", e$message)
+        tryCatch({
+          do.call(menuItem, c(
+            list(
+              text = "Clinical Feature Analysis",
+              icon = icon("chart-bar"),
+              startExpanded = FALSE
+            ),
+            submenu_items
+          ))
+        }, error = function(e2) {
+          # 如果还是失败，创建一个普通菜单项
+          warning("Failed to create menuItem with submenus, creating regular menu item: ", e2$message)
+          menuItem(
+            text = "Clinical Feature Analysis",
+            tabName = "module1",
+            icon = icon("chart-bar")
+          )
+        })
+      })
+      
+      menu_items <- append(menu_items, list(menu_item_with_submenu))
+    }
+  }
+  
+  # 添加其他主要模块
+  other_modules <- c("module2", "module3", "module4")
+  for(module_id in other_modules) {
     metadata <- get_module_metadata(module_id)
-    menu_items <- append(menu_items, list(
-      menuItem(metadata$title, tabName = module_id, icon = icon(metadata$icon))
-    ))
+    if(!is.null(metadata) && !is.null(metadata$title)) {
+      menu_items <- append(menu_items, list(
+        menuItem(
+          text = metadata$title, 
+          tabName = module_id, 
+          icon = icon(metadata$icon)
+        )
+      ))
+    }
+  }
+  
+  # 添加占位符模块（高级功能）
+  placeholder_modules <- c("module3a_enrichment", "module3b_gsea", "module5")
+  for(module_id in placeholder_modules) {
+    metadata <- get_module_metadata(module_id)
+    if(!is.null(metadata) && !is.null(metadata$title)) {
+      menu_items <- append(menu_items, list(
+        menuItem(
+          text = metadata$title, 
+          tabName = module_id, 
+          icon = icon(metadata$icon)
+        )
+      ))
+    }
   }
   
   return(do.call(sidebarMenu, menu_items))
@@ -134,15 +211,28 @@ ui <- dashboardPage(
   dashboardHeader(
     title = dashboardBrand(
       title = "GIST Analysis Platform",
-      color = "primary",
+      color = "white",  # 改为白色文字
       href = "#",
       image = NULL
     ),
-    status = "white",
+    status = "primary",  # 改为primary状态（绿色背景）
     border = TRUE,
     sidebarIcon = icon("bars"),
     controlbarIcon = icon("th"),
-    fixed = FALSE
+    fixed = FALSE,
+    
+    # Version indicator
+    tags$div(
+      style = "position: fixed; top: 10px; right: 10px; z-index: 9999;
+               background: rgba(255,255,255,0.9); padding: 5px 10px;
+               border-radius: 15px; font-size: 12px; font-weight: bold;
+               box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
+      if(isTRUE(enable_ai)) {
+        tags$span(style = "color: #28a745;", "AI Version (4964)")
+      } else {
+        tags$span(style = "color: #6c757d;", "Basic Version (4966)")
+      }
+    )
   ),
   
   dashboardSidebar(
@@ -156,11 +246,13 @@ ui <- dashboardPage(
     # 自定义CSS - 与GIST_web风格一致
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
+      # JavaScript修复标题颜色
+      tags$script(src = "fix-title-color.js"),
       # 条件加载AI聊天按钮样式
-      if(enable_ai) tags$link(rel = "stylesheet", type = "text/css", href = "ai_chat_buttons.css"),
+      if(isTRUE(enable_ai)) tags$link(rel = "stylesheet", type = "text/css", href = "ai_chat_buttons.css"),
 
       # 条件加载分析按钮禁用状态样式
-      if(enable_ai) tags$style(HTML("
+      if(isTRUE(enable_ai)) tags$style(HTML("
         .btn-disabled {
           opacity: 0.5 !important;
           cursor: not-allowed !important;
@@ -172,8 +264,9 @@ ui <- dashboardPage(
           font-size: 0.8em;
           color: #666;
         }
-      "))
+      ")),
 
+      tags$style(HTML("
         /* 介绍文字样式 */
         .intro-text {
           background-color: white;
@@ -304,7 +397,7 @@ ui <- dashboardPage(
         });
 
         ",
-        if(enable_ai) {
+        if(isTRUE(enable_ai)) {
           "
           // AI聊天机器人功能
           $(document).ready(function() {
@@ -329,7 +422,7 @@ ui <- dashboardPage(
       "))),
       
       # 条件加载分析按钮禁用状态样式
-      if(enable_ai) tags$style(HTML("
+      if(isTRUE(enable_ai)) tags$style(HTML("
         .btn-disabled {
           opacity: 0.5 !important;
           cursor: not-allowed !important;
@@ -352,7 +445,7 @@ ui <- dashboardPage(
                background: rgba(255,255,255,0.9); padding: 5px 10px;
                border-radius: 15px; font-size: 12px; font-weight: bold;
                box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
-      if(enable_ai) {
+      if(isTRUE(enable_ai)) {
         tags$span(style = "color: #28a745;", "AI Version (4964)")
       } else {
         tags$span(style = "color: #6c757d;", "Basic Version (4966)")
@@ -360,7 +453,7 @@ ui <- dashboardPage(
     ),
 
     # 条件加载AI聊天机器人组件
-    if(enable_ai) list(
+    if(isTRUE(enable_ai)) tagList(
       aiChatFloatingButtonUI("ai_chat"),
       aiChatUI("ai_chat")
     )
