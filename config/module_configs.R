@@ -93,8 +93,8 @@ module_metadata <- list(
   module2 = list(
     title = "Single Gene Expression Analysis",
     icon = "dna",
-    description = "Comprehensive single gene expression analysis across clinical features", 
-    detailed_description = "Perform detailed analysis of individual gene expression patterns across multiple clinical parameters and patient characteristics."
+    description = "Comprehensive single gene expression analysis across clinical features (功能与Module 1重复，建议使用Module 1)", 
+    detailed_description = "此模块原本提供跨多个临床特征的单基因表达分析，但其功能与Module 1的临床特征分析完全重复。建议直接使用Module 1中的各项分析功能。"
   ),
   
   # Module 3: 基因相关性分析
@@ -131,19 +131,33 @@ module_metadata <- list(
     detailed_description = "Investigate gene expression patterns associated with drug resistance and generate ROC curves for predictive analysis."
   ),
   
-  # Module 5: 生存分析（占位符）
+  # Module 5: 治疗前后分析
   module5 = list(
-    title = "Survival Analysis", 
-    icon = "heartbeat",
-    description = "Kaplan-Meier survival analysis and prognosis prediction",
-    detailed_description = "Perform survival analysis using Kaplan-Meier curves to study the prognostic value of gene expression levels.",
-    placeholder = TRUE
+    title = "Pre/Post Treatment Analysis", 
+    icon = "exchange-alt",
+    description = "Compare gene expression before and after treatment",
+    detailed_description = "Analyze paired sample gene expression changes between pre-treatment and post-treatment time points to assess treatment response."
   )
 )
 
 # ==== 模块配置定义 ====
 # 定义createModuleConfig函数
-createModuleConfig <- function(title, icon, description, analysis_function, data_function, has_second_gene = FALSE, type = NULL) {
+createModuleConfig <- function(title, icon, description, analysis_function, data_function, has_second_gene = FALSE, type = NULL, is_placeholder = FALSE) {
+  # 自动生成input_config
+  input_config <- if(has_second_gene) {
+    list(
+      gene1_label = "Gene 1 Symbol:",
+      gene1_placeholder = "Input the 1st gene symbol (e.g., TP53)",
+      gene2_label = "Gene 2 Symbol:",
+      gene2_placeholder = "Input the 2nd gene symbol (e.g., MCM7)"
+    )
+  } else {
+    list(
+      gene1_label = "Gene Symbol:",
+      gene1_placeholder = "Input the gene symbol (e.g., TP53)"
+    )
+  }
+  
   list(
     title = title,
     icon = icon,
@@ -151,13 +165,15 @@ createModuleConfig <- function(title, icon, description, analysis_function, data
     analysis_function = analysis_function,
     data_function = data_function,
     has_second_gene = has_second_gene,
-    type = type
+    type = type,
+    is_placeholder = is_placeholder,
+    input_config = input_config
   )
 }
 
 # 检查必要的变量是否存在
 required_vars <- c("dbGIST_matrix", "Gender_ID", "RISK_ID", "Age_ID", "Stage_ID", 
-                   "Location_ID", "Mutation_ID", "mRNA_ID", "IM_ID")
+                   "Location_ID", "Mutation_ID", "mRNA_ID", "IM_ID", "Metastatic_Primary_ID")
 vars_exist <- sapply(required_vars, exists)
 
 if(!all(vars_exist)) {
@@ -183,10 +199,10 @@ if(!all(vars_exist)) {
     title = module_metadata$module1_tvn$title,
     icon = module_metadata$module1_tvn$icon,
     description = module_metadata$module1_tvn$description,
-    analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 临时使用已有函数
-    data_function = function(gene) generate_gender_summary_data(gene),
+    analysis_function = function(ID) dbGIST_boxplot_Metastatic_Primary(ID = ID, DB = dbGIST_matrix[Metastatic_Primary_ID]),
+    data_function = function(gene) generate_tvn_summary_data(gene),
     has_second_gene = FALSE,
-    type = "gender"
+    type = "metastatic_primary"
   ),
   
   module1_risk = createModuleConfig(
@@ -195,7 +211,8 @@ if(!all(vars_exist)) {
     description = module_metadata$module1_risk$description,
     analysis_function = function(ID) dbGIST_boxplot_Risk(ID = ID, DB = dbGIST_matrix[RISK_ID]),
     data_function = function(gene) generate_risk_summary_data(gene),
-    has_second_gene = FALSE
+    has_second_gene = FALSE,
+    type = "risk"
   ),
   
   module1_gender = createModuleConfig(
@@ -204,34 +221,38 @@ if(!all(vars_exist)) {
     description = module_metadata$module1_gender$description, 
     analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]),
     data_function = function(gene) generate_gender_summary_data(gene),
-    has_second_gene = FALSE
+    has_second_gene = FALSE,
+    type = "gender"
   ),
   
   module1_age = createModuleConfig(
     title = module_metadata$module1_age$title,
     icon = module_metadata$module1_age$icon,
     description = module_metadata$module1_age$description,
-    analysis_function = function(ID) dbGIST_boxplot_Age(ID = ID, DB = dbGIST_matrix[Age_ID]),
-    data_function = function(gene) generate_age_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符 - 函数实现有错误
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   module1_tumor_size = createModuleConfig(
     title = module_metadata$module1_tumor_size$title,
     icon = module_metadata$module1_tumor_size$icon,
     description = module_metadata$module1_tumor_size$description,
-    analysis_function = function(ID) dbGIST_boxplot_Tumor_size(ID = ID, DB = dbGIST_matrix[Stage_ID]),
-    data_function = function(gene) generate_tumor_size_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符 - 函数实现可能有错误
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   module1_mitotic = createModuleConfig(
     title = module_metadata$module1_mitotic$title,
     icon = module_metadata$module1_mitotic$icon,
     description = module_metadata$module1_mitotic$description,
-    analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 占位符
-    data_function = function(gene) generate_mitotic_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   module1_location = createModuleConfig(
@@ -240,34 +261,38 @@ if(!all(vars_exist)) {
     description = module_metadata$module1_location$description,
     analysis_function = function(ID) dbGIST_boxplot_Site(ID = ID, DB = dbGIST_matrix[Location_ID]),
     data_function = function(gene) generate_location_summary_data(gene),
-    has_second_gene = FALSE
+    has_second_gene = FALSE,
+    type = "location"
   ),
   
   module1_who = createModuleConfig(
     title = module_metadata$module1_who$title,
     icon = module_metadata$module1_who$icon,
     description = module_metadata$module1_who$description,
-    analysis_function = function(ID) dbGIST_boxplot_Grade(ID = ID, DB = dbGIST_matrix[Stage_ID]),
-    data_function = function(gene) generate_who_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符 - 函数实现可能有错误
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   module1_ki67 = createModuleConfig(
     title = module_metadata$module1_ki67$title,
     icon = module_metadata$module1_ki67$icon,
     description = module_metadata$module1_ki67$description,
-    analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 占位符
-    data_function = function(gene) generate_ki67_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   module1_cd34 = createModuleConfig(
     title = module_metadata$module1_cd34$title,
     icon = module_metadata$module1_cd34$icon,
     description = module_metadata$module1_cd34$description,
-    analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 占位符
-    data_function = function(gene) generate_cd34_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   module1_mutation = createModuleConfig(
@@ -276,17 +301,19 @@ if(!all(vars_exist)) {
     description = module_metadata$module1_mutation$description,
     analysis_function = function(ID) dbGIST_boxplot_Mutation_ID(ID = ID, DB = dbGIST_matrix[Mutation_ID]),
     data_function = function(gene) generate_mutation_summary_data(gene),
-    has_second_gene = FALSE
+    has_second_gene = FALSE,
+    type = "mutation"
   ),
   
-  # Module 2: 单基因表达分析
+  # Module 2: 单基因表达分析（占位符 - 功能与Module 1重复）
   module2 = createModuleConfig(
     title = module_metadata$module2$title,
     icon = module_metadata$module2$icon,
     description = module_metadata$module2$description,
-    analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]),
-    data_function = function(gene) generate_gender_summary_data(gene),
-    has_second_gene = FALSE
+    analysis_function = function(ID) NULL,  # 占位符
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   ),
   
   # Module 3: 基因相关性分析
@@ -296,7 +323,8 @@ if(!all(vars_exist)) {
     description = module_metadata$module3$description,
     analysis_function = function(ID, ID2) dbGIST_cor_ID(ID = ID, ID2 = ID2, DB = dbGIST_matrix[mRNA_ID]),
     data_function = function(gene1, gene2) generate_correlation_summary_data(gene1, gene2),
-    has_second_gene = TRUE
+    has_second_gene = TRUE,
+    type = "correlation"
   ),
   
   # Module 4: 药物耐药分析
@@ -306,7 +334,41 @@ if(!all(vars_exist)) {
     description = module_metadata$module4$description,
     analysis_function = function(ID) dbGIST_boxplot_Drug(ID = ID, DB = dbGIST_matrix[IM_ID]),
     data_function = function(gene) generate_drug_summary_data(gene),
-    has_second_gene = FALSE
+    has_second_gene = FALSE,
+    type = "drug"
+  ),
+  
+  # Module 5: 治疗前后分析
+  module5 = createModuleConfig(
+    title = module_metadata$module5$title,
+    icon = module_metadata$module5$icon,
+    description = module_metadata$module5$description,
+    analysis_function = function(ID) dbGIST_boxplot_PrePost(ID = ID, Mutation = "All", DB = dbGIST_matrix[Post_pre_treament_ID]),
+    data_function = function(gene) generate_prepost_summary_data(gene),
+    has_second_gene = FALSE,
+    type = "prepost"
+  ),
+  
+  # Module 3a: 富集分析（占位符）
+  module3a_enrichment = createModuleConfig(
+    title = module_metadata$module3a_enrichment$title,
+    icon = module_metadata$module3a_enrichment$icon,
+    description = module_metadata$module3a_enrichment$description,
+    analysis_function = function(ID) NULL,  # 占位符
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
+  ),
+  
+  # Module 3b: GSEA分析（占位符）
+  module3b_gsea = createModuleConfig(
+    title = module_metadata$module3b_gsea$title,
+    icon = module_metadata$module3b_gsea$icon,
+    description = module_metadata$module3b_gsea$description,
+    analysis_function = function(ID) NULL,  # 占位符
+    data_function = function(gene) data.frame(),  # 占位符
+    has_second_gene = FALSE,
+    is_placeholder = TRUE
   )
 )
   }
@@ -322,10 +384,10 @@ if(!all(vars_exist)) {
       title = module_metadata$module1_tvn$title,
       icon = module_metadata$module1_tvn$icon,
       description = module_metadata$module1_tvn$description,
-      analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 临时使用已有函数
-      data_function = function(gene) generate_gender_summary_data(gene),
+      analysis_function = function(ID) dbGIST_boxplot_Metastatic_Primary(ID = ID, DB = dbGIST_matrix[Metastatic_Primary_ID]),
+      data_function = function(gene) generate_tvn_summary_data(gene),
       has_second_gene = FALSE,
-      type = "gender"
+      type = "metastatic_primary"
     ),
     
     module1_risk = createModuleConfig(
@@ -334,7 +396,8 @@ if(!all(vars_exist)) {
       description = module_metadata$module1_risk$description,
       analysis_function = function(ID) dbGIST_boxplot_Risk(ID = ID, DB = dbGIST_matrix[RISK_ID]),
       data_function = function(gene) generate_risk_summary_data(gene),
-      has_second_gene = FALSE
+      has_second_gene = FALSE,
+      type = "risk"
     ),
     
     module1_gender = createModuleConfig(
@@ -343,34 +406,38 @@ if(!all(vars_exist)) {
       description = module_metadata$module1_gender$description, 
       analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]),
       data_function = function(gene) generate_gender_summary_data(gene),
-      has_second_gene = FALSE
+      has_second_gene = FALSE,
+      type = "gender"
     ),
     
     module1_age = createModuleConfig(
       title = module_metadata$module1_age$title,
       icon = module_metadata$module1_age$icon,
       description = module_metadata$module1_age$description,
-      analysis_function = function(ID) dbGIST_boxplot_Age(ID = ID, DB = dbGIST_matrix[Age_ID]),
-      data_function = function(gene) generate_age_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符 - 函数实现有错误
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     module1_tumor_size = createModuleConfig(
       title = module_metadata$module1_tumor_size$title,
       icon = module_metadata$module1_tumor_size$icon,
       description = module_metadata$module1_tumor_size$description,
-      analysis_function = function(ID) dbGIST_boxplot_Tumor_size(ID = ID, DB = dbGIST_matrix[Stage_ID]),
-      data_function = function(gene) generate_tumor_size_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符 - 函数实现可能有错误
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     module1_mitotic = createModuleConfig(
       title = module_metadata$module1_mitotic$title,
       icon = module_metadata$module1_mitotic$icon,
       description = module_metadata$module1_mitotic$description,
-      analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 占位符
-      data_function = function(gene) generate_mitotic_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     module1_location = createModuleConfig(
@@ -379,34 +446,38 @@ if(!all(vars_exist)) {
       description = module_metadata$module1_location$description,
       analysis_function = function(ID) dbGIST_boxplot_Site(ID = ID, DB = dbGIST_matrix[Location_ID]),
       data_function = function(gene) generate_location_summary_data(gene),
-      has_second_gene = FALSE
+      has_second_gene = FALSE,
+      type = "location"
     ),
     
     module1_who = createModuleConfig(
       title = module_metadata$module1_who$title,
       icon = module_metadata$module1_who$icon,
       description = module_metadata$module1_who$description,
-      analysis_function = function(ID) dbGIST_boxplot_Grade(ID = ID, DB = dbGIST_matrix[Stage_ID]),
-      data_function = function(gene) generate_who_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符 - 函数实现可能有错误
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     module1_ki67 = createModuleConfig(
       title = module_metadata$module1_ki67$title,
       icon = module_metadata$module1_ki67$icon,
       description = module_metadata$module1_ki67$description,
-      analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 占位符
-      data_function = function(gene) generate_ki67_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     module1_cd34 = createModuleConfig(
       title = module_metadata$module1_cd34$title,
       icon = module_metadata$module1_cd34$icon,
       description = module_metadata$module1_cd34$description,
-      analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]), # 占位符
-      data_function = function(gene) generate_cd34_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     module1_mutation = createModuleConfig(
@@ -415,17 +486,19 @@ if(!all(vars_exist)) {
       description = module_metadata$module1_mutation$description,
       analysis_function = function(ID) dbGIST_boxplot_Mutation_ID(ID = ID, DB = dbGIST_matrix[Mutation_ID]),
       data_function = function(gene) generate_mutation_summary_data(gene),
-      has_second_gene = FALSE
+      has_second_gene = FALSE,
+      type = "mutation"
     ),
     
-    # Module 2: 单基因分析
+    # Module 2: 单基因分析（占位符 - 功能与Module 1重复）
     module2 = createModuleConfig(
       title = module_metadata$module2$title,
       icon = module_metadata$module2$icon,
       description = module_metadata$module2$description,
-      analysis_function = function(ID) dbGIST_boxplot_Gender(ID = ID, DB = dbGIST_matrix[Gender_ID]),
-      data_function = function(gene) generate_gender_summary_data(gene),
-      has_second_gene = FALSE
+      analysis_function = function(ID) NULL,  # 占位符
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     ),
     
     # Module 3: 基因相关性分析
@@ -435,7 +508,8 @@ if(!all(vars_exist)) {
       description = module_metadata$module3$description,
       analysis_function = function(ID, ID2) dbGIST_cor_ID(ID = ID, ID2 = ID2, DB = dbGIST_matrix[mRNA_ID]),
       data_function = function(gene1, gene2) generate_correlation_summary_data(gene1, gene2),
-      has_second_gene = TRUE
+      has_second_gene = TRUE,
+      type = "correlation"
     ),
     
     # Module 4: 药物耐药分析
@@ -445,7 +519,41 @@ if(!all(vars_exist)) {
       description = module_metadata$module4$description,
       analysis_function = function(ID) dbGIST_boxplot_Drug(ID = ID, DB = dbGIST_matrix[IM_ID]),
       data_function = function(gene) generate_drug_summary_data(gene),
-      has_second_gene = FALSE
+      has_second_gene = FALSE,
+      type = "drug"
+    ),
+    
+    # Module 5: 治疗前后分析
+    module5 = createModuleConfig(
+      title = module_metadata$module5$title,
+      icon = module_metadata$module5$icon,
+      description = module_metadata$module5$description,
+      analysis_function = function(ID) dbGIST_boxplot_PrePost(ID = ID, Mutation = "All", DB = dbGIST_matrix[Post_pre_treament_ID]),
+      data_function = function(gene) generate_prepost_summary_data(gene),
+      has_second_gene = FALSE,
+      type = "prepost"
+    ),
+    
+    # Module 3a: 富集分析（占位符）
+    module3a_enrichment = createModuleConfig(
+      title = module_metadata$module3a_enrichment$title,
+      icon = module_metadata$module3a_enrichment$icon,
+      description = module_metadata$module3a_enrichment$description,
+      analysis_function = function(ID) NULL,  # 占位符
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
+    ),
+    
+    # Module 3b: GSEA分析（占位符）
+    module3b_gsea = createModuleConfig(
+      title = module_metadata$module3b_gsea$title,
+      icon = module_metadata$module3b_gsea$icon,
+      description = module_metadata$module3b_gsea$description,
+      analysis_function = function(ID) NULL,  # 占位符
+      data_function = function(gene) data.frame(),  # 占位符
+      has_second_gene = FALSE,
+      is_placeholder = TRUE
     )
   )
 }
@@ -552,6 +660,85 @@ generate_gender_summary_data <- function(gene) {
         Sample_ID = colnames(dbGIST_matrix[Gender_ID][[i]]$Matrix),
         Gene_Expression = gene_expression,
         Gender = gender_info,
+        Dataset = paste0("Dataset_", i),
+        stringsAsFactors = FALSE
+      )
+      
+      result_data <- rbind(result_data, sample_data)
+    }
+  }
+  
+  return(result_data)
+}
+
+generate_tvn_summary_data <- function(gene) {
+  # Tumor vs Normal分析数据提取 - 匹配dbGIST_boxplot_Metastatic_Primary函数的逻辑
+  if (!exists("dbGIST_matrix") || !exists("Metastatic_Primary_ID")) {
+    warning("Required data not loaded yet")
+    return(data.frame(
+      Sample_ID = character(0),
+      Gene_Expression = numeric(0),
+      Sample_Type = character(0),
+      Dataset = character(0),
+      stringsAsFactors = FALSE
+    ))
+  }
+  
+  # 为tumor vs normal分析生成汇总数据
+  result_data <- data.frame()
+  
+  for(i in 1:length(dbGIST_matrix[Metastatic_Primary_ID])) {
+    if(gene %in% rownames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix)) {
+      gene_expression <- as.numeric(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix[match(gene, rownames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix)),])
+      
+      # 使用与dbGIST_boxplot_Metastatic_Primary相同的列名：Metastasis.Primary
+      metastasis_primary_info <- NULL
+      
+      if ("Metastasis.Primary" %in% colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical)) {
+        metastasis_primary_info <- dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical$Metastasis.Primary[match(colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix), 
+                                                                                                               dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical$geo_accession)]
+      } else if ("Metastasis_Primary" %in% colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical)) {
+        metastasis_primary_info <- dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical$Metastasis_Primary[match(colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix), 
+                                                                                                                dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical$geo_accession)]
+      } else {
+        # 如果没有找到Metastasis相关列，尝试其他列
+        for (col_name in c("Sample_Type", "Type", "Tissue_Type", "Stage")) {
+          if (col_name %in% colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical)) {
+            metastasis_primary_info <- dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical[[col_name]][match(colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix), 
+                                                                                                             dbGIST_matrix[Metastatic_Primary_ID][[i]]$Clinical$geo_accession)]
+            break
+          }
+        }
+      }
+      
+      # 验证数据完整性
+      sample_ids <- colnames(dbGIST_matrix[Metastatic_Primary_ID][[i]]$Matrix)
+      
+      # 确保所有向量长度一致
+      if (length(gene_expression) != length(sample_ids)) {
+        warning(paste("Gene expression length mismatch in dataset", i))
+        next
+      }
+      
+      if (is.null(metastasis_primary_info) || length(metastasis_primary_info) == 0) {
+        warning(paste("No metastasis/primary info found in dataset", i))
+        # 创建占位符数据
+        metastasis_primary_info <- rep("Unknown", length(sample_ids))
+      } else if (length(metastasis_primary_info) != length(sample_ids)) {
+        warning(paste("Clinical info length mismatch in dataset", i, "- clinical:", length(metastasis_primary_info), "vs samples:", length(sample_ids)))
+        # 截断或填充到匹配样本数量
+        if (length(metastasis_primary_info) > length(sample_ids)) {
+          metastasis_primary_info <- metastasis_primary_info[1:length(sample_ids)]
+        } else {
+          metastasis_primary_info <- c(metastasis_primary_info, rep("Unknown", length(sample_ids) - length(metastasis_primary_info)))
+        }
+      }
+      
+      # 创建数据框，确保所有向量长度一致
+      sample_data <- data.frame(
+        Sample_ID = sample_ids,
+        Gene_Expression = gene_expression,
+        Sample_Type = metastasis_primary_info,
         Dataset = paste0("Dataset_", i),
         stringsAsFactors = FALSE
       )
@@ -695,6 +882,50 @@ generate_drug_summary_data <- function(gene) {
       
       # 移除缺失值
       sample_data <- sample_data[!is.na(sample_data$Drug_Response) & sample_data$Drug_Response != "NA",]
+      
+      result_data <- rbind(result_data, sample_data)
+    }
+  }
+  
+  return(result_data)
+}
+
+generate_prepost_summary_data <- function(gene) {
+  # 检查必要的变量是否存在
+  if (!exists("dbGIST_matrix") || !exists("Post_pre_treament_ID")) {
+    warning("Required data not loaded yet")
+    return(data.frame(
+      Sample_ID = character(0),
+      Gene_Expression = numeric(0),
+      Treatment_Type = character(0),
+      Patient_Group = character(0),
+      Dataset = character(0),
+      stringsAsFactors = FALSE
+    ))
+  }
+  
+  # 治疗前后分析数据提取
+  result_data <- data.frame()
+  
+  for(i in 1:length(dbGIST_matrix[Post_pre_treament_ID])) {
+    if(gene %in% rownames(dbGIST_matrix[Post_pre_treament_ID][[i]]$Matrix)) {
+      gene_expression <- as.numeric(dbGIST_matrix[Post_pre_treament_ID][[i]]$Matrix[match(gene, rownames(dbGIST_matrix[Post_pre_treament_ID][[i]]$Matrix)),])
+      
+      # 获取治疗类型和患者分组信息
+      treatment_type <- dbGIST_matrix[Post_pre_treament_ID][[i]]$Clinical$Type[match(colnames(dbGIST_matrix[Post_pre_treament_ID][[i]]$Matrix), dbGIST_matrix[Post_pre_treament_ID][[i]]$Clinical$geo_accession)]
+      patient_group <- dbGIST_matrix[Post_pre_treament_ID][[i]]$Clinical$Group[match(colnames(dbGIST_matrix[Post_pre_treament_ID][[i]]$Matrix), dbGIST_matrix[Post_pre_treament_ID][[i]]$Clinical$geo_accession)]
+      
+      sample_data <- data.frame(
+        Sample_ID = colnames(dbGIST_matrix[Post_pre_treament_ID][[i]]$Matrix),
+        Gene_Expression = gene_expression,
+        Treatment_Type = treatment_type,
+        Patient_Group = patient_group,
+        Dataset = paste0("Dataset_", i),
+        stringsAsFactors = FALSE
+      )
+      
+      # 移除缺失值
+      sample_data <- sample_data[!is.na(sample_data$Treatment_Type) & sample_data$Treatment_Type != "NA",]
       
       result_data <- rbind(result_data, sample_data)
     }

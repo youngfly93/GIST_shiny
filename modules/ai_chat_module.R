@@ -101,12 +101,17 @@ aiChatServer <- function(id, global_state = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # 检查AI功能状态
+    enable_ai <- tolower(Sys.getenv("ENABLE_AI_ANALYSIS", "true")) == "true"
+    development_mode <- tolower(Sys.getenv("AI_DEVELOPMENT_MODE", "false")) == "true"
+
     # 响应式值
     values <- reactiveValues(
       chat_visible = FALSE,
       chat_minimized = FALSE,
       messages = list(),
-      analyzing = FALSE
+      analyzing = FALSE,
+      ai_enabled = enable_ai && !development_mode
     )
     
     # API配置 - 支持多个AI服务
@@ -114,11 +119,12 @@ aiChatServer <- function(id, global_state = NULL) {
     use_openrouter <- tolower(Sys.getenv("USE_OPENROUTER", "true")) == "true"
     
     if (use_openrouter) {
-      # Use correct API key only when AI is enabled
+      # Use API key from environment variable only
       api_key <- Sys.getenv("OPENROUTER_API_KEY", "")
       if (api_key == "" || nchar(api_key) < 50) {
-        # Fallback to correct key if env var is empty or truncated
-        api_key <- "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"
+        # No fallback key - require proper configuration
+        cat("❌ API密钥未正确配置，请检查.env文件\n")
+        api_key <- ""
       }
       API_CONFIG <- list(
         url = Sys.getenv("OPENROUTER_API_URL",
@@ -481,8 +487,19 @@ aiChatServer <- function(id, global_state = NULL) {
           )
         }
         
-        cat("AI API Test: Response status:", status_code(response), "\n")
-        return(status_code(response) == 200)
+        status <- status_code(response)
+        cat("AI API Test: Response status:", status, "\n")
+        
+        if (status == 401) {
+          cat("AI API Test: 认证失败 - API密钥可能无效\n")
+          return(FALSE)
+        } else if (status == 200) {
+          cat("AI API Test: 连接成功\n")
+          return(TRUE)
+        } else {
+          cat("AI API Test: 连接失败，状态码:", status, "\n")
+          return(FALSE)
+        }
         
       }, error = function(e) {
         cat("AI API Test Error:", e$message, "\n")
@@ -634,9 +651,35 @@ aiChatServer <- function(id, global_state = NULL) {
             }
           }
         } else {
-          cat("AI API Error: Status", status_code(response), "\n")
+          status <- status_code(response)
+          cat("AI API Error: Status", status, "\n")
           error_content <- content(response, "text", encoding = "UTF-8")
           cat("AI API Error Details:", error_content, "\n")
+          
+          # 根据状态码提供具体的错误信息
+          if (status == 401) {
+            return(paste0(
+              "🔑 API密钥认证失败 (401错误)\n\n",
+              "**可能的原因：**\n",
+              "1. API密钥已过期或无效\n",
+              "2. API密钥格式不正确\n",
+              "3. 账户余额不足\n\n",
+              "**解决方案：**\n",
+              "1. 检查 .env 文件中的 OPENROUTER_API_KEY\n",
+              "2. 登录 https://openrouter.ai 检查密钥状态\n",
+              "3. 生成新的API密钥并更新配置\n",
+              "4. 确认账户有足够的余额\n\n",
+              "请联系管理员检查API配置。"
+            ))
+          } else if (status == 403) {
+            return("❌ 访问被拒绝 (403错误) - 可能是权限或配额问题")
+          } else if (status == 404) {
+            return("🔍 API端点未找到 (404错误) - 请检查API URL配置")
+          } else if (status == 429) {
+            return("⏰ 请求过于频繁 (429错误) - 请稍后再试")
+          } else if (status >= 500) {
+            return(paste0("🔧 服务器错误 (", status, "错误) - OpenRouter服务可能暂时不可用"))
+          }
           
           # 尝试解析错误信息
           tryCatch({
@@ -645,6 +688,8 @@ aiChatServer <- function(id, global_state = NULL) {
               return(paste("AI服务错误：", error_json$error$message))
             }
           }, error = function(e) {})
+          
+          return(paste0("❌ 未知错误 (", status, ") - 请检查网络连接和API配置"))
         }
         
         return("抱歉，AI分析服务暂时不可用，请稍后再试。")
@@ -802,8 +847,31 @@ aiChatServer <- function(id, global_state = NULL) {
             result <- tryCatch({
               cat("AI Chat: Starting analysis execution\n")
 
-              # 检查文件是否存在
-              if (!file.exists(plot_data$plotPath)) {
+              # 检查开发模式
+              if (development_mode) {
+                cat("AI Chat: Development mode active, showing placeholder\n")
+                paste0(
+                  "## 🚧 AI分析功能开发中\n\n",
+                  "**分析基因**: ", plot_data$gene1, "\n",
+                  "**分析类型**: ", switch(plot_data$analysisType,
+                    "gender" = "性别差异表达分析",
+                    "correlation" = "基因相关性分析",
+                    "drug" = "药物反应分析",
+                    "prepost" = "治疗前后对比分析",
+                    "基因表达分析"
+                  ), "\n\n",
+                  "### 📋 功能状态\n",
+                  "AI图片分析功能正在开发和优化中，暂时不可用。\n\n",
+                  "### 🔧 当前可用功能\n",
+                  "- ✅ 数据可视化和图表生成\n",
+                  "- ✅ 统计分析结果展示\n",
+                  "- ✅ 数据下载和导出\n",
+                  "- 🚧 AI智能分析（开发中）\n\n",
+                  "### 📞 技术支持\n",
+                  "如有疑问，请联系开发团队获取技术支持。\n\n",
+                  "*预计AI分析功能将在后续版本中推出，敬请期待！*"
+                )
+              } else if (!file.exists(plot_data$plotPath)) {
                 cat("AI Chat: File does not exist:", plot_data$plotPath, "\n")
                 # 使用默认分析
                 generate_mock_analysis(plot_data)
